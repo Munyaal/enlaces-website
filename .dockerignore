@@ -1,0 +1,9 @@
+/astro
+
+/.k8s
+
+/.vscode
+
+/dist
+
+/node_modules
