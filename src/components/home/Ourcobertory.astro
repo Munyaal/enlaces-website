@@ -1,0 +1,52 @@
+---
+import Title from "../Title.astro";
+const zonas = [
+  {
+    lugar: "Playa del Carmen",
+    fondo: "/images/banner-website-enlaces.jpg",
+    page: "/cobertura/playa-del-carmen",
+  },
+  {
+    lugar: "Puerto Morelos",
+    fondo: "/images/banner-enlaces-pto-morelos.jpg",
+    page: "/cobertura/puerto-morelos",
+  },
+  {
+    lugar: "Tulum",
+    fondo: "/images/banner-enlaces-tulum.png",
+    page: "/cobertura/tulum",
+  },
+  {
+    lugar: "Bacalar",
+    fondo: "/images/banner-enlaces-bacalar.jpg",
+    page: "/cobertura/bacalar",
+  },
+];
+---
+
+<section class="py-12 px-4 lg:px-20 place-items-center relative z-10">
+  <div class="mt-15">
+  <Title title="Nuestras" subtitle="ZONA DE COBERTURA"/>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-10 place-items-center md:w-full lg:w-6xl">
+    {
+      zonas.map((zona) => (
+        <a
+          href={zona.page}
+          class="relative w-xs lg:w-lg h-50 lg:h-80 rounded-4xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 group"
+        >
+          <img
+            src={zona.fondo}
+            alt={zona.lugar}
+            class="w-full h-full object-cover blur-[2px]"
+          />
+          <div class="absolute inset-0 flex items-center justify-center">
+            <h3 class="text-white text-2xl md:text-5xl font-extrabold text-center">
+              {zona.lugar}
+            </h3>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,73 @@
+---
+import Title from "../Title.astro";
+import { testimonios } from  "../../utils/testimonio.ts";
+import TestimonioCard from "../testimonioCard.astro";
+import ButtonCTA from "../buttonCTA.astro";
+---
+
+<section class="py-20 px-4 md:px-20">
+  <Title title="Testimonio de" subtitle="Nuestros Clientes" />
+
+  <!-- Swiper con ancho ajustado -->
+  <div class="flex justify-center">
+    <div class="swiper testimonials-swiper w-full max-w-[1150px] h-[520px] relative">
+      <div class="swiper-wrapper">
+        {
+          testimonios.map((testimonio) => (
+            <div class="swiper-slide flex justify-center items-end">
+              <TestimonioCard
+                foto={testimonio.foto}
+                name={testimonio.name}
+                message={testimonio.message}
+                estrella={testimonio.estrellas}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Controles -->
+      <div class="swiper-pagination mt-6 "></div>
+      <div class="swiper-button-prev !text-line"></div>
+      <div class="swiper-button-next !text-line"></div>
+    </div>
+  </div>
+  <div class="text-center mt-15">
+    <ButtonCTA title="¡Contrata ahora!"/>
+  </div>
+</section>
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/navigation";
+  import "swiper/css/pagination";
+
+  const swiper = new Swiper(".testimonials-swiper", {
+    modules: [Navigation, Pagination],
+    grabCursor: true,
+    loop: true,
+    centeredSlides: false,
+    spaceBetween: 20, 
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      }
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+      dynamicBullets: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>

@@ -1,0 +1,30 @@
+---
+import Star from "../assets/svg/star.svg";
+const { name, message, foto, estrella = 5 } = Astro.props;
+---
+
+<div class="relative flex flex-col items-center mt-20">
+  <!-- Foto tipo badge -->
+  <div class="absolute -top-20 z-10">
+    <img
+      src={foto}
+      alt={name}
+      class="rounded-full w-30 h-30 lg:w-36 lg:h-36 border-4 border-line shadow-md object-cover"
+    />
+  </div>
+
+  <!-- Card -->
+  <div
+    class="w-[300px] lg:w-[360px] min-h-[380px] bg-light rounded-3xl border-2 border-line shadow-lg pt-24 pb-6 px-6 text-center"
+  >
+    <h1 class="text-xl font-bold text-black mb-2">{name}</h1>
+    <p class="text-sm text-black lg:p-5 pb-5 lg:pb-10">{message}</p>
+    <div class="flex justify-center gap-2">
+      {
+        Array.from({ length: estrella }).map(() => (
+          <Star class="fill-amber-300 w-5 h-5 md:w-10 md:h-10" />
+        ))
+      }
+    </div>
+  </div>
+</div>

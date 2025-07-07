@@ -1,0 +1,81 @@
+---
+import ArrowRight from "../assets/svg/arrowright.svg";
+import Facebook from "../assets/svg/facebook.svg";
+import Instagram from "../assets/svg/instagram.svg";
+import Youtube from "../assets/svg/youtube.svg";
+import Whatsapp from "../assets/svg/whatsapp.svg";
+---
+
+<footer class="bg-secondary w-full">
+  <div class="flex justify-between place-items-centerm mx-10 lg:mx-30 pt-10">
+    <div>
+      <img
+        src="/images/logo-enlaces-blanco.webp"
+        alt="Logo Enlaces Playa"
+        class="w-55 invisible sm:visible"
+      />
+    </div>
+    <div>
+      <h2 class="text-[#DCDCDC] text-lg text-left font-bold mb-5">
+        NEWSLETTER
+      </h2>
+      <form class="flex">
+        <input
+          type="email"
+          placeholder="Ingrese su correo electrónico"
+          required
+          class="flex-grow px-8 py-4 rounded-l-md bg-light text-gray-500"
+        />
+        <button
+          type="submit"
+          class="bg-gradient-to-r from-golden1 via-golden2 to-golden3 px-4 py-2 rounded-r-md hover:bg-yellow-500 transition flex items-center justify-center"
+          aria-label="Enviar"
+        >
+          <ArrowRight class="w-10 h-10 fill-light" />
+        </button>
+      </form>
+      <div class="text-center mt-2">
+        <h3 class="text-base">hola@enlacesplaya.com.mx</h3>
+        <h3 class="text-base">+52 (984) 144 0714</h3>
+      </div>
+    </div>
+  </div>
+  <div
+    class="p-[2px] rounded-xl bg-gradient-to-r from-golden1 via-golden2 to-golden3 mx-8 lg:mx-28"
+  >
+  </div>
+  <div class="mx-10 lg:mx-30 py-3 lg:py-5 lg:flex lg:justify-between">
+    <div class="mt-2 text-center lg:text-left">
+      <h3 class="text-sm">
+        copyright 2024 Enlaces Telecom - Todos los derechos reservados
+      </h3>
+      <h3 class="text-sm">Consulte nuestro Aviso de privacidad</h3>
+    </div>
+    <div class="flex gap-4 justify-center items-center pt-3">
+      <a
+        href=""
+        class="bg-secondary rounded-full flex items-center justify-center w-12 h-12"
+      >
+        <Facebook class=" fill-light" />
+      </a>
+      <a
+        href=""
+        class="bg-light rounded-full flex items-center justify-center w-12 h-12"
+      >
+        <Instagram class="w-8 h-8 fill-secondary" />
+      </a>
+      <a
+        href=""
+        class="bg-light rounded-full flex items-center justify-center w-12 h-12"
+      >
+        <Youtube class="w-8 h-8 fill-secondary" />
+      </a>
+      <a
+        href=""
+        class="bg-light rounded-full flex items-center justify-center w-12 h-12"
+      >
+        <Whatsapp class="w-8 h-8 fill-secondary" />
+      </a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,62 @@
+---
+import NavBar from "../components/navBar.astro";
+import "../styles/global.css";
+import Footer from "../components/footer.astro";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <meta
+      name="description"
+      content="Enlaces Playa ofrece servicios de internet por fibra óptica y antena satelital en Playa del Carmen, Tulum, Puerto Morelos y Bacalar. Conéctate con velocidad y estabilidad desde cualquier punto de Quintana Roo."
+    />
+
+    <meta
+      name="keywords"
+      content="Internet Playa del Carmen, fibra óptica Tulum, internet satelital Bacalar, Puerto Morelos internet, Enlaces Playa, internet rápido Quintana Roo, conexión estable, servicios de internet Riviera Maya"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://enlacesplaya.com" />
+    <meta
+      property="og:title"
+      content="Enlaces Playa | Internet en Playa del Carmen y la Riviera Maya"
+    />
+    <meta
+      property="og:description"
+      content="Conectamos Playa del Carmen, Tulum, Bacalar y Puerto Morelos con internet por fibra óptica y antena satelital de alta velocidad."
+    />
+    <meta property="og:image" content="/images/banner-enlaces-playa.webp" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://enlacesplaya.com" />
+    <meta
+      name="twitter:title"
+      content="Enlaces Playa | Internet Rápido en la Riviera Maya"
+    />
+    <meta
+      name="twitter:description"
+      content="Fibra óptica y antena satelital en Playa del Carmen, Tulum, Bacalar y Puerto Morelos. Velocidad, estabilidad y cobertura garantizada."
+    />
+    <meta name="twitter:image" content="/images/banner-enlaces-playa.webp" />
+  </head>
+  <body class="bg-primary text-light min-h-screen flex flex-col">
+    <NavBar />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

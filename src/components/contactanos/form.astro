@@ -1,0 +1,137 @@
+---
+
+---
+
+<section class="relative overflow-hidden">
+  <div
+    class="bg-[url(/images/contacto-form-enlaces.webp)] h-[600px] md:h-screen bg-cover bg-center text-center  flex flex-col pt-15 p-5 lg:p-30"
+  >
+    <h1 class="text-4xl md:text-7xl font-bold text-light">¿Tienes alguna duda?</h1>
+    <p class="font-bold text-xl md:text-3xl pt-2 text-light">
+      Consulta sobre nuestros planes o ponte en contacto con soporte técnico o<br />
+      nuestra línea de atención al cliente
+    </p>
+    <h3 class="text-lg md:text-2xl text-light mt-2">
+      Nuestro equipo está listo para ayudarte con cualquier duda
+    </h3>
+  </div>
+  <div class="absolute inset-x-0 bottom-10 sm:bottom-16 flex justify-center px-4">
+    <form class="bg-primary w-full max-w-4xl p-6 md:p-10 space-y-6 rounded-4xl shadow-xl">
+      <div class="text-center py-3 md:py-10">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-light">¡Contáctanos!</h1>
+        <h3 class="text-2xl md:text-3xl text-light">Estaremos en contacto en breve</h3>
+      </div>
+      <!-- Nombre -->
+      <div>
+        <label for="fName" class="block text-base md:text-3xl font-medium text-light mb-4"
+          >Nombre completo</label
+        >
+        <input
+          required
+          type="text"
+          name="fName"
+          id="fName"
+          placeholder="Tu nombre completo"
+          class="w-full rounded-2xl border border-light bg-light py-2 px-4 text-base md:text-2xl font-medium text-primary outline-none focus:border-dark focus:shadow-md"
+        />
+      </div>
+
+      <!-- Apellidos -->
+      <div>
+        <label
+          for="fLastName"
+          class="block text-base md:text-3xl font-medium text-light mb-4">Apellidos</label
+        >
+        <input
+          required
+          type="text"
+          name="fLastName"
+          id="fLastName"
+          placeholder="Tus apellidos completos"
+          class="w-full rounded-2xl border border-light bg-light py-2 px-4 text-base md:text-2xl font-medium text-primary outline-none focus:border-dark focus:shadow-md"
+        />
+      </div>
+
+      <!-- Teléfono -->
+      <div>
+        <label for="fPhone" class="block text-base md:text-3xl font-medium text-light mb-4"
+          >Número telefónico</label
+        >
+        <input
+          required
+          type="tel"
+          name="fPhone"
+          id="fPhone"
+          placeholder="Tu número telefónico"
+          class="w-full rounded-2xl border border-light bg-light py-2 px-4 text-base md:text-2xl font-medium text-primary outline-none focus:border-dark focus:shadow-md"
+        />
+      </div>
+
+      <!-- Correo -->
+      <div>
+        <label for="fEmail" class="block text-base md:text-3xl font-medium text-light mb-4"
+          >Correo electrónico</label
+        >
+        <input
+          required
+          type="email"
+          name="fEmail"
+          id="fEmail"
+          placeholder="Tu correo electrónico"
+          class="w-full rounded-2xl border border-light bg-light py-2 px-4 text-base md:text-2xl font-medium text-primary outline-none focus:border-dark focus:shadow-md"
+        />
+      </div>
+
+      <!-- Paquete -->
+      <div>
+        <label for="fPackage" class="block text-base md:text-3xl font-medium text-light mb-4"
+          >Paquete de internet</label
+        >
+        <select
+          required
+          name="fPackage"
+          id="fPackage"
+          class="w-full rounded-2xl border border-light bg-light py-2 px-4 text-base md:text-2xl font-medium text-gray-400 outline-none focus:border-dark focus:shadow-md"
+        >
+          <option value="" selected disabled hidden
+            >Selecciona tu paquete de internet</option
+          >
+          <option value="Básico">Básico</option>
+          <option value="Intermedio">Intermedio</option>
+          <option value="Avanzado">Avanzado</option>
+          <option value="Premium">Premium</option>
+        </select>
+      </div>
+
+      <!-- Comentarios -->
+      <div>
+        <label
+          for="fComments"
+          class="block text-base md:text-3xl font-medium text-light mb-4"
+          >Comentarios adicional</label
+        >
+        <textarea
+          name="fComments"
+          id="fComments"
+          rows="4"
+          placeholder="Escribe un comentario adicional"
+          class="w-full rounded-2xl border border-light bg-light py-2 px-4 text-base md:text-2xl font-medium text-primary outline-none focus:border-dark focus:shadow-md resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Botón -->
+      <div class="pt-4">
+        <button
+          type="submit"
+          class="bg-gradient-to-r from-golden1 via-golden2 to-golden3 text-primary font-extrabold px-8 py-3 rounded-2xl text-3xl md:text-5xl  w-full"
+        >
+          ¡Contáctanos!
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="h-[700px] md:h-[800px]"></div>
+  <img src="/images/cable-fibra-optica.webp" alt="Cable Fibra Optica" class="absolute invisible md:visible w-3xs lg:w-lg right-0 top-1/3 lg:top-90">
+  <img src="/images/antena-enlaces.webp" alt="Antena Enlaces" class="absolute invisible md:visible left-0 bottom-0 w-40 lg:w-sm scale-x-[-1] -rotate-15">
+  <img src="/images/modem-enlaces.webp" alt="Modem Enlaces" class="absolute invisible md:visible right-0 bottom-0 w-40 lg:w-lg scale-x-[-1] rotate-15">
+</section>
