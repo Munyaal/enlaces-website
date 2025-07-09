@@ -1,0 +1,27 @@
+---
+const bannerImages = {
+  "Playa del Carmen": "/images/banner-playa.webp",
+  "Tulum": "/images/banner-tulum.webp",
+  "Bacalar": "/images/banner-bacalar.webp",
+};
+
+const { zona } = Astro.props as { zona: keyof typeof bannerImages };
+---
+
+<section class="pt-25">
+  <div
+    class="h-[500px] bg-center bg-cover flex items-center justify-center"
+    style={`background-image: url(${bannerImages[zona]})`}
+  >
+    <div class="bg-primary text-center rounded-3xl w-[90%] md:w-4xl py-6 -rotate-4">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        ¡Descubre nuestras<br />
+        <span
+          class="text-4xl md:text-6xl text-[#00DEE9] text-shadow-md text-shadow-[#00DEE9]"
+        >
+          INCREÍBLES PROMOCIONES!
+        </span>
+      </h1>
+    </div>
+  </div>
+</section>
