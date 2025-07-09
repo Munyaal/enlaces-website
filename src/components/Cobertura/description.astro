@@ -1,0 +1,43 @@
+---
+const zonaData = {
+  "playa-del-carmen": {
+    title: "Conexión rápida",
+    subtitle: "PARA TODOS",
+    titleColor: "[#00DEE9]",
+    description:
+      "En Playa del Carmen, te ofrecemos opciones tanto de <strong>fibra óptica</strong> (FTTH) como de <strong>internet por antena </strong>(WISP). Si estás en una zona con nuestra red de fibra óptica FTTH, disfrutarás de la <strong>máxima velocidad y estabilidad</strong>. Para áreas donde la fibra aún no está disponible, contamos con WISP, garantizando una <strong>conexión rápida y confiable</strong>. Con nosotros, nunca te faltará internet.",
+  },
+  tulum: {
+    title: "conexón rápida & confiable en",
+    subtitle: "TULUM",
+    titleColor: "primary",
+    description:
+      " En Tulum, te ofrecemos internet por antena (WISP) para que disfrutes de una <strong>conexión rápida y estable</strong>. Aunque no contamos con fibra óptica en la zona, nuestro servicio <strong>WISP</strong> garantiza una <strong>conexión confiable y eficiente </strong> para tus necesidades diarias, ya sea para tu hogar o negocio.",
+  },
+  bacalar: {
+    title: "La mejor conexión fibra óptica en",
+    subtitle: "BACALAR",
+    titleColor: "primary",
+    description:
+      "En Bacalar, ofrecemos un servicio de internet <strong>100% fibra óptica</strong>, garantizando la <strong>máxima velocidad y estabilidad</strong>. Con nuestra tecnología FTTH (Fiber to the Home), podrás disfrutar de una <strong>conexión sin interrupciones</strong>, ideal para hogares y pequeñas empresas que requieren un rendimiento óptimo para todas sus actividades en línea.",
+  },
+};
+
+const { zona } = Astro.props as { zona: keyof typeof zonaData };
+
+const datos = zonaData[zona];
+---
+
+<section class="container mx-auto px-50 py-8">
+  <div class="text-center -rotate-2 my-10">
+    <h1 class="text-5xl">
+      {datos.title}
+      <br />
+      <span
+        class={`text-${datos.titleColor} text-7xl text-shadow-lg/30 text-shadow-${datos.titleColor}`}
+        >{datos.subtitle}</span
+      >
+    </h1>
+  </div>
+   <p class=" text-2xl text-center leading-10" set:html={datos.description} />
+</section>
