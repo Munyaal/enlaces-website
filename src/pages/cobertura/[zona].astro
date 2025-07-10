@@ -1,5 +1,6 @@
 ---
 import Banner from "../../components/Cobertura/banner.astro";
+import Chooseme from "../../components/Cobertura/chooseme.astro";
 import Description from "../../components/Cobertura/description.astro";
 import Layout from "../../layouts/Layout.astro"
 
@@ -22,5 +23,6 @@ const {nombre, titulo, color } = Astro.props;
   <div class={`${color}`}>
     <Banner zona={titulo} />
      <Description zona={nombre} />
+     <Chooseme zona={nombre}/>
   </div>
 </Layout>
