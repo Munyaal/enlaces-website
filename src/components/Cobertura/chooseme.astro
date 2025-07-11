@@ -13,6 +13,7 @@ const cardData = {
       "/images/pay-blanco.png",
     ],
     pcolor: "light",
+    colorShape: "from-golden1 to-golden3",
   },
   tulum: {
     titleZone: "TULUM",
@@ -27,6 +28,7 @@ const cardData = {
       "/images/pay-enlaces.png",
     ],
     pcolor: "primary",
+    colorShape: "from-golden1 to-golden3",
   },
   bacalar: {
     titleZone: "BACALAR",
@@ -41,6 +43,22 @@ const cardData = {
       "/images/pay-enlaces.png",
     ],
     pcolor: "primary",
+    colorShape: "from-golden1 to-golden3",
+  },
+  "puerto-morelos": {
+    titleZone: "PUERTO MORELOS",
+    titleColor: "primary",
+    icons: [
+      "/images/velocidad-enlaces.png",
+      "/images/soporte-enlaces.png",
+      "/images/atencion-enlaces.png",
+      "/images/internet-enlaces.png",
+      "/images/implementation-enlaces.png",
+      "/images/list-enlaces.png",
+      "/images/pay-enlaces.png",
+    ],
+    pcolor: "primary",
+    colorShape: "from-[#27DAE5] to-[#45D1CC]",
   },
 };
 
@@ -77,42 +95,61 @@ const cardTexts = [
 
 const { zona } = Astro.props as { zona: keyof typeof cardData };
 const data = cardData[zona];
-
 ---
 
 <section class="py-20 text-center px-4">
   <div class="mb-10 -rotate-3 relative">
-    <div class="py-5">
-    <h1 class="text-5xl font-bold">
-      ¿Por qué elegirnos en <br />
-      <span class={`text-6xl text-${data.titleColor} text-shadow-lg/30 text-shadow-${data.titleColor}`}>{data.titleZone}?</span>
+    <div class="py-5 pb-23">
+      <h1 class="text-5xl font-bold">
+        ¿Por qué elegirnos en <br />
+        <span
+          class={`text-7xl text-${data.titleColor} text-shadow-lg/30 text-shadow-${data.titleColor} absolute right-[25%]`}
+          >{data.titleZone}?</span
+        >
+      </h1>
+      <div
+        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[30%] bottom-0`}
+      >
       </div>
-      <div class="h-3 w-56 bg-linear-to-r from-golden1 to-golden3 rounded-full absolute right-[35%]"></div>
-      <div class="h-3 w-56 bg-linear-to-r from-golden1 to-golden3 rounded-full absolute top-0 left-[35%]"></div>
-
-    </h1>
+      <div
+        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[42%] bottom-0`}
+      >
+      </div>
+      <div
+        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[35%]`}
+      >
+      </div>
+      <div
+        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[47%]`}
+      >
+      </div>
+    </div>
   </div>
 
-  <!-- Swiper container -->
   <div class="swiper chooseme-swiper relative w-full max-w-[1200px] h-[520px]">
     <div class="swiper-wrapper">
-      {cardTexts.map((card, index) => (
-        <div class="swiper-slide"> 
-          <div class="bg-white/30 backdrop-blur-sm  rounded-3xl p-10 h-full flex flex-col  min-h-[580px] max-w-sm w-full"> 
-            <img
-              src={data.icons[index]}
-              alt="icono"
-              class="w-40 h-40 mb-4 mx-auto"
-            />
-            <div class="text-center m-5"> 
-              <h2 class={`text-${data.pcolor} text-4xl font-bold mb-3`}>
-                {card.title}
-              </h2>
-              <p class={`text-${data.pcolor} text-2xl`} set:html={card.text} />
+      {
+        cardTexts.map((card, index) => (
+          <div class="swiper-slide">
+            <div class="bg-white/30 backdrop-blur-sm  rounded-3xl p-10 h-full flex flex-col  min-h-[580px] max-w-sm w-full">
+              <img
+                src={data.icons[index]}
+                alt="icono"
+                class="w-40 h-40 mb-4 mx-auto"
+              />
+              <div class="text-center m-5">
+                <h2 class={`text-${data.pcolor} text-4xl font-bold mb-3`}>
+                  {card.title}
+                </h2>
+                <p
+                  class={`text-${data.pcolor} text-2xl`}
+                  set:html={card.text}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
 
     <div class="swiper-pagination mt-6"></div>
@@ -137,7 +174,7 @@ const data = cardData[zona];
     breakpoints: {
       0: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
-      1024: { slidesPerView: 3 }
+      1024: { slidesPerView: 3 },
     },
     pagination: {
       el: ".swiper-pagination",
@@ -151,8 +188,6 @@ const data = cardData[zona];
   });
 </script>
 <style>
-  
-  
   .chooseme-swiper .swiper-slide {
     display: flex !important; /* Flex para alinear cards */
   }

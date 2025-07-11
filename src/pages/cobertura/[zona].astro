@@ -3,16 +3,18 @@ import Banner from "../../components/Cobertura/banner.astro";
 import Chooseme from "../../components/Cobertura/chooseme.astro";
 import Description from "../../components/Cobertura/description.astro";
 import Layout from "../../layouts/Layout.astro"
+import PlansPrice from "../../components/Cobertura/plansPrice.astro";
 
 export async function getStaticPaths() {
   const ciudades = [
     { nombre: "playa-del-carmen", titulo: "Playa del Carmen", color: "bg-primary" },
     { nombre: "tulum", titulo: "Tulum", color: "bg-[#5FCDD9]" },
     { nombre: "bacalar", titulo: "Bacalar", color: "bg-[#04D9D9]" },
+    { nombre: "puerto-morelos", titulo: "Puerto Morelos", color: "bg-[#F29441]" }
   ];
   return ciudades.map(zona => ({
     params: { zona: zona.nombre },
-    props: { ...zona } // Pasa props a la página
+    props: { ...zona } 
   }));
 }
 
@@ -23,6 +25,7 @@ const {nombre, titulo, color } = Astro.props;
   <div class={`${color}`}>
     <Banner zona={titulo} />
      <Description zona={nombre} />
+     <PlansPrice zona={nombre} />
      <Chooseme zona={nombre}/>
   </div>
 </Layout>
