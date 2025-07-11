@@ -9,7 +9,7 @@ export async function getStaticPaths() {
   const ciudades = [
     { nombre: "playa-del-carmen", titulo: "Playa del Carmen", color: "bg-primary" },
     { nombre: "tulum", titulo: "Tulum", color: "bg-[#5FCDD9]" },
-    { nombre: "bacalar", titulo: "Bacalar", color: "bg-[#04D9D9]" },
+    // { nombre: "bacalar", titulo: "Bacalar", color: "bg-[#04D9D9]" },
     { nombre: "puerto-morelos", titulo: "Puerto Morelos", color: "bg-[#F29441]" }
   ];
   return ciudades.map(zona => ({
@@ -22,10 +22,32 @@ const {nombre, titulo, color } = Astro.props;
 ---
 
 <Layout title={titulo}>
-  <div class={`${color}`}>
+  <div class={`${color} relative overflow-hidden`}>
     <Banner zona={titulo} />
      <Description zona={nombre} />
-     <PlansPrice zona={nombre} />
-     <Chooseme zona={nombre}/>
+     <PlansPrice zona={nombre}  />
+     <Chooseme zona={nombre} />
+
+     <img
+      src="/images/fondo-enlaces.webp"
+      alt="Figura Enlaces"
+      class="w-7xl absolute top-[20%] md:top-[10%] -right-40 lg:-right-[20%]"
+    />
+    <img
+      src="/images/fondo-enlaces.webp"
+      alt="Figura Enlaces"
+      class="w-7xl absolute top-[35%] -left-20 lg:-left-80"
+    />
+    <img
+      src="/images/fondo-enlaces.webp"
+      alt="Figura Enlaces"
+      class="w-7xl absolute bottom-[20%] lg:-bottom-80 -right-22 lg:-right-90"
+    />
+    <img
+      src="/images/fondo-enlaces.webp"
+      alt="Figura Enlaces"
+      class="w-7xl absolute -bottom-20 -left-22  visible md:invisible"
+    />
+  
   </div>
 </Layout>

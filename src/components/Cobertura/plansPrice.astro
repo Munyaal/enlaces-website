@@ -1,4 +1,5 @@
 ---
+import ButtonCTA from "../buttonCTA.astro";
 type Plan = {
   id: number;
   descentSpeed: number;
@@ -12,54 +13,57 @@ type CardData = {
   devices: number;
   icons: string[];
   description: string;
-  text:string;
+  text: string;
 };
 
 type PlanWithCardData = Plan & {
   cardData: CardData;
 };
 
-const zonePlans: Record<string, { antena: number[]; fibra?: number[]; firstTitle:string; subtitle:string; colorTitle:string; colorShape:string; }> = {
-  "playa-del-carmen": { 
+const zonePlans: Record<
+  string,
+  {
+    antena: number[];
+    fibra?: number[];
+    firstTitle: string;
+    subtitle: string;
+    colorTitle: string;
+    colorShape: string;
+  }
+> = {
+  "playa-del-carmen": {
     antena: [1, 2, 3, 4],
     firstTitle: "Internet de alta velocidad",
     subtitle: "A UN PRECIO ESPECIAL",
-    colorTitle:"[#00DEE9]",
+    colorTitle: "[#00DEE9]",
     colorShape: "from-golden1 to-golden3",
-   },
-  "tulum": { antena: [5, 6, 7, 8],
+  },
+  tulum: {
+    antena: [5, 6, 7, 8],
     firstTitle: "Internet de alta velocidad",
     subtitle: "A UN PRECIO ESPECIAL",
-    colorTitle:"primary",
+    colorTitle: "primary",
     colorShape: "from-golden1 to-golden3",
-   },
+  },
   "puerto-morelos": {
     antena: [18, 19, 20, 21],
     fibra: [9, 10, 11, 12],
     firstTitle: "Internet rapido por antena",
     subtitle: "A UN PRECIO ESPECIAL",
-    colorTitle:"primary",
+    colorTitle: "primary",
     colorShape: "from-[#27DAE5] to-[#45D1CC]",
   },
 };
 
-
 const cardInfo = {
-  titles: [
-    "Básico", 
-    "Intermedio", 
-    "Avanzado", 
-    "Premium"],
+  titles: ["Básico", "Intermedio", "Avanzado", "Premium"],
   titleColors: [
-    "text-[#42BCCE]", 
-    "text-[#E1CC1D]", 
-    "text-[#8C125E]", 
-    "text-[#286769]"],
-  devices: [
-    2, 
-    3, 
-    5, 
-    7],
+    "text-[#42BCCE]",
+    "text-[#E1CC1D]",
+    "text-[#8C125E]",
+    "text-[#286769]",
+  ],
+  devices: [2, 3, 5, 7],
   icons: [
     [
       "/icons/Mensaje.png",
@@ -99,17 +103,17 @@ const cardInfo = {
     ],
   ],
   descriptionText: [
-      "Ideal para navegación básica,correo electrónico y redes sociales.",
-      "Apto para streaming en HD, videollamadas y navegación simultánea en varios dispositivos.",
-      "Ideal para familias con varios dispositivos conectados, streaming en 4k y juegos en línea.",
-      "Excelente para hogares con alta demanda de datos, trabajo remoto intensivo y uso de aplicaciones en tiempo real."
-    ],
-    textFooter : [
-      "*Adecuado para usuarios individuales o pequeños hogares.*",
-      "*Adecuado para hogares con uso moderado de internet*",
-      "*Ofrece una experiencia de internet sin interrupciones.*",
-      "*Adecuado para usuarios individuales o pequeños hogares.*",
-    ]
+    "Ideal para navegación básica,correo electrónico y redes sociales.",
+    "Apto para streaming en HD, videollamadas y navegación simultánea en varios dispositivos.",
+    "Ideal para familias con varios dispositivos conectados, streaming en 4k y juegos en línea.",
+    "Excelente para hogares con alta demanda de datos, trabajo remoto intensivo y uso de aplicaciones en tiempo real.",
+  ],
+  textFooter: [
+    "*Adecuado para usuarios individuales o pequeños hogares.*",
+    "*Adecuado para hogares con uso moderado de internet*",
+    "*Ofrece una experiencia de internet sin interrupciones.*",
+    "*Adecuado para usuarios individuales o pequeños hogares.*",
+  ],
 };
 
 const { zona } = Astro.props as { zona: keyof typeof zonePlans };
@@ -124,7 +128,7 @@ const getPlansByType = (type: "antena" | "fibra"): PlanWithCardData[] => {
   const ids = zonePlans[zona][type] || [];
 
   return allPlans
-    .filter(plan => ids.includes(plan.id))
+    .filter((plan) => ids.includes(plan.id))
     .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
     .map((plan, index) => ({
       ...plan,
@@ -144,37 +148,42 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
 ---
 
 <section>
-  <div class="mb-16">
+  <div class="lg:mb-16">
     <!-- Title -->
-     <div class="my-20">
-     <div class="mb-10 -rotate-3 relative">
-    <div class="py-5 pb-23">
-      <h1 class="text-5xl font-bold text-center">
-        {data.firstTitle} <br />
-        <span
-          class={`text-7xl text-${data.colorTitle} text-shadow-lg/30 text-shadow-${data.colorTitle} absolute right-[25%]`}
-          >{data.subtitle}?</span
-        >
-      </h1>
-      <div
-        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[30%] bottom-0`}
-      >
-      </div>
-      <div
-        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[42%] bottom-0`}
-      >
-      </div>
-      <div
-        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[35%]`}
-      >
-      </div>
-      <div
-        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[47%]`}
-      >
+    <div class="my-8 lg:my-20">
+      <div class="lg:mb-10 -rotate-3 relative">
+        <div class="py-5 pb-16 lg:pb-23">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center">
+            {data.firstTitle}
+            <br />
+            <span
+              class={`text-4xl md:5xl lg:text-7xl text-${data.colorTitle} text-shadow-lg/30 text-shadow-${data.colorTitle} absolute right-2 md:right-[10%] lg:right-[25%]`}
+              >{data.subtitle}?</span
+            >
+          </h1>
+          <div class="absolute right-[10%] lg:right-[30%] bottom-0 flex gap-1">
+            <div
+              class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full`}
+            >
+            </div>
+            <div
+              class={`h-3 w-40 md:w-55 bg-linear-to-r ${data.colorShape} rounded-full `}
+            >
+            </div>
+          </div>
+          <div class="absolute top-0 left-[8%] lg:left-[35%] flex gap-1">
+            <div
+              class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full`}
+            >
+            </div>
+            <div
+              class={`h-3 w-40 md:w-55 bg-linear-to-r ${data.colorShape} rounded-full`}
+            >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
 
     <div class="swiper antenna-swiper w-full max-w-[1200px] h-[520px]">
       <div class="swiper-wrapper">
@@ -182,24 +191,41 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
           antennaPlans.map((plan, index) => (
             <div class="swiper-slide p-4">
               <div class="bg-light rounded-xl p-6  flex flex-col h-full min-h-[550px] max-w-[450px] w-full">
-                <h3 class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}>
+                <h3
+                  class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
+                >
                   {plan.cardData.title}
                 </h3>
 
                 <div class="space-y-3 mb-4 pt-5">
                   <div class="flex items-center">
                     <img src="/icons/Descarga.png" class="w-10 h-10 mr-2" />
-                    <span class="text-4xl text-primary">{plan.descentSpeed} <span class="text-2xl">Mbps</span><span class="text-xs"> de descarga</span></span>
+                    <span class="text-4xl text-primary">
+                      {plan.descentSpeed}{" "}
+                      <>
+                        <span class="text-2xl">Mbps</span>
+                        <span class="text-xs"> de descarga</span>
+                      </>
+                    </span>
                   </div>
 
                   <div class="flex items-center">
                     <img src="/icons/Subida.png" class="w-10 h-10 mr-2" />
-                    <span class="text-4xl text-primary">{plan.uploadSpeed} <span class="text-2xl">Mbps</span><span class="text-xs"> de subida</span></span>
+                    <span class="text-4xl text-primary">
+                      {plan.uploadSpeed}{" "}
+                      <>
+                        <span class="text-2xl">Mbps</span>
+                        <span class="text-xs"> de subida</span>
+                      </>
+                    </span>
                   </div>
 
                   <div class="flex items-center">
                     <img src="/icons/Dispositivos.png" class="w-10 h-10 mr-2" />
-                    <span class="text-4xl text-primary">{plan.cardData.devices} <span class="text-2xl">dispositivos</span></span>
+                    <span class="text-4xl text-primary">
+                      {plan.cardData.devices}{" "}
+                      <span class="text-2xl">dispositivos</span>
+                    </span>
                   </div>
                 </div>
 
@@ -217,8 +243,12 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
                   ))}
                 </div>
 
-                <p class="text-7xl  mt-auto text-primary text-center">${plan.price}</p>
-                <p class="text-[10px] py-5 mt-auto text-primary text-center">{plan.cardData.text}</p>
+                <p class="text-7xl  mt-auto text-primary text-center">
+                  ${plan.price}
+                </p>
+                <p class="text-[10px] py-5 mt-auto text-primary text-center">
+                  {plan.cardData.text}
+                </p>
               </div>
             </div>
           ))
@@ -228,81 +258,110 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
       <div class="swiper-button-prev !text-line"></div>
       <div class="swiper-button-next !text-line"></div>
     </div>
+    <div class="place-items-center my-10">
+      <div>
+        <a
+          href=""
+          class={`text-light text-2xl lg:text-4xl rounded-full bg-linear-to-t ${data.colorShape} font-bold px-4 py-2`}
+          >¡Contrata ya!</a
+        >
+      </div>
+    </div>
   </div>
 
   <!-- Carrusel Fibra (solo Puerto Morelos) -->
   {
     zona === "puerto-morelos" && fiberPlans && (
-      <div class="mb-16">
-        <div class="my-20">
-     <div class="mb-10 -rotate-3 relative">
-    <div class="py-5 pb-23">
-      <h1 class="text-5xl font-bold text-center">
-        Internet de fibra óptica <br />
-        <span
-          class={`text-7xl text-${data.colorTitle} text-shadow-lg/30 text-shadow-${data.colorTitle} absolute right-[25%]`}
-          >{data.subtitle}?</span>
-      </h1>
-      <div
-        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[30%] bottom-0`}
-      >
-      </div>
-      <div
-        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[42%] bottom-0`}
-      >
-      </div>
-      <div
-        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[35%]`}
-      >
-      </div>
-      <div
-        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[47%]`}
-      >
-      </div>
-    </div>
-  </div>
-  </div>
+      <div class="pt-10 lg:mb-16">
+        <div class="my-8 lg:my-20">
+          <div class="lg:mb-10 -rotate-3 relative">
+            <div class="py-5 pb-16 lg:pb-23">
+              <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center">
+                Internet de fibra óptica <br />
+                <span
+                  class={`text-4xl md:5xl lg:text-7xl text-${data.colorTitle} text-shadow-lg/30 text-shadow-${data.colorTitle} absolute right-2 md:right-[10%] lg:right-[25%]`}
+                >
+                  {data.subtitle}?
+                </span>
+              </h1>
+              <div class="absolute right-[10%] lg:right-[30%] bottom-0 flex gap-1">
+                <div
+                  class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full`}
+                />
+                <div
+                  class={`h-3 w-40 md:w-55 bg-linear-to-r ${data.colorShape} rounded-full `}
+                />
+              </div>
+              <div class="absolute top-0 left-[8%] lg:left-[35%] flex gap-1">
+                <div
+                  class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full`}
+                />
+                <div
+                  class={`h-3 w-40 md:w-55 bg-linear-to-r ${data.colorShape} rounded-full`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="swiper fiber-swiper w-full max-w-[1200px] h-[520px]">
           <div class="swiper-wrapper">
             {fiberPlans.map((plan, index) => (
               <div class="swiper-slide p-4">
                 <div class="bg-light rounded-xl p-6 flex flex-col h-full min-h-[550px] max-w-[450px] w-full">
-                 <h3 class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}>
-                  {plan.cardData.title}
-                </h3>
+                  <h3
+                    class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
+                  >
+                    {plan.cardData.title}
+                  </h3>
                   <div class="space-y-3 mb-4 pt-5">
-                  <div class="flex items-center">
-                    <img src="/icons/Descarga.png" class="w-10 h-10 mr-2" />
-                    <span class="text-4xl text-primary">{plan.descentSpeed} <span class="text-2xl">Mbps</span><span class="text-xs"> de descarga</span></span>
-                  </div>
+                    <div class="flex items-center">
+                      <img src="/icons/Descarga.png" class="w-10 h-10 mr-2" />
+                      <span class="text-4xl text-primary">
+                        {plan.descentSpeed} <span class="text-2xl">Mbps</span>
+                        <span class="text-xs"> de descarga</span>
+                      </span>
+                    </div>
 
-                  <div class="flex items-center">
-                    <img src="/icons/Subida.png" class="w-10 h-10 mr-2" />
-                    <span class="text-4xl text-primary">{plan.uploadSpeed} <span class="text-2xl">Mbps</span><span class="text-xs"> de subida</span></span>
-                  </div>
+                    <div class="flex items-center">
+                      <img src="/icons/Subida.png" class="w-10 h-10 mr-2" />
+                      <span class="text-4xl text-primary">
+                        {plan.uploadSpeed} <span class="text-2xl">Mbps</span>
+                        <span class="text-xs"> de subida</span>
+                      </span>
+                    </div>
 
-                  <div class="flex items-center">
-                    <img src="/icons/Dispositivos.png" class="w-10 h-10 mr-2" />
-                    <span class="text-4xl text-primary">{plan.cardData.devices} <span class="text-2xl">dispositivos</span></span>
+                    <div class="flex items-center">
+                      <img
+                        src="/icons/Dispositivos.png"
+                        class="w-10 h-10 mr-2"
+                      />
+                      <span class="text-4xl text-primary">
+                        {plan.cardData.devices}{" "}
+                        <span class="text-2xl">dispositivos</span>
+                      </span>
+                    </div>
                   </div>
-                </div>
 
                   <p class="text-xs mb-4 flex-grow text-center text-primary">
-                  {plan.cardData.description}
-                </p>
+                    {plan.cardData.description}
+                  </p>
 
                   <div class="flex flex-wrap gap-1 mb-4 items-center justify-center">
-                  {plan.cardData.icons.map((icons) => (
-                    <img
-                      src={`${icons}`}
-                      class="w-8 h-8"
-                      alt="Icono de beneficio"
-                    />
-                  ))}
-                </div>
+                    {plan.cardData.icons.map((icons) => (
+                      <img
+                        src={`${icons}`}
+                        class="w-8 h-8"
+                        alt="Icono de beneficio"
+                      />
+                    ))}
+                  </div>
 
-                  <p class="text-7xl  mt-auto text-primary text-center">${plan.price}</p>
-                <p class="text-[10px] py-5 mt-auto text-primary text-center">{plan.cardData.text}</p>
+                  <p class="text-7xl  mt-auto text-primary text-center">
+                    ${plan.price}
+                  </p>
+                  <p class="text-[10px] py-5 mt-auto text-primary text-center">
+                    {plan.cardData.text}
+                  </p>
                 </div>
               </div>
             ))}
@@ -311,59 +370,69 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
           <div class="swiper-button-prev !text-line" />
           <div class="swiper-button-next !text-line" />
         </div>
+        <div class="place-items-center my-10">
+          <div>
+            <a
+              href=""
+              class={`text-light text-2xl lg:text-4xl rounded-full bg-linear-to-t ${data.colorShape} font-bold px-4 py-2`}
+            >
+              ¡Contrata ya!
+            </a>
+          </div>
+        </div>
       </div>
     )
   }
 </section>
-<script>
-  import Swiper from 'swiper';
-  import { Navigation, Pagination } from 'swiper/modules';
-  import 'swiper/css';
-  import 'swiper/css/navigation';
-  import 'swiper/css/pagination';
+<script >
+  import Swiper from "swiper";
+  import { Navigation, Pagination } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/navigation";
+  import "swiper/css/pagination";
 
-   const swiper = new Swiper(".antenna-swiper", {
-      modules: [Navigation, Pagination],
-      grabCursor: true,
-      loop: true,
-      centeredSlides: false,
-      spaceBetween: 20,
-      autoHeight: true,
-      breakpoints: {
-        0: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 }
-      },
-      pagination: {
-        el: ".antenna-swiper .swiper-pagination",
-        clickable: true,
-        dynamicBullets: true,
-      },
-      navigation: {
-        nextEl: ".antenna-swiper .swiper-button-next",
-        prevEl: ".antenna-swiper .swiper-button-prev",
-      },
+  const swiper = new Swiper(".antenna-swiper", {
+    modules: [Navigation, Pagination],
+    grabCursor: true,
+    loop: true,
+    centeredSlides: false,
+    spaceBetween: 20,
+    autoHeight: true,
+    breakpoints: {
+      0: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+    pagination: {
+      el: ".antenna-swiper .swiper-pagination",
+      clickable: true,
+      dynamicBullets: true,
+    },
+    navigation: {
+      nextEl: ".antenna-swiper .swiper-button-next",
+      prevEl: ".antenna-swiper .swiper-button-prev",
+    },
   });
   const swiper2 = new Swiper(".fiber-swiper", {
-      modules: [Navigation, Pagination],
-      grabCursor: true,
-      loop: true,
-      centeredSlides: false,
-      spaceBetween: 20,
-      autoHeight: true,
-      breakpoints: {
-        0: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 }
-      },
-      pagination: {
-        el: ".fiber-swiper .swiper-pagination",
-        clickable: true,
-        dynamicBullets: true,
-      },
-      navigation: {
-        nextEl: ".fiber-swiper .swiper-button-next",
-        prevEl: ".fiber-swiper .swiper-button-prev",
-      },
-    });
+    modules: [Navigation, Pagination],
+    grabCursor: true,
+    loop: true,
+    centeredSlides: false,
+    spaceBetween: 20,
+    autoHeight: true,
+    breakpoints: {
+      0: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+    pagination: {
+      el: ".fiber-swiper .swiper-pagination",
+      clickable: true,
+      dynamicBullets: true,
+    },
+    navigation: {
+      nextEl: ".fiber-swiper .swiper-button-next",
+      prevEl: ".fiber-swiper .swiper-button-prev",
+    },
+  });
 </script>

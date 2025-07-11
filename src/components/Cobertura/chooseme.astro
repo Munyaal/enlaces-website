@@ -97,31 +97,31 @@ const { zona } = Astro.props as { zona: keyof typeof cardData };
 const data = cardData[zona];
 ---
 
-<section class="py-20 text-center px-4">
+<section class="py-20 text-center px-4 overflow-hidden">
   <div class="mb-10 -rotate-3 relative">
-    <div class="py-5 pb-23">
-      <h1 class="text-5xl font-bold">
+    <div class="py-5 pb-16 lg:pb-23">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center">
         ¿Por qué elegirnos en <br />
         <span
-          class={`text-7xl text-${data.titleColor} text-shadow-lg/30 text-shadow-${data.titleColor} absolute right-[25%]`}
+          class={`text-4xl md:5xl lg:text-7xl text-${data.titleColor} text-shadow-lg/30 text-shadow-${data.titleColor} absolute right-2 md:right-[10%] lg:right-[25%]`}
           >{data.titleZone}?</span
         >
       </h1>
-      <div
-        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[30%] bottom-0`}
-      >
+      <div class="absolute right-[10%] lg:right-[30%] bottom-0 flex gap-1">
+        <div class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full`}>
+        </div>
+        <div
+          class={`h-3 w-40 md:w-55 bg-linear-to-r ${data.colorShape} rounded-full `}
+        >
+        </div>
       </div>
-      <div
-        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute right-[42%] bottom-0`}
-      >
-      </div>
-      <div
-        class={`h-3 w-55 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[35%]`}
-      >
-      </div>
-      <div
-        class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full absolute top-0 left-[47%]`}
-      >
+      <div class="absolute top-0 left-[8%] lg:left-[35%] flex gap-1">
+        <div class={`h-3 w-3 bg-linear-to-r ${data.colorShape} rounded-full`}>
+        </div>
+        <div
+          class={`h-3 w-40 md:w-55 bg-linear-to-r ${data.colorShape} rounded-full`}
+        >
+        </div>
       </div>
     </div>
   </div>
