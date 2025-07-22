@@ -5,21 +5,20 @@ import TestimonioCard from "../testimonioCard.astro";
 import ButtonCTA from "../buttonCTA.astro";
 ---
 
-<section class="py-20 px-4 md:px-20">
-  <Title title="Testimonio de" subtitle="Nuestros Clientes" />
-
+<section class="py-5 px-4 md:px-20">
+<h1 class="text-4xl lg:text-6xl text-line text-center font-bold">¡Lo que dicen de nosotros!</h1>
   
-  <div class="flex justify-center">
-    <div class="swiper testimonials-swiper w-full max-w-[1150px] h-[520px] relative">
+  <div class="flex ">
+    <div class="swiper testimonials-swiper w-full max-w-[1250px] h-[400px] relative">
       <div class="swiper-wrapper">
         {
           testimonios.map((testimonio) => (
-            <div class="swiper-slide flex justify-center items-end">
+            <div class="swiper-slide">
               <TestimonioCard
                 foto={testimonio.foto}
                 name={testimonio.name}
                 message={testimonio.message}
-                estrella={testimonio.estrellas}
+                rol={testimonio.rol}
               />
             </div>
           ))
