@@ -4,33 +4,35 @@ import ButtonCTA from "../buttonCTA.astro"
 
 
 
-<header class="border-b-8 border-line relative w-full h-[550px] md:h-[600px] lg:h-[900px] pt-20">
-    <img src="/images/banner-website-enlaces.webp" alt="Banner Enlaces Website" class="mask-b-from-40% mask-b-to-90% absolute inset-0 w-full h-full object-cover z-0 brightness-50">
-  <div class="absolute z-10 mx-5 pt-15  lg:pt-30">
-  <div class="place-items-center lg:w-lg lg:ml-15">
-  <div class="-rotate-5 pb-5 lg:pb-15">
-    <h1 class="text-xl lg:text-4xl  text-light mb-5 lg:mb-10">
+<header class="">
+  <div class="pt-20 lg:pt-0 relative z-10">
+    <img src="/images/banner-website-enlaces.jpg" alt="Banner Enlaces Website" class="mask-b-from-40% mask-b-to-90% object-cover max-w-screen w-full">
+  </div>
+  <div
+    class="flex flex-col justify-center items-center absolute z-10 top-30 md:top-45 lg:top-80 left-5 lg:left-45"
+  >
+    <h1 class="text-xl lg:text-3xl  text-light mb-5 lg:mb-10">
       El mejor <span
-        class="text-3xl lg:text-5xl font-bold text-light p-1 px-5 rounded-full bg-linear-to-t from-golden1 to-golden3 bg-[#AA681F]"
+        class="text-3xl lg:text-6xl font-bold text-light p-1 px-5 rounded-full bg-linear-to-t from-golden1 to-golden3"
         >Internet</span
       >
     </h1>
-    <h1 class="text-xl lg:text-4xl text-light mb-5 lg:mb-10">
+    <h1 class="text-xl lg:text-3xl text-light mb-5 lg:mb-10">
       De la <span
-        class="text-3xl lg:text-6xl font-bold text-light p-1 px-5 rounded-full bg-linear-to-t from-golden1 to-golden3 bg-[#AA681F]"
+        class="text-3xl lg:text-6xl font-bold text-light p-1 px-5 rounded-full bg-linear-to-t from-golden1 to-golden3"
         >Riviera Maya</span
       >
     </h1>
-    </div>
     <p class="text-light text-lg text-center mb-5 lg:mb-10">
-      Ofrecemos cobertura tanto para clientes <strong>residenciales</strong> como para <strong>pequeñas y medianas empresas</strong> en las principales zonas de la <strong>Riviera maya</strong>. Disfruta de una <strong>conexión a internet estable y rápida</strong> donde más la necesitas.
+      Ofrecemos cobertura tanto para clientes <br /><span
+        class="font-bold text-light">residenciales</span
+      > como para <span class="font-bold">pequeñas y medianas</span><br /><span
+        class="font-bold">empresas</span
+      > en las <span class="font-bold">principales zonas de la Riviera</span><br
+      /><span class="font-bold">maya.</span> Disfruta de una <span
+        class="font-bold">conexión a internet</span
+      ><br /><span class="font-bold">estable rápida</span> donde más la necesitas.
     </p>
-    
+    <ButtonCTA title="¡Contrata ahora!"/>
   </div>
-  </div>
-   <div class="absolute bottom-0 lg:bottom-20 w-full flex justify-center px-4 mb-6">
-  <div class="w-full max-w-sm">
-    <ButtonCTA subtitle="¡Conoce nuestros" title="planes de internet!" />
-  </div>
-</div>
 </header>

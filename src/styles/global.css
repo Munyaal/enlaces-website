@@ -3,15 +3,16 @@
 @theme inline {
     --color-primary: #132C42;
     --color-secondary: #3DA5AC;
-    --color-line: #ECDF33;
+    --color-line: #F2D338;
     --color-light: #ffffff;
     --color-golden1 : #E6D431;
     --color-golden2 : #D9BD2D;
     --color-golden3 : #C69A27
-ECDF33
+
+ 
    
 }
- .swiper-pagination-bullet {
+.swiper-pagination-bullet {
   background-color: #d1d5db !important;
   opacity: 1 !important;
   width: 12px;

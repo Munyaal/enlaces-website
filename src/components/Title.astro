@@ -1,14 +1,14 @@
 ---
 type Props = {
-  title?: string;
-  subtitle?: string;
+  title: string;
+  subtitle: string;
 };
 const { title, subtitle } = Astro.props;
 ---
 
     <div class="text-center mb-10 sm:mb-20">
     <h1 class="text-3xl md:text-6xl text-light">{title}</h1>
-    <h2 class="text-4xl md:text-7xl text-line font-bold">
+    <h2 class="text-4xl md:text-7xl text-light font-bold">
       {subtitle}
     </h2>
   </div>

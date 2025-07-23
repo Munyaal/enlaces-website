@@ -3,51 +3,93 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Nosotros">
-  <section class="relative h-[550px] lg:h-[950px] border-b-8 border-b-line overflow-hidden">
+  <section class="relative pt-30 overflow-hidden">
+    <div class="text-center -rotate-4 pt-15 md:pt-30">
+      <h1 class="text-3xl md:text-6xl">Creciendo junto a la</h1>
+      <h2
+        class="text-5xl md:text-8xl text-[#00DEE9] text-shadow-lg text-shadow-[#00DEE9]"
+      >
+        RIVIERA MAYA
+      </h2>
+    </div>
     <div
-      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-      style="background-image: url('/images/banner-website-enlaces.webp');"
+      class="text-base sm:text-2xl md:w-3xl my-15 md:my-25 mx-10 md:mx-20 lg:mx-auto text-left leading-relaxed"
     >
-      <div class="absolute inset-0 bg-black/60"></div>
-    </div>
-
-    <div class="relative z-10 flex items-center justify-center h-full">
-      <div class="text-center -rotate-3 px-4">
-        <h1 class="text-4xl md:text-7xl font-bold text-white">
-          Creciendo junto a la
-        </h1>
-        <h1
-          class="text-5xl md:text-9xl text-[#00DEE9] drop-shadow-[0_4px_6px_#00DEE9] font-extrabold"
-        >
-          RIVIERA MAYA
-        </h1>
-      </div>
-    </div>
-  </section>
-
-  <section class="mt-10 lg:mt-30 relative">
-    <div>
-    <div class=" place-items-center space-y-10 lg:space-y-40 relative z-10 h-[650px] lg:h-[1180px]">
-      <h1 class="text-center text-5xl lg:text-9xl -rotate-3 font-bold ">Nuestra Historia</h1>
-      <p class=" text-base md:text-xl lg:text-2xl text-center w-full max-w-5xl px-5">
-        En marzo de 2015, nació Enlaces Playa con el propósito de atender una
-        necesidad creciente en Playa del Carmen: muchas familias no contaban con
-        un servicio de internet confiable en sus hogares. Inspirados por la idea
-        de brindar una solución accesible y de calidad, comenzamos a distribuir
-        internet bajo la concesión y permiso del Instituto Federal de
-        Telecomunicaciones (IFT).Hoy, en Enlaces Playa, hemos formado un equipo
-        de profesionales en tecnologías y telecomunicaciones, comprometidos en
-        ofrecer un servicio de internet de alto rendimiento para la comunidad.
-        Además, proporcionamos soluciones tecnológicas para hogares y negocios,
-        siempre enfocados en garantizar una experiencia de conexión rápida,
-        estable y accesible para todos nuestros clientes.
+      <p class="">
+        En <span class="font-bold">marzo de 2015</span>, nació <span
+          class="font-bold">Enlaces Playa</span
+        > con el propósito de atender una necesidad creciente en Playa del Carmen:
+        muchas familias no contaban con un servicio de internet confiable en sus
+        hogares. Inspirados por la idea de brindar una solución accesible y de calidad,
+        comenzamos a distribuir internet bajo la concesión y <span
+          class="font-bold"
+          >permiso del Instituto Federal de Telecomunicaciones</span
+        > (IFT).
+      </p>
+      <p class="mt-10">
+        Hoy, en Enlaces Playa, hemos formado un equipo de profesionales en
+        tecnologías y telecomunicaciones, comprometidos en ofrecer un servicio
+        de internet de alto rendimiento para la comunidad. Además,
+        proporcionamos <span class="font-bold">soluciones tecnológicas</span> para
+        hogares y negocios, siempre enfocados en garantizar una experiencia de <span
+          class="font-bold">conexión rápida, estable y accesible</span
+        > para todos nuestros clientes.
       </p>
     </div>
+    <div class="h-50 md:h-96"></div>
     <img
-      src="/images/persona-caminando.webp"
-      alt="Persona Caminando en la Playa"
-      class="object-cover absolute bottom-0 z-0"
+      src="/images/fondo-enlaces.webp"
+      alt="Figura Enlaces"
+      class="absolute w-5xl -right-40 -top-30"
     />
+    <img
+      src="/images/fondo-enlaces.webp"
+      alt="Figura Enlaces"
+      class="absolute w-5xl -left-40 -bottom-30"
+    />
+    <img
+      src="/images/planta-verde.png"
+      alt="Plante verde"
+      class="absolute max-w-screen w-full -bottom-10 md:-bottom-20 lg:-bottom-[600px] scale-x-[-1] z-10"
+    />
+    <img
+      src="/images/pelicano-pdc.webp"
+      alt="Pelicano PDC"
+      class="absolute invisible lg:visible w-2xl -left-50 bottom-0 z-10"
+    />
+    <img
+      src="/images/portal-maya-pdc.webp"
+      alt="Portal Maya Playa del Carmen"
+      class="absolute w-5xl -right-80 -bottom-40 z-10 invisible lg:visible"
+    />
+    <img
+      src="/images/colibri-pdc.webp"
+      alt="Colibri Playa del Carmen"
+      class="absolute z-10 top-0  lg:top-30 w-xl lg:w-2xl -left-50"
+    />
+    <div
+      class="h-10 sm:h-15 w-xl bg-linear-to-r from-golden1 to-golden3 rounded-full absolute -top-10 sm:top-20 -right-90 lg:-right-70 -rotate-40 "
+    >
+    </div>
+    <div
+      class="h-10 sm:h-15 w-xl bg-light rounded-l-full absolute top-3 mask-r-from-40% opacity-20 -rotate-40 right-1/4"
+    >
+    </div>
+    <div
+      class="h-10 sm:h-15 w-xl bg-linear-to-r from-golden2 to-golden3 rounded-full absolute top-[66%] md:top-3/5 -rotate-40 -left-[470px] lg:-left-90 "
+    >
+    </div>
+    <div
+      class="h-10 sm:h-15 w-2xl bg-light rounded-l-full absolute mask-r-from-40% opacity-20 bottom-10 -rotate-55 right-2/5"
+    >
+    </div>
+    <div
+      class="h-10 sm:h-15 w-xl bg-[#11847C] rounded-full absolute top-2/5 -rotate-40 -right-[460px] lg:-right-90 z-10"
+    >
+    </div>
+    <div
+      class="h-10 sm:h-15 w-xl bg-light rounded-l-full absolute mask-r-from-40% opacity-20 top-[43%] -rotate-40 -right-[460px] lg:-right-90 z-0"
+    >
     </div>
   </section>
 </Layout>

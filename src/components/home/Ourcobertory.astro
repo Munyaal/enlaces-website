@@ -24,25 +24,21 @@ const zonas = [
 ];
 ---
 
-<section
-  class="py-12 px-4 lg:px-20 place-items-center relative z-10 border-b-8 border-b-line"
->
-  <div>
-    <Title title="Nuestras" subtitle="ZONA DE COBERTURA" />
+<section class="py-12 px-4 lg:px-20 place-items-center relative z-10">
+  <div class="mt-15">
+  <Title title="Nuestras" subtitle="ZONA DE COBERTURA"/>
   </div>
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 gap-y-10 place-items-center md:w-full lg:w-6xl"
-  >
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-10 place-items-center md:w-full lg:w-6xl">
     {
       zonas.map((zona) => (
         <a
           href={zona.page}
-          class="relative w-xs lg:w-lg h-50 lg:h-80 rounded-4xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 group border-2 border-line"
+          class="relative w-xs lg:w-lg h-50 lg:h-80 rounded-4xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 group"
         >
           <img
             src={zona.fondo}
             alt={zona.lugar}
-            class="w-full h-full object-cover"
+            class="w-full h-full object-cover blur-[2px]"
           />
           <div class="absolute inset-0 flex items-center justify-center">
             <h3 class="text-white text-2xl md:text-5xl font-extrabold text-center">
@@ -53,14 +49,4 @@ const zonas = [
       ))
     }
   </div>
-  <img
-    src="/images/antena-enlaces.webp"
-    alt="antena enlaces"
-    class="w-xs lg:w-sm absolute -left-20 invisible md:visible top-1/4 rotate-20 -z-10"
-  />
-  <img
-    src="/images/modem-enlaces.webp"
-    alt="modem enlaces"
-    class="w-xs lg:w-sm absolute -right-20 invisible md:visible top-1/4 -rotate-20 -z-10"
-  />
 </section>
