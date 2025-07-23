@@ -1,0 +1,430 @@
+---
+type Plan = {
+   id: number;
+   descentSpeed: number;
+   uploadSpeed: number;
+   price: string;
+};
+
+type CardData = {
+   title: string;
+   color: string;
+   devices: number;
+   icons: string[];
+   description: string;
+   text: string;
+};
+
+type PlanWithCardData = Plan & {
+   cardData: CardData;
+};
+
+const zonePlans: Record<
+   string,
+   {
+      antena: number[];
+      fibra?: number[];
+      firstTitle: string;
+      subtitle: string;
+      colorTitle: string;
+      colorShape: string;
+   }
+> = {
+   "playa-del-carmen": {
+      antena: [1, 2, 3, 4],
+      firstTitle: "Internet de alta velocidad",
+      subtitle: "A UN PRECIO ESPECIAL",
+      colorTitle: "[#00DEE9]",
+      colorShape: "from-golden1 to-golden3",
+   },
+   tulum: {
+      antena: [5, 6, 7, 8],
+      firstTitle: "Internet de alta velocidad",
+      subtitle: "A UN PRECIO ESPECIAL",
+      colorTitle: "primary",
+      colorShape: "from-golden1 to-golden3",
+   },
+   "puerto-morelos": {
+      antena: [18, 19, 20, 21],
+      fibra: [9, 10, 11, 12],
+      firstTitle: "Internet rapido por antena",
+      subtitle: "A UN PRECIO ESPECIAL",
+      colorTitle: "primary",
+      colorShape: "from-[#27DAE5] to-[#45D1CC]",
+   },
+};
+
+const cardInfo = {
+   titles: ["Básico", "Intermedio", "Avanzado", "Premium"],
+   titleColors: [
+      "text-[#42BCCE]",
+      "text-[#E1CC1D]",
+      "text-[#8C125E]",
+      "text-[#286769]",
+   ],
+   devices: [2, 3, 5, 7],
+   icons: [
+      [
+         "/icons/Mensaje.png",
+         "/icons/Facebook.png",
+         "/icons/Instagram.png",
+         "/icons/Youtube.png",
+         "/icons/WhatsApp.png",
+      ],
+      [
+         "/icons/Mensaje.png",
+         "/icons/Facebook.png",
+         "/icons/Instagram.png",
+         "/icons/Youtube.png",
+         "/icons/WhatsApp.png",
+         "/icons/google-meet.png",
+         "/icons/reproduccion.png",
+      ],
+      [
+         "/icons/Mensaje.png",
+         "/icons/Facebook.png",
+         "/icons/Instagram.png",
+         "/icons/Youtube.png",
+         "/icons/WhatsApp.png",
+         "/icons/google-meet.png",
+         "/icons/reproduccion.png",
+         "/icons/Videojuegos.png",
+      ],
+      [
+         "/icons/Mensaje.png",
+         "/icons/Facebook.png",
+         "/icons/Instagram.png",
+         "/icons/Youtube.png",
+         "/icons/WhatsApp.png",
+         "/icons/google-meet.png",
+         "/icons/reproduccion.png",
+         "/icons/Videojuegos.png",
+      ],
+   ],
+   descriptionText: [
+      "Ideal para navegación básica,correo electrónico y redes sociales.",
+      "Apto para streaming en HD, videollamadas y navegación simultánea en varios dispositivos.",
+      "Ideal para familias con varios dispositivos conectados, streaming en 4k y juegos en línea.",
+      "Excelente para hogares con alta demanda de datos, trabajo remoto intensivo y uso de aplicaciones en tiempo real.",
+   ],
+   textFooter: [
+      "*Adecuado para usuarios individuales o pequeños hogares.*",
+      "*Adecuado para hogares con uso moderado de internet*",
+      "*Ofrece una experiencia de internet sin interrupciones.*",
+      "*Adecuado para usuarios individuales o pequeños hogares.*",
+   ],
+};
+
+const { zona } = Astro.props as { zona: keyof typeof zonePlans };
+const data = zonePlans[zona];
+
+const response = await fetch(
+   "https://api-ingresos.enlacesplaya.com.mx/api/system/plan/?limit=100&join=location",
+);
+const allPlans: Plan[] = await response.json();
+
+const getPlansByType = (type: "antena" | "fibra"): PlanWithCardData[] => {
+   const ids = zonePlans[zona][type] || [];
+
+   // console.log("ids", ids);
+
+   return allPlans
+      .filter((plan) => ids.includes(plan.id))
+      .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+      .map((plan, index) => ({
+         ...plan,
+         cardData: {
+            title: cardInfo.titles[index],
+            color: cardInfo.titleColors[index],
+            devices: cardInfo.devices[index],
+            icons: cardInfo.icons[index],
+            description: cardInfo.descriptionText[index],
+            text: cardInfo.textFooter[index],
+         },
+      }));
+};
+
+const antennaPlans = getPlansByType("antena");
+const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
+---
+
+<section>
+   <div class="lg:mb-16">
+      <!-- Title -->
+      <div class="my-8 lg:my-20">
+         <div class="lg:mb-10 -rotate-3 relative">
+            <div class="py-5 pb-16 lg:pb-23">
+               <h1
+                  class="text-3xl md:text-4xl lg:text-5xl font-bold text-center"
+               >
+                  {data.firstTitle}
+                  <br />
+                  <span
+                     class={`text-4xl md:5xl lg:text-7xl text-${data.colorTitle} text-shadow-lg/30 text-shadow-${data.colorTitle} absolute right-2 md:right-[10%] lg:right-[25%]`}
+                     >{data.subtitle}</span
+                  >
+               </h1>
+            </div>
+         </div>
+      </div>
+
+      <div class="swiper antenna-swiper w-full max-w-[1200px] h-[520px]">
+         <div class="swiper-wrapper">
+            {
+               antennaPlans.map((plan, index) => (
+                  <div class="swiper-slide  px-4 md:px-0">
+                     <div class="bg-light  rounded-3xl p-6  flex flex-col h-full min-h-[550px] max-w-[450px] w-full">
+                        <h3
+                           class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
+                           style="
+                                -webkit-text-stroke: 1px #000;
+                                text-stroke: 1px #000;
+                           "
+                        >
+                           {plan.cardData.title}
+                        </h3>
+
+                        <div class="space-y-3 mb-4 pt-5">
+                           <div class="flex items-center">
+                              <img
+                                 src="/icons/Descarga.png"
+                                 class="w-10 h-10 mr-2"
+                              />
+                              <span class="text-4xl text-primary">
+                                 {plan.descentSpeed}{" "}
+                                 <>
+                                    <span class="text-2xl">Mbps</span>
+                                    <span class="text-xs"> de descarga</span>
+                                 </>
+                              </span>
+                           </div>
+
+                           <div class="flex items-center">
+                              <img
+                                 src="/icons/Subida.png"
+                                 class="w-10 h-10 mr-2"
+                              />
+                              <span class="text-4xl text-primary">
+                                 {plan.uploadSpeed}{" "}
+                                 <>
+                                    <span class="text-2xl">Mbps</span>
+                                    <span class="text-xs"> de subida</span>
+                                 </>
+                              </span>
+                           </div>
+
+                           <div class="flex items-center">
+                              <img
+                                 src="/icons/Dispositivos.png"
+                                 class="w-10 h-10 mr-2"
+                              />
+                              <span class="text-4xl text-primary">
+                                 {plan.cardData.devices}{" "}
+                                 <span class="text-2xl">dispositivos</span>
+                              </span>
+                           </div>
+                        </div>
+
+                        <p class="text-xs mb-4 flex-grow text-center text-primary">
+                           {plan.cardData.description}
+                        </p>
+
+                        <div class="flex flex-wrap gap-1 mb-4 items-center justify-center">
+                           {plan.cardData.icons.map((icons) => (
+                              <img
+                                 src={`${icons}`}
+                                 class="w-8 h-8"
+                                 alt="Icono de beneficio"
+                              />
+                           ))}
+                        </div>
+
+                        <p class="text-7xl  mt-auto text-primary text-center">
+                           ${plan.price}
+                        </p>
+                        <p class="text-[10px] py-5 mt-auto text-primary text-center">
+                           {plan.cardData.text}
+                        </p>
+                     </div>
+                  </div>
+               ))
+            }
+         </div>
+         <div class="swiper-pagination mt-4"></div>
+         <div class="swiper-button-prev !text-line"></div>
+         <div class="swiper-button-next !text-line"></div>
+      </div>
+      <div class="place-items-center my-10">
+         <div>
+            <a
+               href=""
+               class={`text-light text-2xl lg:text-4xl rounded-full bg-line font-bold px-4 py-2`}
+               >¡Contrata ya!</a
+            >
+         </div>
+      </div>
+   </div>
+
+   <!-- Carrusel Fibra (solo Puerto Morelos) -->
+   {
+      zona === "puerto-morelos" && fiberPlans && (
+         <div class="pt-10 lg:mb-16">
+            <div class="my-8 lg:my-20">
+               <div class="lg:mb-10 -rotate-3 relative">
+                  <div class="py-5 pb-16 lg:pb-23">
+                     <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center">
+                        Internet de fibra óptica <br />
+                        <span
+                           class={`text-4xl md:5xl lg:text-7xl text-${data.colorTitle} text-shadow-lg/30 text-shadow-${data.colorTitle} absolute right-2 md:right-[10%] lg:right-[25%]`}
+                        >
+                           {data.subtitle}?
+                        </span>
+                     </h1>
+                  </div>
+               </div>
+            </div>
+            <div class="swiper fiber-swiper w-full max-w-[1200px] h-[520px]">
+               <div class="swiper-wrapper">
+                  {fiberPlans.map((plan, index) => (
+                     <div class="swiper-slide">
+                        <div class="bg-light rounded-xl p-6 flex flex-col h-full min-h-[550px] max-w-[450px] w-full">
+                           <h3
+                              class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
+                              style="
+                                -webkit-text-stroke: 1px #000;
+                                text-stroke: 1px #000;
+                           "
+                           >
+                              {plan.cardData.title}
+                           </h3>
+                           <div class="space-y-3 mb-4 pt-5">
+                              <div class="flex items-center">
+                                 <img
+                                    src="/icons/Descarga.png"
+                                    class="w-10 h-10 mr-2"
+                                 />
+                                 <span class="text-4xl text-primary">
+                                    {plan.descentSpeed}{" "}
+                                    <span class="text-2xl">Mbps</span>
+                                    <span class="text-xs"> de descarga</span>
+                                 </span>
+                              </div>
+
+                              <div class="flex items-center">
+                                 <img
+                                    src="/icons/Subida.png"
+                                    class="w-10 h-10 mr-2"
+                                 />
+                                 <span class="text-4xl text-primary">
+                                    {plan.uploadSpeed}{" "}
+                                    <span class="text-2xl">Mbps</span>
+                                    <span class="text-xs"> de subida</span>
+                                 </span>
+                              </div>
+
+                              <div class="flex items-center">
+                                 <img
+                                    src="/icons/Dispositivos.png"
+                                    class="w-10 h-10 mr-2"
+                                 />
+                                 <span class="text-4xl text-primary">
+                                    {plan.cardData.devices}{" "}
+                                    <span class="text-2xl">dispositivos</span>
+                                 </span>
+                              </div>
+                           </div>
+
+                           <p class="text-xs mb-4 flex-grow text-center text-primary">
+                              {plan.cardData.description}
+                           </p>
+
+                           <div class="flex flex-wrap gap-1 mb-4 items-center justify-center">
+                              {plan.cardData.icons.map((icons) => (
+                                 <img
+                                    src={`${icons}`}
+                                    class="w-8 h-8"
+                                    alt="Icono de beneficio"
+                                 />
+                              ))}
+                           </div>
+
+                           <p class="text-7xl  mt-auto text-primary text-center">
+                              ${plan.price}
+                           </p>
+                           <p class="text-[10px] py-5 mt-auto text-primary text-center">
+                              {plan.cardData.text}
+                           </p>
+                        </div>
+                     </div>
+                  ))}
+               </div>
+               <div class="swiper-pagination mt-4" />
+               <div class="swiper-button-prev !text-line" />
+               <div class="swiper-button-next !text-line" />
+            </div>
+            <div class="place-items-center my-10">
+               <div>
+                  <a
+                     href=""
+                     class={`text-light text-2xl lg:text-4xl rounded-full bg-linear-to-t ${data.colorShape} font-bold px-4 py-2`}
+                  >
+                     ¡Contrata ya!
+                  </a>
+               </div>
+            </div>
+         </div>
+      )
+   }
+</section>
+<script>
+   import Swiper from "swiper";
+   import { Navigation, Pagination } from "swiper/modules";
+   import "swiper/css";
+   import "swiper/css/navigation";
+   import "swiper/css/pagination";
+
+   const swiper = new Swiper(".antenna-swiper", {
+      modules: [Navigation, Pagination],
+      grabCursor: true,
+      loop: true,
+      centeredSlides: false,
+      spaceBetween: 20,
+      autoHeight: true,
+      breakpoints: {
+         0: { slidesPerView: 1 },
+         768: { slidesPerView: 2 },
+         1024: { slidesPerView: 3 },
+      },
+      pagination: {
+         el: ".antenna-swiper .swiper-pagination",
+         clickable: true,
+         dynamicBullets: true,
+      },
+      navigation: {
+         nextEl: ".antenna-swiper .swiper-button-next",
+         prevEl: ".antenna-swiper .swiper-button-prev",
+      },
+   });
+   const swiper2 = new Swiper(".fiber-swiper", {
+      modules: [Navigation, Pagination],
+      grabCursor: true,
+      loop: true,
+      centeredSlides: false,
+      spaceBetween: 20,
+      autoHeight: true,
+      breakpoints: {
+         0: { slidesPerView: 1 },
+         768: { slidesPerView: 2 },
+         1024: { slidesPerView: 3 },
+      },
+      pagination: {
+         el: ".fiber-swiper .swiper-pagination",
+         clickable: true,
+         dynamicBullets: true,
+      },
+      navigation: {
+         nextEl: ".fiber-swiper .swiper-button-next",
+         prevEl: ".fiber-swiper .swiper-button-prev",
+      },
+   });
+</script>
