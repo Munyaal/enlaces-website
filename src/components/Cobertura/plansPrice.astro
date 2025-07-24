@@ -126,8 +126,6 @@ const allPlans: Plan[] = await response.json();
 const getPlansByType = (type: "antena" | "fibra"): PlanWithCardData[] => {
    const ids = zonePlans[zona][type] || [];
 
-   console.log("ids", ids);
-
    return allPlans
       .filter((plan) => ids.includes(plan.id))
       .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
@@ -258,7 +256,7 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
          <div>
             <a
                href=""
-               class={`text-light text-2xl lg:text-4xl rounded-full bg-line font-bold px-4 py-2`}
+               class={`text-light text-2xl lg:text-4xl rounded-full bg-[#AA681F] md:bg-linear-to-t from-golden1 to-golden3 font-bold px-4 py-2`}
                >¡Contrata ya!</a
             >
          </div>
@@ -366,7 +364,7 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
                <div>
                   <a
                      href=""
-                     class={`text-light text-2xl lg:text-4xl rounded-full bg-linear-to-t ${data.colorShape} font-bold px-4 py-2`}
+                     class={`text-light text-2xl lg:text-4xl rounded-full bg-[#AA681F] md:bg-linear-to-t from-golden1 to-golden3 font-bold px-4 py-2`}
                   >
                      ¡Contrata ya!
                   </a>
