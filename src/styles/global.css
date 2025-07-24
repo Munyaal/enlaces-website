@@ -7,8 +7,10 @@
     --color-light: #ffffff;
     --color-golden1 : #E6D431;
     --color-golden2 : #D9BD2D;
-    --color-golden3 : #C69A27
-ECDF33
+    --color-golden3 : #C69A27;
+
+    --font-sans: "SkolaSans", sans-serif;
+
    
 }
  .swiper-pagination-bullet {
@@ -23,4 +25,52 @@ ECDF33
 
 .swiper-pagination-bullet-active {
   background-color: #E6D431 !important; 
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  src: url("/fonts/SkolaSans-Black.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  src: url("/fonts/SkolaSans-BlackItalic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  src: url("/fonts/SkolaSans-BoldItalic.woff2") format("woff2");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  src: url("/fonts/SkolaSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  src: url("/fonts/SkolaSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  src: url("/fonts/SkolaSans-RegularItalic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }
