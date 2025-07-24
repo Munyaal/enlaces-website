@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: website
-    app.kubernetes.io/version: 'fe9e64c'
+    app.kubernetes.io/version: '18284f2'
   name: website
-  namespace: ilogs
+  namespace: enlaces
 spec:
   replicas: 1
   selector:
@@ -17,10 +17,10 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: website
-        app.kubernetes.io/version: 'fe9e64c'
+        app.kubernetes.io/version: '18284f2'
     spec:
       containers:
-        - image: registry.digitalocean.com/munyaal-docr/ilogs/website:fe9e64c
+        - image: registry.digitalocean.com/munyaal-docr/enlaces/website:18284f2
           name: website
           ports:
             - containerPort: 8080
@@ -32,7 +32,7 @@ metadata:
   labels:
     app.kubernetes.io/name: website
   name: website
-  namespace: ilogs
+  namespace: enlaces
 spec:
   ports:
     - name: http
@@ -47,7 +47,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: website
-  namespace: ilogs
+  namespace: enlaces
 spec:
   ingressClassName: nginx
   rules:
@@ -63,5 +63,5 @@ spec:
                   number: 80       
   tls:
     - hosts:
-        - descubre.ilogs.com.mx
-      secretName: ilogs-com-mx-tls
+        - enlaces.munyaal.com.mx
+      secretName: munyaal-com-mx-tls
