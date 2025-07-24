@@ -36,9 +36,9 @@ jobs:
     strategy:
       matrix:
         workspace:
-          - namespace: ilogs
-            deploy: landing-page
-            container: landing-page
+          - namespace: enlaces
+            deploy: website
+            container: website
     steps:
       # Checkout main branch with github task
       - name: "Checkout main"
