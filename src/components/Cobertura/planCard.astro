@@ -1,0 +1,98 @@
+---
+import type { PlanWithCardData, PlanVariant } from "./plans-types.ts";
+
+/**
+ * PlanCard.astro
+ *
+ * Presentación de un plan de internet dentro de un carrusel (swiper-slide).
+ *
+ * Se extrajo de plansPrice.astro para eliminar la duplicación entre los
+ * carruseles de antena y fibra, que comparten ~95% del markup. Las únicas
+ * diferencias visuales entre variantes (padding del slide y radio de borde
+ * de la tarjeta) se preservan de forma exacta vía `variant`.
+ *
+ * Props:
+ *   - plan:    plan enriquecido con su `cardData`.
+ *   - variant: "antena" (default) o "fibra".
+ */
+interface Props {
+  plan: PlanWithCardData;
+  variant?: PlanVariant;
+}
+
+const { plan, variant = "antena" } = Astro.props;
+
+// Diferencias visuales entre las variantes originales; se mantienen exactas
+// para no alterar la UI final.
+const slideClass =
+  variant === "fibra" ? "swiper-slide" : "swiper-slide  px-4 md:px-0";
+const cardClass =
+  variant === "fibra"
+    ? "bg-light rounded-xl p-6 flex flex-col h-full min-h-[550px] max-w-[450px] w-full"
+    : "bg-light  rounded-3xl p-6  flex flex-col h-full min-h-[550px] max-w-[450px] w-full";
+---
+
+<div class={slideClass}>
+  <div class={cardClass}>
+    <h3
+      class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
+      style="
+            -webkit-text-stroke: 1px #000;
+            text-stroke: 1px #000;
+        "
+    >
+      {plan.cardData.title}
+    </h3>
+
+    <div class="space-y-3 mb-4 pt-5">
+      <div class="flex items-center">
+        <img src="/icons/Descarga.png" class="w-10 h-10 mr-2" />
+        <span class="text-4xl text-primary">
+          {plan.descentSpeed}{" "}
+          <>
+            <span class="text-2xl">Mbps</span>
+            <span class="text-xs"> de descarga</span>
+          </>
+        </span>
+      </div>
+
+      <div class="flex items-center">
+        <img src="/icons/Subida.png" class="w-10 h-10 mr-2" />
+        <span class="text-4xl text-primary">
+          {plan.uploadSpeed}{" "}
+          <>
+            <span class="text-2xl">Mbps</span>
+            <span class="text-xs"> de subida</span>
+          </>
+        </span>
+      </div>
+
+      <div class="flex items-center">
+        <img src="/icons/Dispositivos.png" class="w-10 h-10 mr-2" />
+        <span class="text-4xl text-primary">
+          {plan.cardData.devices}{" "}
+          <span class="text-2xl">dispositivos</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="text-xs mb-4 flex-grow text-center text-primary">
+      {plan.cardData.description}
+    </p>
+
+    <div class="flex flex-wrap gap-1 mb-4 items-center justify-center">
+      {
+        plan.cardData.icons.map((icon) => (
+          <img src={icon} class="w-8 h-8" alt="Icono de beneficio" />
+        ))
+      }
+    </div>
+
+    <p class="text-7xl  mt-auto text-primary text-center">
+      ${plan.price}
+    </p>
+    <p class="text-[10px] py-5 mt-auto text-primary text-center">
+      {plan.cardData.text}
+    </p>
+  </div>
+</div>

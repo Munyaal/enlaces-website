@@ -90,11 +90,11 @@ const data = cardData[zona];
                         class="w-40 h-40 mb-4 mx-auto"
                      />
                      <div class="text-center m-5">
-                        <h2 class={`text-primary text-4xl font-bold mb-3`}>
+                        <h2 class="text-primary text-4xl font-bold mb-3">
                            {card.title}
                         </h2>
                         <p
-                           class={`text-primary text-2xl`}
+                           class="text-primary text-2xl"
                            set:html={card.text}
                         />
                      </div>
@@ -116,7 +116,7 @@ const data = cardData[zona];
    import "swiper/css/navigation";
    import "swiper/css/pagination";
 
-   const swiper = new Swiper(".chooseme-swiper", {
+   new Swiper(".chooseme-swiper", {
       modules: [Navigation, Pagination],
       grabCursor: true,
       loop: true,

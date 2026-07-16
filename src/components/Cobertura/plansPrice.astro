@@ -1,23 +1,9 @@
 ---
-type Plan = {
-   id: number;
-   descentSpeed: number;
-   uploadSpeed: number;
-   price: string;
-};
-
-type CardData = {
-   title: string;
-   color: string;
-   devices: number;
-   icons: string[];
-   description: string;
-   text: string;
-};
-
-type PlanWithCardData = Plan & {
-   cardData: CardData;
-};
+import PlanCard from "./planCard.astro";
+import type {
+   Plan,
+   PlanWithCardData,
+} from "./plans-types.ts";
 
 const zonePlans: Record<
    string,
@@ -119,7 +105,7 @@ const { zona } = Astro.props as { zona: keyof typeof zonePlans };
 const data = zonePlans[zona];
 
 const response = await fetch(
-   "https://api-ingresos.enlacesplaya.com.mx/api/system/plan/?limit=100&join=location",
+   "https://api-ingresos-enlaces-playa.munyaal.app/api/system/plan/?limit=100&join=location",
 );
 const allPlans: Plan[] = await response.json();
 
@@ -166,85 +152,11 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
          </div>
       </div>
 
-      <div class="swiper antenna-swiper w-full max-w-[1200px] h-[520px]">
+<div class="swiper antenna-swiper w-full max-w-[1200px] h-[520px]">
          <div class="swiper-wrapper">
             {
-               antennaPlans.map((plan, index) => (
-                  <div class="swiper-slide  px-4 md:px-0">
-                     <div class="bg-light  rounded-3xl p-6  flex flex-col h-full min-h-[550px] max-w-[450px] w-full">
-                        <h3
-                           class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
-                           style="
-                                -webkit-text-stroke: 1px #000;
-                                text-stroke: 1px #000;
-                           "
-                        >
-                           {plan.cardData.title}
-                        </h3>
-
-                        <div class="space-y-3 mb-4 pt-5">
-                           <div class="flex items-center">
-                              <img
-                                 src="/icons/Descarga.png"
-                                 class="w-10 h-10 mr-2"
-                              />
-                              <span class="text-4xl text-primary">
-                                 {plan.descentSpeed}{" "}
-                                 <>
-                                    <span class="text-2xl">Mbps</span>
-                                    <span class="text-xs"> de descarga</span>
-                                 </>
-                              </span>
-                           </div>
-
-                           <div class="flex items-center">
-                              <img
-                                 src="/icons/Subida.png"
-                                 class="w-10 h-10 mr-2"
-                              />
-                              <span class="text-4xl text-primary">
-                                 {plan.uploadSpeed}{" "}
-                                 <>
-                                    <span class="text-2xl">Mbps</span>
-                                    <span class="text-xs"> de subida</span>
-                                 </>
-                              </span>
-                           </div>
-
-                           <div class="flex items-center">
-                              <img
-                                 src="/icons/Dispositivos.png"
-                                 class="w-10 h-10 mr-2"
-                              />
-                              <span class="text-4xl text-primary">
-                                 {plan.cardData.devices}{" "}
-                                 <span class="text-2xl">dispositivos</span>
-                              </span>
-                           </div>
-                        </div>
-
-                        <p class="text-xs mb-4 flex-grow text-center text-primary">
-                           {plan.cardData.description}
-                        </p>
-
-                        <div class="flex flex-wrap gap-1 mb-4 items-center justify-center">
-                           {plan.cardData.icons.map((icons) => (
-                              <img
-                                 src={`${icons}`}
-                                 class="w-8 h-8"
-                                 alt="Icono de beneficio"
-                              />
-                           ))}
-                        </div>
-
-                        <p class="text-7xl  mt-auto text-primary text-center">
-                           ${plan.price}
-                        </p>
-                        <p class="text-[10px] py-5 mt-auto text-primary text-center">
-                           {plan.cardData.text}
-                        </p>
-                     </div>
-                  </div>
+               antennaPlans.map((plan) => (
+                  <PlanCard plan={plan} variant="antena" />
                ))
             }
          </div>
@@ -281,85 +193,18 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
                   </div>
                </div>
             </div>
-            <div class="swiper fiber-swiper w-full max-w-[1200px] h-[520px]">
-               <div class="swiper-wrapper">
-                  {fiberPlans.map((plan, index) => (
-                     <div class="swiper-slide">
-                        <div class="bg-light rounded-xl p-6 flex flex-col h-full min-h-[550px] max-w-[450px] w-full">
-                           <h3
-                              class={`${plan.cardData.color} text-6xl font-bold mb-4 text-center`}
-                              style="
-                                -webkit-text-stroke: 1px #000;
-                                text-stroke: 1px #000;
-                           "
-                           >
-                              {plan.cardData.title}
-                           </h3>
-                           <div class="space-y-3 mb-4 pt-5">
-                              <div class="flex items-center">
-                                 <img
-                                    src="/icons/Descarga.png"
-                                    class="w-10 h-10 mr-2"
-                                 />
-                                 <span class="text-4xl text-primary">
-                                    {plan.descentSpeed}{" "}
-                                    <span class="text-2xl">Mbps</span>
-                                    <span class="text-xs"> de descarga</span>
-                                 </span>
-                              </div>
-
-                              <div class="flex items-center">
-                                 <img
-                                    src="/icons/Subida.png"
-                                    class="w-10 h-10 mr-2"
-                                 />
-                                 <span class="text-4xl text-primary">
-                                    {plan.uploadSpeed}{" "}
-                                    <span class="text-2xl">Mbps</span>
-                                    <span class="text-xs"> de subida</span>
-                                 </span>
-                              </div>
-
-                              <div class="flex items-center">
-                                 <img
-                                    src="/icons/Dispositivos.png"
-                                    class="w-10 h-10 mr-2"
-                                 />
-                                 <span class="text-4xl text-primary">
-                                    {plan.cardData.devices}{" "}
-                                    <span class="text-2xl">dispositivos</span>
-                                 </span>
-                              </div>
-                           </div>
-
-                           <p class="text-xs mb-4 flex-grow text-center text-primary">
-                              {plan.cardData.description}
-                           </p>
-
-                           <div class="flex flex-wrap gap-1 mb-4 items-center justify-center">
-                              {plan.cardData.icons.map((icons) => (
-                                 <img
-                                    src={`${icons}`}
-                                    class="w-8 h-8"
-                                    alt="Icono de beneficio"
-                                 />
-                              ))}
-                           </div>
-
-                           <p class="text-7xl  mt-auto text-primary text-center">
-                              ${plan.price}
-                           </p>
-                           <p class="text-[10px] py-5 mt-auto text-primary text-center">
-                              {plan.cardData.text}
-                           </p>
-                        </div>
-                     </div>
-                  ))}
-               </div>
-               <div class="swiper-pagination mt-4" />
-               <div class="swiper-button-prev !text-line" />
-               <div class="swiper-button-next !text-line" />
-            </div>
+<div class="swiper fiber-swiper w-full max-w-[1200px] h-[520px]">
+                <div class="swiper-wrapper">
+                   {
+                     fiberPlans.map((plan) => (
+                        <PlanCard plan={plan} variant="fibra" />
+                     ))
+                  }
+                </div>
+                <div class="swiper-pagination mt-4" />
+                <div class="swiper-button-prev !text-line" />
+                <div class="swiper-button-next !text-line" />
+             </div>
             <div class="place-items-center my-10">
                <div>
                   <a
@@ -381,13 +226,13 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
    import "swiper/css/navigation";
    import "swiper/css/pagination";
 
-   const swiper = new Swiper(".antenna-swiper", {
-      modules: [Navigation, Pagination],
-      grabCursor: true,
-      loop: true,
-      centeredSlides: false,
-      spaceBetween: 20,
-      autoHeight: true,
+new Swiper(".antenna-swiper", {
+       modules: [Navigation, Pagination],
+       grabCursor: true,
+       loop: true,
+       centeredSlides: false,
+       spaceBetween: 20,
+       autoHeight: true,
       breakpoints: {
          0: { slidesPerView: 1 },
          768: { slidesPerView: 2 },
@@ -403,7 +248,7 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
          prevEl: ".antenna-swiper .swiper-button-prev",
       },
    });
-   const swiper2 = new Swiper(".fiber-swiper", {
+   new Swiper(".fiber-swiper", {
       modules: [Navigation, Pagination],
       grabCursor: true,
       loop: true,
