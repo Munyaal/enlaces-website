@@ -1,8 +1,8 @@
 ---
-import NavBar from "../components/navBar.astro";
+import Navbar from "../components/Navbar.astro";
 import BaseHead from "../components/BaseHead.astro";
 import "../styles/global.css";
-import Footer from "../components/footer.astro";
+import Footer from "../components/Footer.astro";
 
 /**
  * Layout.astro
@@ -30,9 +30,9 @@ const { title, description } = Astro.props;
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body class="bg-primary text-light min-h-screen flex flex-col font-sans">
-    <NavBar />
-    <main class="flex-grow">
+  <body class="bg-primary text-light font-sans">
+    <Navbar />
+    <main>
       <slot />
     </main>
     <Footer />

@@ -1,0 +1,152 @@
+---
+import Container from "./Container.astro";
+
+/*
+ * Navbar flotante con backdrop-blur bajo, borde sutil, redondeado amplio y
+ * sombra suave. Envuelto en <Container /> para mantener el ancho máximo y
+ * el padding horizontal consistentes con el resto del sitio.
+ *
+ * Las URLs y el contenido se mantienen en constantes para que un cambio
+ * futuro (rutas reales, destinos de CTA, etc.) se haga en un solo lugar.
+ */
+
+const LOGO = {
+  src: "/images/logo-enlacesplaya.webp",
+  alt: "Enlaces Playa",
+  href: "#",
+};
+
+const NAV_URLS = {
+  servicios: "#",
+  nosotros: "#",
+  cobertura: "#",
+  cta: "#",
+};
+
+const NAV_LINKS = [
+  { label: "Servicios", href: NAV_URLS.servicios },
+  { label: "Nosotros", href: NAV_URLS.nosotros },
+  { label: "Cobertura", href: NAV_URLS.cobertura },
+];
+
+const CTA_LINK = {
+  label: "Cotizar plan ahora",
+  href: NAV_URLS.cta,
+};
+---
+
+<header class="fixed inset-x-0 top-0 z-50">
+  <Container>
+    <nav
+      class="relative flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-primary/70 px-4 py-3 shadow-lg backdrop-blur transition duration-300 focus-within:bg-primary focus-within:backdrop-blur-none md:hover:bg-primary md:hover:backdrop-blur-none md:px-6"
+      aria-label="Navegación principal"
+    >
+      {/* Logo */}
+      <a
+        href={LOGO.href}
+        class="flex shrink-0 items-center"
+        aria-label={LOGO.alt}
+      >
+        <img
+          src={LOGO.src}
+          alt={LOGO.alt}
+          class="h-10 w-auto md:h-11"
+          loading="eager"
+          decoding="async"
+        />
+      </a>
+
+      {/* Botón de menú (solo móvil) */}
+      <button
+        type="button"
+        id="menu-toggle"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-light transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:hidden"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="primary-menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      {/* Contenedor de links + CTA */}
+      <div
+        id="primary-menu"
+        class="absolute inset-x-0 top-full mt-2 hidden flex-col gap-3 rounded-2xl border border-white/10 bg-primary/90 p-4 shadow-lg backdrop-blur md:static md:mt-0 md:flex md:flex-row md:items-center md:justify-end md:gap-6 md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none md:rounded-none"
+      >
+        <ul class="flex flex-col gap-1 md:flex-row md:items-center md:gap-2">
+          {
+            NAV_LINKS.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="block rounded-md px-3 py-2 text-sm font-semibold text-light transition-colors hover:bg-white/10 hover:text-accent md:text-base"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <a
+          href={CTA_LINK.href}
+          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-5 py-2.5 text-sm font-bold text-dark shadow-md transition-transform hover:scale-[1.03] md:ml-2"
+        >
+          {CTA_LINK.label}
+        </a>
+      </div>
+    </nav>
+  </Container>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("primary-menu");
+
+  if (toggle && menu) {
+    const setMenuState = (open: boolean) => {
+      menu.classList.toggle("hidden", !open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    };
+
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      setMenuState(!isOpen);
+    });
+
+    // Cerrar al hacer clic fuera del navbar
+    document.addEventListener("mousedown", (event) => {
+      const target = event.target as Node | null;
+      if (!target) return;
+      if (!menu.contains(target) && !toggle.contains(target)) {
+        setMenuState(false);
+      }
+    });
+
+    // Cerrar con Escape
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setMenuState(false);
+    });
+
+    // Cerrar al pulsar cualquier enlace del menú (UX móvil)
+    menu.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      if (target.closest("a")) setMenuState(false);
+    });
+  }
+</script>
