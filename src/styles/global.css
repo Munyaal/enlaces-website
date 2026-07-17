@@ -1,19 +1,63 @@
 @import "tailwindcss";
 
+/*
+ * Design system tokens (light-only).
+ *
+ * Brand palette is exposed with semantic names (primary, secondary, accent).
+ * The accent color is the single source token for any accent-based gradient:
+ * the reusable utilities `bg-accent-grad-t` and `bg-accent-grad-r` (defined
+ * below) derive their intermediate stops with `color-mix()` from
+ * `--color-accent`, so no separate gradient tokens are needed.
+ *
+ * gradients on small screens (it overlaps the gradient only where the
+ * responsive variant hides the gradient).
+ */
 @theme inline {
-    --color-primary: #132C42;
-    --color-secondary: #3DA5AC;
-    --color-line: #ECDF33;
-    --color-light: #ffffff;
-    --color-golden1 : #E6D431;
-    --color-golden2 : #D9BD2D;
-    --color-golden3 : #C69A27;
+  /* Brand */
+  --color-primary: #132c42;
+  --color-secondary: #3da5ac;
+  --color-accent: #e6d431;
 
-    --font-sans: "SkolaSans", sans-serif;
+  /* Neutrals */
+  --color-light: #ffffff;
+  --color-dark: #132c42;
 
-   
+  /* Legacy alias (do not use in new code) */
+  --color-line: var(--color-accent);
+
+  /* Typography: Fira Sans is loaded from Google Fonts in BaseHead.astro */
+  --font-sans: "Fira Sans", "Segoe UI", system-ui, sans-serif;
 }
- .swiper-pagination-bullet {
+
+/*
+ * Reusable accent gradient utilities.
+ *
+ * Both utilities draw their gradient stops from `--color-accent` only: the
+ * darker stops are derived with `color-mix()` so we don't need dedicated
+ * gradient tokens. Use these instead of any `from-golden*` / `to-golden*`
+ * combination.
+ *
+ *   bg-accent-grad-t : vertical, luminous yellow at the bottom fading to a
+ *                      warm deeper accent at the top.
+ *   bg-accent-grad-r : horizontal, luminous yellow on the left fading to a
+ *                      warm deeper accent on the right.
+ *
+ * Both gradient keep `--color-accent` as the single reference token: lighter
+ * stops are obtained by mixing toward white (luminosity + warmth, never
+ * olive/brown), deeper stops use only a small black fraction so the yellow
+ * stays vibrant. They behave like normal Tailwind utilities, so responsive
+ * prefixes (`md:bg-accent-grad-t`, ...) work out of the box. Where a solid
+ * fallback is
+ */
+@utility bg-accent-grad-t {
+  background-image: linear-gradient(to top, #f0bc1f, #f0df1f);
+}
+
+@utility bg-accent-grad-r {
+  background-image: linear-gradient(to right, #f0bc1f,   #f0df1f);
+}
+
+.swiper-pagination-bullet {
   background-color: #d1d5db !important;
   opacity: 1 !important;
   width: 12px;
@@ -24,53 +68,5 @@
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #E6D431 !important; 
-}
-
-@font-face {
-  font-family: "SkolaSans";
-  src: url("/fonts/SkolaSans-Black.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SkolaSans";
-  src: url("/fonts/SkolaSans-BlackItalic.woff2") format("woff2");
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SkolaSans";
-  src: url("/fonts/SkolaSans-BoldItalic.woff2") format("woff2");
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SkolaSans";
-  src: url("/fonts/SkolaSans-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SkolaSans";
-  src: url("/fonts/SkolaSans-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SkolaSans";
-  src: url("/fonts/SkolaSans-RegularItalic.woff2") format("woff2");
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
+  background-color: var(--color-accent) !important;
 }

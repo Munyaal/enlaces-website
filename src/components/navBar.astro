@@ -94,14 +94,14 @@ const currentPath = Astro.url.pathname;
                ) : (
                   <a
                      href={link.href}
-                     class={`relative text-light px-3 py-2 block ${link.style === "gradient" ? "bg-[#AA681F] md:bg-linear-to-t from-golden1 to-golden3 rounded-lg text-dark" : ""}`}
+                     class={`relative text-light px-3 py-2 block ${link.style === "gradient" ? "bg-accent md:bg-accent-grad-t rounded-lg text-dark" : ""}`}
                   >
                      {link.text}
                   </a>
                )}
 
                {!link.dropdown && currentPath === link.href ? (
-                  <div class="border-b-2 border-transparent md:border-[#C69A27] mx-2" />
+                  <div class="border-b-2 border-transparent md:border-accent mx-2" />
                ) : (
                   <div class="border-b-2 border-transparent" />
                )}

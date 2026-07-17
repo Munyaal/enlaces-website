@@ -18,26 +18,26 @@ const zonePlans: Record<
 > = {
    "playa-del-carmen": {
       antena: [1, 2, 3, 4],
-      firstTitle: "Internet de alta velocidad",
-      subtitle: "A UN PRECIO ESPECIAL",
-      colorTitle: "[#00DEE9]",
-      colorShape: "from-golden1 to-golden3",
-   },
-   tulum: {
-      antena: [5, 6, 7, 8],
-      firstTitle: "Internet de alta velocidad",
-      subtitle: "A UN PRECIO ESPECIAL",
-      colorTitle: "primary",
-      colorShape: "from-golden1 to-golden3",
-   },
-   "puerto-morelos": {
-      antena: [18, 19, 20, 21],
-      fibra: [9, 10, 11, 12],
-      firstTitle: "Internet rapido por antena",
-      subtitle: "A UN PRECIO ESPECIAL",
-      colorTitle: "primary",
-      colorShape: "from-[#27DAE5] to-[#45D1CC]",
-   },
+firstTitle: "Internet de alta velocidad",
+       subtitle: "A UN PRECIO ESPECIAL",
+       colorTitle: "[#00DEE9]",
+       colorShape: "bg-accent-grad-t",
+    },
+    tulum: {
+       antena: [5, 6, 7, 8],
+       firstTitle: "Internet de alta velocidad",
+       subtitle: "A UN PRECIO ESPECIAL",
+       colorTitle: "primary",
+       colorShape: "bg-accent-grad-t",
+    },
+    "puerto-morelos": {
+       antena: [18, 19, 20, 21],
+       fibra: [9, 10, 11, 12],
+       firstTitle: "Internet rapido por antena",
+       subtitle: "A UN PRECIO ESPECIAL",
+       colorTitle: "primary",
+       colorShape: "bg-linear-to-t from-[#27DAE5] to-[#45D1CC]",
+    },
 };
 
 const cardInfo = {
@@ -168,7 +168,7 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
          <div>
             <a
                href=""
-               class={`text-light text-2xl lg:text-4xl rounded-full bg-linear-to-t ${data.colorShape} font-bold px-4 py-2`}
+               class={`text-light text-2xl lg:text-4xl rounded-full ${data.colorShape} font-bold px-4 py-2`}
                >¡Contrata ya!</a
             >
          </div>
@@ -209,7 +209,7 @@ const fiberPlans = zona === "puerto-morelos" ? getPlansByType("fibra") : null;
                <div>
                   <a
                      href=""
-                     class={`text-light text-2xl lg:text-4xl rounded-full bg-[#AA681F] md:bg-linear-to-t from-golden1 to-golden3 font-bold px-4 py-2`}
+                     class={`text-light text-2xl lg:text-4xl rounded-full bg-accent md:bg-accent-grad-t font-bold px-4 py-2`}
                   >
                      ¡Contrata ya!
                   </a>
