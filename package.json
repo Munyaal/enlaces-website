@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "gsap": "^3.15.0",
     "swiper": "^14.0.5"
   },
   "devDependencies": {
