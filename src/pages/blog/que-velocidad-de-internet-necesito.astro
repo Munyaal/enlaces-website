@@ -1,0 +1,117 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/Container.astro";
+
+const title =
+  "¿Qué Velocidad de Internet Necesito? | Guía para tu Hogar | Enlaces Playa";
+const description =
+  "Descubre qué velocidad de Internet necesitas para tu hogar según tus actividades y dispositivos. Conoce los Mbps ideales y encuentra tu plan en Enlaces Playa.";
+const keywords =
+  "velocidad de Internet, cuántos Mbps necesito, Mbps para hogar, velocidad para streaming, velocidad para gaming, velocidad para trabajo remoto, plan de Internet ideal, velocidad recomendada";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "inLanguage": "es-MX",
+  "author": {
+    "@type": "Organization",
+    "name": "Enlaces Playa",
+    "url": "https://enlacesplaya.com.mx/",
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Enlaces Playa",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://enlacesplaya.com.mx/images/logo-enlacesplaya.webp",
+    },
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://enlacesplaya.com.mx/blog/que-velocidad-de-internet-necesito",
+  },
+  "datePublished": "2026-08-28",
+  "dateModified": "2026-08-28",
+};
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
+  <Container>
+    <article class="max-w-3xl">
+      <header>
+        <p class="text-sm uppercase tracking-widest text-accent">Guía</p>
+        <h1 class="mt-2 text-3xl font-bold text-light md:text-5xl">
+          ¿Qué velocidad de Internet necesito?
+        </h1>
+        <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+      </header>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          La velocidad según tu uso
+        </h2>
+        <ul class="mt-4 space-y-3 text-light/85">
+          <li>
+            <strong class="text-light">Navegación y redes sociales:</strong>
+            entre 20 y 50 Mbps suelen ser suficientes.
+          </li>
+          <li>
+            <strong class="text-light">Streaming en HD:</strong> a partir de
+            50 Mbps para una buena experiencia.
+          </li>
+          <li>
+            <strong class="text-light">Streaming en 4K:</strong> considera
+            100 Mbps o más, especialmente con varios dispositivos.
+          </li>
+          <li>
+            <strong class="text-light">Trabajo remoto y videollamadas:</strong>
+            entre 50 y 100 Mbps para mantener llamadas estables.
+          </li>
+          <li>
+            <strong class="text-light">Gaming en línea:</strong> la latencia
+            es tan importante como la velocidad; una conexión estable con al
+            menos 50 Mbps es un buen punto de partida.
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Considera los dispositivos conectados
+        </h2>
+        <p class="mt-3 text-light/85">
+          La velocidad se reparte entre los dispositivos conectados a la red.
+          A mayor número de dispositivos, conviene un plan con más Mbps.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Cómo elegir tu plan
+        </h2>
+        <ol class="mt-4 list-decimal space-y-2 pl-6 text-light/85">
+          <li>Identifica las actividades principales en tu hogar.</li>
+          <li>Cuenta los dispositivos que se conectan a la red.</li>
+          <li>Consulta la cobertura disponible en tu domicilio.</li>
+          <li>Selecciona el plan que cubra tu uso actual con margen a futuro.</li>
+        </ol>
+      </section>
+
+      <footer class="mt-12">
+        <a
+          href="/internet-hogar"
+          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+        >
+          Ver planes para Hogar
+        </a>
+      </footer>
+    </article>
+  </Container>
+</Layout>

@@ -1,0 +1,123 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/Container.astro";
+
+const title =
+  "Fibra Óptica vs. Internet Inalámbrico | ¿Cuál es Mejor? | Enlaces Playa";
+const description =
+  "Conoce las diferencias entre fibra óptica e Internet inalámbrico, sus ventajas y cuál puede ser la mejor opción para tu hogar según tus necesidades y cobertura.";
+const keywords =
+  "fibra óptica, Internet inalámbrico, diferencias entre fibra óptica e Internet inalámbrico, ventajas de fibra óptica, ventajas de Internet inalámbrico, mejor Internet para hogar, comparación Internet, Internet para Hogar";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "inLanguage": "es-MX",
+  "author": {
+    "@type": "Organization",
+    "name": "Enlaces Playa",
+    "url": "https://enlacesplaya.com.mx/",
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Enlaces Playa",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://enlacesplaya.com.mx/images/logo-enlacesplaya.webp",
+    },
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://enlacesplaya.com.mx/blog/fibra-optica-vs-internet-inalambrico",
+  },
+  "datePublished": "2026-08-28",
+  "dateModified": "2026-08-28",
+};
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
+  <Container>
+    <article class="max-w-3xl">
+      <header>
+        <p class="text-sm uppercase tracking-widest text-accent">Guía</p>
+        <h1 class="mt-2 text-3xl font-bold text-light md:text-5xl">
+          Fibra óptica vs. Internet inalámbrico: ¿cuál es mejor?
+        </h1>
+        <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+      </header>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          ¿Qué es la fibra óptica?
+        </h2>
+        <p class="mt-3 text-light/85">
+          Es una conexión que llega hasta el interior del domicilio mediante
+          un cable de fibra. Ofrece mayor estabilidad, velocidades simétricas
+          y baja latencia.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          ¿Qué es el Internet inalámbrico?
+        </h2>
+        <p class="mt-3 text-light/85">
+          Es una conexión que llega al domicilio a través de una antena
+          receptora. Es útil en zonas donde la fibra aún no está disponible y
+          permite una instalación rápida sin cableado interior.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Comparación rápida
+        </h2>
+        <ul class="mt-4 space-y-3 text-light/85">
+          <li>
+            <strong class="text-light">Estabilidad:</strong> la fibra suele
+            ofrecer una señal más estable frente a condiciones climáticas.
+          </li>
+          <li>
+            <strong class="text-light">Velocidad:</strong> la fibra permite
+            velocidades simétricas (misma subida y bajada).
+          </li>
+          <li>
+            <strong class="text-light">Instalación:</strong> el inalámbrico
+            suele ser más rápido de instalar en zonas sin fibra.
+          </li>
+          <li>
+            <strong class="text-light">Cobertura:</strong> la disponibilidad
+            depende de la zona; consulta la cobertura en tu domicilio.
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          ¿Cuál elegir para tu hogar?
+        </h2>
+        <p class="mt-3 text-light/85">
+          Si hay cobertura de fibra en tu domicilio, suele ser la mejor opción
+          para streaming, videollamadas y gaming. Si no hay fibra disponible,
+          el Internet inalámbrico es una alternativa confiable.
+        </p>
+      </section>
+
+      <footer class="mt-12">
+        <a
+          href="/cobertura"
+          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+        >
+          Consultar cobertura
+        </a>
+      </footer>
+    </article>
+  </Container>
+</Layout>

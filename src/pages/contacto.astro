@@ -1,0 +1,67 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Contacto Enlaces Playa | Internet para Hogar y Empresas";
+const description =
+  "Contacta a Enlaces Playa para conocer nuestros servicios de Internet, consultar cobertura o recibir atención para tu hogar o negocio.";
+const keywords =
+  "contacto Enlaces Playa, contactar proveedor de Internet, atención a clientes Internet";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">
+        Contacto Enlaces Playa
+      </h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+    </header>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Canales de atención
+      </h2>
+      <ul class="mt-4 space-y-3 text-light/85">
+        <li>
+          <strong class="text-light">Correo:</strong>
+          <a
+            href="mailto:hola@enlacesplaya.com.mx"
+            class="ml-2 underline hover:text-accent"
+            >hola@enlacesplaya.com.mx</a
+          >
+        </li>
+        <li>
+          <strong class="text-light">Teléfono:</strong>
+          <a href="tel:+529841440714" class="ml-2 underline hover:text-accent"
+            >+52 (984) 144 0714</a
+          >
+        </li>
+        <li>
+          <strong class="text-light">Oficinas:</strong>
+          <a
+            href="https://maps.app.goo.gl/g1xk8DjxTot7QoTr5"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="ml-2 underline hover:text-accent">Playa del Carmen, Quintana Roo</a
+          >
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Portal de Cliente
+      </h2>
+      <p class="mt-3 text-light/85">
+        Consulta y gestiona tu servicio desde el Portal de Cliente.
+      </p>
+      <a
+        href="/iniciar-sesion"
+        class="mt-4 inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+      >
+        Iniciar sesión
+      </a>
+    </section>
+  </Container>
+</Layout>

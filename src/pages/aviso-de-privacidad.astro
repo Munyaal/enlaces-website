@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Aviso de Privacidad | Enlaces Playa";
+const description =
+  "Consulta el Aviso de Privacidad de Enlaces Playa y conoce cómo se recopilan, utilizan y protegen tus datos personales.";
+const keywords = "aviso de privacidad Enlaces Playa";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <article class="max-w-3xl">
+      <header>
+        <h1 class="text-3xl font-bold text-light md:text-5xl">
+          Aviso de Privacidad
+        </h1>
+        <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+      </header>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Responsable de los datos personales
+        </h2>
+        <p>
+          Enlaces Playa es responsable del tratamiento de los datos personales
+          que se recopilan a través de sus canales de atención y Portal de
+          Cliente.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Datos que recopilamos
+        </h2>
+        <ul class="list-disc space-y-2 pl-6">
+          <li>Datos de identificación y contacto.</li>
+          <li>Datos del domicilio de instalación.</li>
+          <li>Información de pago y facturación.</li>
+          <li>Datos de uso del servicio y soporte técnico.</li>
+        </ul>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Finalidades
+        </h2>
+        <p>
+          Los datos se utilizan para prestar y gestionar el servicio de
+          Internet, facturación, atención al cliente, soporte técnico y
+          cumplimiento de obligaciones legales.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Derechos ARCO
+        </h2>
+        <p>
+          El titular puede ejercer sus derechos de Acceso, Rectificación,
+          Cancelación y Oposición escribiendo a los canales de atención de
+          Enlaces Playa.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Transferencias
+        </h2>
+        <p>
+          Los datos personales no se comparten con terceros sin consentimiento
+          del titular, salvo cuando la ley lo requiera.
+        </p>
+      </section>
+    </article>
+  </Container>
+</Layout>

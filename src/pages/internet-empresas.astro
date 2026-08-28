@@ -1,0 +1,111 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title =
+  "Internet para Empresas | Soluciones de Conectividad | Enlaces Playa";
+const description =
+  "Soluciones de Internet para Empresas en Cancún, Playa del Carmen y Tulum. Conectividad, soporte técnico y servicios adaptados a las necesidades de tu negocio.";
+const keywords =
+  "Internet para Empresas, Internet empresarial, Internet para negocios, Internet empresarial en Cancún, Internet empresarial en Playa del Carmen, Internet empresarial en Tulum";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Internet para Empresas",
+  "name": title,
+  "description": description,
+  "provider": {
+    "@type": "Organization",
+    "name": "Enlaces Playa",
+    "url": "https://enlacesplaya.com.mx/",
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Cancún" },
+    { "@type": "City", "name": "Playa del Carmen" },
+    { "@type": "City", "name": "Tulum" },
+  ],
+  "url": "https://enlacesplaya.com.mx/internet-empresas",
+};
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">
+        Internet para Empresas
+      </h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">
+        {description}
+      </p>
+    </header>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Conectividad para tu negocio
+      </h2>
+      <p class="mt-3 text-light/85">
+        Diseñamos soluciones de Internet adaptadas a la operación de cada
+        empresa, con opciones dedicadas y soporte técnico profesional.
+      </p>
+      <ul class="mt-6 space-y-4 text-light/85">
+        <li>
+          <h3 class="text-lg font-semibold text-light">
+            Enlaces dedicados y simétricos
+          </h3>
+          <p>
+            Conexiones con ancho de banda garantizado y la misma velocidad de
+            subida y bajada, ideales para operaciones críticas.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-lg font-semibold text-light">Fibra óptica</h3>
+          <p>
+            Conexión estable y de baja latencia para puntos de venta, oficinas
+            y operaciones en la nube.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-lg font-semibold text-light">
+            Internet inalámbrico empresarial
+          </h3>
+          <p>
+            Opción de antena para empresas en zonas donde la fibra aún no
+            tiene cobertura.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Soporte técnico local
+      </h2>
+      <p class="mt-3 text-light/85">
+        Atendemos directamente en la Riviera Maya con tiempos de respuesta
+        cortos y personal técnico propio.
+      </p>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Solicita una cotización
+      </h2>
+      <p class="mt-3 text-light/85">
+        Cuéntanos las necesidades de tu negocio y te enviaremos una propuesta
+        a la medida.
+      </p>
+      <a
+        href="/contacto"
+        class="mt-4 inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+      >
+        Contactar a un asesor
+      </a>
+    </section>
+  </Container>
+</Layout>

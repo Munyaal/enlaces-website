@@ -1,0 +1,99 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title =
+  "Preguntas Frecuentes de Internet | Hogar y Empresas | Enlaces Playa";
+const description =
+  "Resuelve tus dudas sobre Internet para Hogar y Empresas: cobertura, planes, instalación, fibra óptica, Internet inalámbrico, pagos y soporte.";
+const keywords =
+  "preguntas frecuentes Internet, dudas sobre Internet, preguntas sobre Internet para Hogar, preguntas sobre fibra óptica, preguntas sobre Internet inalámbrico, cómo contratar Internet, cobertura de Internet, instalación de Internet, planes de Internet, soporte de Internet";
+
+// Schema pendiente: no se agregó JSON-LD.
+
+const preguntas = [
+  {
+    categoria: "Cobertura",
+    items: [
+      {
+        q: "¿Cómo consulto la cobertura en mi domicilio?",
+        a: "Ingresa a la sección de Cobertura y selecciona tu zona. Si no encuentras tu domicilio, puedes escribirnos para verificar disponibilidad.",
+      },
+      {
+        q: "¿Cuánto tarda en ampliarse la cobertura a nuevas zonas?",
+        a: "Trabajamos de forma continua para ampliar la red. Los tiempos dependen de la zona y de la infraestructura disponible.",
+      },
+    ],
+  },
+  {
+    categoria: "Planes e instalación",
+    items: [
+      {
+        q: "¿Qué planes de Internet para Hogar ofrecen?",
+        a: "Contamos con planes de fibra óptica e Internet inalámbrico, según la cobertura disponible en tu domicilio.",
+      },
+      {
+        q: "¿Cuánto tarda la instalación?",
+        a: "Una vez confirmado el plan, coordinamos una visita técnica. El tiempo de instalación depende de la modalidad y de la agenda local.",
+      },
+    ],
+  },
+  {
+    categoria: "Pagos y soporte",
+    items: [
+      {
+        q: "¿Cuáles son los métodos de pago aceptados?",
+        a: "Aceptamos diversos métodos de pago. Consulta las opciones disponibles en el Portal de Cliente.",
+      },
+      {
+        q: "¿Cómo reporto una falla o problema con mi servicio?",
+        a: "Puedes reportarlo desde el Portal de Cliente o contactar a soporte técnico por los canales de atención.",
+      },
+    ],
+  },
+];
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">
+        Preguntas Frecuentes
+      </h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+    </header>
+
+    {
+      preguntas.map((bloque) => (
+        <section class="mt-12 max-w-3xl">
+          <h2 class="text-2xl font-bold text-accent md:text-3xl">
+            {bloque.categoria}
+          </h2>
+          <dl class="mt-6 space-y-6">
+            {bloque.items.map((item) => (
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <dt class="text-lg font-semibold text-light">{item.q}</dt>
+                <dd class="mt-2 text-light/85">{item.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))
+    }
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        ¿No encontraste tu respuesta?
+      </h2>
+      <p class="mt-3 text-light/85">
+        Estamos disponibles para ayudarte con cualquier duda adicional.
+      </p>
+      <a
+        href="/contacto"
+        class="mt-4 inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+      >
+        Contactar
+      </a>
+    </section>
+  </Container>
+</Layout>

@@ -1,0 +1,62 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Política de Cookies | Enlaces Playa";
+const description =
+  "Conoce cómo Enlaces Playa utiliza cookies y tecnologías similares en su sitio web.";
+const keywords = "política de cookies Enlaces Playa";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <article class="max-w-3xl">
+      <header>
+        <h1 class="text-3xl font-bold text-light md:text-5xl">
+          Política de Cookies
+        </h1>
+        <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+      </header>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">¿Qué son las cookies?</h2>
+        <p>
+          Las cookies son pequeños archivos que el sitio web almacena en el
+          navegador del usuario para recordar sus preferencias o analizar su
+          navegación.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Tipos de cookies utilizadas
+        </h2>
+        <ul class="list-disc space-y-2 pl-6">
+          <li>
+            <strong class="text-light">Técnicas:</strong> necesarias para el
+            funcionamiento del sitio.
+          </li>
+          <li>
+            <strong class="text-light">Analíticas:</strong> permiten medir y
+            analizar la navegación para mejorar el sitio.
+          </li>
+          <li>
+            <strong class="text-light">De terceros:</strong> pueden ser
+            instaladas por servicios integrados como Google Tag Manager.
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Gestión de cookies
+        </h2>
+        <p>
+          El usuario puede configurar su navegador para bloquear o eliminar
+          las cookies. Algunas funcionalidades del sitio pueden verse
+          afectadas si se deshabilitan.
+        </p>
+      </section>
+    </article>
+  </Container>
+</Layout>

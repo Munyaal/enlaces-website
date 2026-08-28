@@ -1,0 +1,84 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Ayuda de Internet | Enlaces Playa";
+const description =
+  "Encuentra ayuda sobre tu servicio de Internet: soporte técnico, pagos, facturación, soluciones para tu conexión.";
+const keywords =
+  "ayuda de Internet, soporte de Internet, problemas de Internet, soporte técnico de Internet";
+
+const categorias = [
+  {
+    titulo: "Soporte técnico",
+    descripcion:
+      "Problemas con tu conexión, lentitud, cortes o configuración de equipos.",
+  },
+  {
+    titulo: "Pagos y facturación",
+    descripcion:
+      "Consulta de saldo, métodos de pago, comprobantes y fechas de cargo.",
+  },
+  {
+    titulo: "Instalación y equipos",
+    descripcion:
+      "Agendar instalación, cambio de módem o antena, traslado del servicio.",
+  },
+  {
+    titulo: "Mi cuenta",
+    descripcion:
+      "Acceso al Portal de Cliente, actualización de datos y contraseñas.",
+  },
+];
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">Ayuda de Internet</h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">
+        {description}
+      </p>
+    </header>
+
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Categorías de ayuda
+      </h2>
+      <ul class="mt-6 grid gap-6 sm:grid-cols-2">
+        {
+          categorias.map((cat) => (
+            <li class="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h3 class="text-xl font-semibold text-light">{cat.titulo}</h3>
+              <p class="mt-2 text-sm text-light/80">{cat.descripcion}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        ¿Necesitas más ayuda?
+      </h2>
+      <p class="mt-3 text-light/85">
+        Consulta las preguntas frecuentes o contacta directamente a nuestro
+        equipo de soporte.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="/preguntas-frecuentes"
+          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+        >
+          Preguntas frecuentes
+        </a>
+        <a
+          href="/contacto"
+          class="inline-flex items-center justify-center rounded-full border border-light/40 px-6 py-3 text-base font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10"
+        >
+          Contactar a soporte
+        </a>
+      </div>
+    </section>
+  </Container>
+</Layout>

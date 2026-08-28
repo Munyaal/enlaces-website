@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Enlaces Playa | Internet en la Riviera Maya | Conócenos";
+const description =
+  "Conoce Enlaces Playa, proveedor de Internet en la Riviera Maya con soporte técnico local y soluciones de conectividad para hogares y empresas.";
+const keywords =
+  "Enlaces Playa, proveedor de Internet en la Riviera Maya, empresa de Internet en Playa del Carmen, Internet Riviera Maya";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">Enlaces Playa</h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">
+        {description}
+      </p>
+    </header>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">Nuestra misión</h2>
+      <p class="mt-3 text-light/85">
+        Llevar Internet rápido y estable a hogares y empresas en la Riviera
+        Maya, con atención cercana y soporte técnico local.
+      </p>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Dónde operamos
+      </h2>
+      <p class="mt-3 text-light/85">
+        Tenemos presencia en Cancún, Playa del Carmen, Tulum y zonas
+        aledañas de la Riviera Maya.
+      </p>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        Lo que nos diferencia
+      </h2>
+      <ul class="mt-4 space-y-2 text-light/85">
+        <li>Soporte técnico local en la región.</li>
+        <li>Opciones de fibra óptica e Internet inalámbrico.</li>
+        <li>Planes para hogar y empresas.</li>
+      </ul>
+    </section>
+  </Container>
+</Layout>

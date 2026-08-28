@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Términos y Condiciones | Enlaces Playa";
+const description =
+  "Consulta los términos y condiciones aplicables a los servicios de Internet de Enlaces Playa.";
+const keywords = "términos y condiciones Enlaces Playa";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <article class="max-w-3xl">
+      <header>
+        <h1 class="text-3xl font-bold text-light md:text-5xl">
+          Términos y Condiciones
+        </h1>
+        <p class="mt-4 text-lg text-light/90 md:text-xl">{description}</p>
+      </header>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Aceptación de los términos
+        </h2>
+        <p>
+          Al contratar y utilizar los servicios de Enlaces Playa, el cliente
+          acepta los presentes términos y condiciones, los cuales regulan la
+          prestación del servicio de Internet.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Objeto
+        </h2>
+        <p>
+          Enlaces Playa presta servicios de conectividad a Internet para
+          hogares y empresas en las zonas con cobertura disponible.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Obligaciones del cliente
+        </h2>
+        <ul class="list-disc space-y-2 pl-6">
+          <li>Proporcionar información veraz al contratar el servicio.</li>
+          <li>Realizar los pagos en las fechas acordadas.</li>
+          <li>
+            Hacer uso adecuado del servicio conforme a la legislación
+            aplicable.
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Suspensión y cancelación
+        </h2>
+        <p>
+          El servicio podrá suspenderse o cancelarse en caso de incumplimiento
+          de las obligaciones del cliente o por causas técnicas y operativas.
+        </p>
+      </section>
+
+      <section class="mt-10 space-y-3 text-light/85">
+        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+          Modificaciones
+        </h2>
+        <p>
+          Enlaces Playa podrá modificar los presentes términos, informando al
+          cliente con anticipación razonable.
+        </p>
+      </section>
+    </article>
+  </Container>
+</Layout>

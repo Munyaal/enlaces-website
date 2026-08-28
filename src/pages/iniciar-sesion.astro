@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title = "Iniciar Sesión | Portal de Cliente | Enlaces Playa";
+const description =
+  "Inicia sesión en tu Portal de Cliente Enlaces Playa para consultar y gestionar tu servicio de Internet.";
+const keywords = "iniciar sesión Enlaces Playa, portal de cliente Enlaces Playa";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">
+        Iniciar Sesión
+      </h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">
+        Accede al Portal de Cliente para consultar tu saldo, pagos, consumo y
+        estado de tu servicio.
+      </p>
+    </header>
+
+    <section class="mt-12 max-w-md">
+      <h2 class="sr-only">Formulario de inicio de sesión</h2>
+      <form
+        action="#"
+        method="post"
+        class="space-y-5 rounded-2xl border border-white/10 bg-white/5 p-6"
+        aria-label="Inicio de sesión"
+      >
+        <div>
+          <label for="usuario" class="block text-sm font-medium text-light">
+            Usuario o correo
+          </label>
+          <input
+            id="usuario"
+            name="usuario"
+            type="email"
+            autocomplete="username"
+            required
+            class="mt-2 block w-full rounded-lg border border-white/10 bg-primary px-3 py-2 text-light placeholder-light/50 focus:border-accent focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-light">
+            Contraseña
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            class="mt-2 block w-full rounded-lg border border-white/10 bg-primary px-3 py-2 text-light placeholder-light/50 focus:border-accent focus:outline-none"
+          />
+        </div>
+        <button
+          type="submit"
+          class="inline-flex w-full items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03]"
+        >
+          Entrar
+        </button>
+      </form>
+      <p class="mt-4 text-sm text-light/70">
+        ¿Necesitas ayuda? Visita
+        <a href="/ayuda" class="underline hover:text-accent">Ayuda</a>.
+      </p>
+    </section>
+  </Container>
+</Layout>

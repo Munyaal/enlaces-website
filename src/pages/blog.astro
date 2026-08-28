@@ -1,0 +1,82 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+
+const title =
+  "Blog de Internet | Fibra Óptica, Conectividad y Consejos | Enlaces Playa";
+const description =
+  "Consejos y guías sobre Internet, fibra óptica, Internet inalámbrico, velocidad y conectividad para tu hogar o negocio.";
+const keywords =
+  "blog de Internet, consejos de Internet, fibra óptica, Internet inalámbrico, velocidad de Internet, Internet para Hogar";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": title,
+  "description": description,
+  "url": "https://enlacesplaya.com.mx/blog",
+  "inLanguage": "es-MX",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Enlaces Playa",
+    "url": "https://enlacesplaya.com.mx/",
+  },
+};
+
+const articulos = [
+  {
+    titulo: "Fibra óptica vs. Internet inalámbrico: ¿cuál es mejor?",
+    resumen:
+      "Conoce las diferencias entre fibra óptica e Internet inalámbrico, sus ventajas y cuál puede ser la mejor opción para tu hogar.",
+    href: "/blog/fibra-optica-vs-internet-inalambrico",
+  },
+  {
+    titulo: "¿Qué velocidad de Internet necesito?",
+    resumen:
+      "Descubre qué velocidad de Internet necesitas para tu hogar según tus actividades y dispositivos.",
+    href: "/blog/que-velocidad-de-internet-necesito",
+  },
+];
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
+  <Container>
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-bold text-light md:text-5xl">
+        Blog de Internet
+      </h1>
+      <p class="mt-4 text-lg text-light/90 md:text-xl">
+        {description}
+      </p>
+    </header>
+
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-accent md:text-3xl">Artículos</h2>
+      <ul class="mt-6 grid gap-6 sm:grid-cols-2">
+        {
+          articulos.map((art) => (
+            <li class="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h3 class="text-xl font-semibold text-light">
+                <a href={art.href} class="hover:text-accent">
+                  {art.titulo}
+                </a>
+              </h3>
+              <p class="mt-2 text-sm text-light/80">{art.resumen}</p>
+              <a
+                href={art.href}
+                class="mt-4 inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-4 py-2 text-sm font-bold text-dark shadow-sm transition-transform hover:scale-[1.03]"
+              >
+                Leer artículo
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </Container>
+</Layout>

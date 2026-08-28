@@ -6,14 +6,63 @@ import CallToAction from "../components/home/callToAction.astro";
 import Testimonio from "../components/home/Testimonio.astro";
 import Companies from "../components/home/companies.astro";
 import Payment from "../components/home/payment.astro";
+
+const title =
+  "Internet en la Riviera Maya | Internet Rápido y Estable | Enlaces Playa";
+const description =
+  "Internet rápido y estable para Hogar y Empresas en Cancún, Playa del Carmen y Tulum. Conoce nuestros servicios y consulta la cobertura en tu zona.";
+const keywords =
+  "internet en la Riviera Maya, Internet en Cancún, Internet en Playa del Carmen, Internet en Tulum, Internet para Hogar, Internet para Empresas";
+
+// JSON-LD: Organization + WebSite (datos tomados de los metadatos de la página)
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://enlacesplaya.com.mx/#organization",
+      "name": "Enlaces Playa",
+      "url": "https://enlacesplaya.com.mx/",
+      "logo": "https://enlacesplaya.com.mx/images/logo-enlacesplaya.webp",
+      "description": description,
+      "email": "hola@enlacesplaya.com.mx",
+      "telephone": "+52-984-144-0714",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Playa del Carmen",
+        "addressRegion": "Quintana Roo",
+        "addressCountry": "MX",
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Cancún" },
+        { "@type": "City", "name": "Playa del Carmen" },
+        { "@type": "City", "name": "Tulum" },
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://enlacesplaya.com.mx/#website",
+      "url": "https://enlacesplaya.com.mx/",
+      "name": "Enlaces Playa",
+      "description": description,
+      "inLanguage": "es-MX",
+      "publisher": { "@id": "https://enlacesplaya.com.mx/#organization" },
+    },
+  ],
+};
 ---
 
-<Layout title="Inicio">
+<Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
   <div class="relative overflow-hidden">
     <Hero />
     <Ourcobertory />
     <CallToAction />
-    <Payment/>
+    <Payment />
     <Testimonio />
     <Companies />
   </div>
