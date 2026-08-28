@@ -1,0 +1,30 @@
+---
+/**
+ * GoogleTagManager.astro
+ *
+ * Script de inicialización de Google Tag Manager (GTM) que se inserta dentro
+ * de <head>. Usa el patrón recomendado por la documentación oficial de GTM:
+ * un push a `dataLayer` con `gtm.start`, seguido de la carga asíncrona de
+ * `gtm.js`.
+ *
+ * El ID del contenedor está fijo (GTM-NBVFFCM8) por decisión de proyecto.
+ * Se usa `is:inline` para que Astro NO procese el script (sin bundling,
+ * sin minificación, sin extracción a archivo externo), tal como requiere
+ * la guía oficial de GTM para evitar diferencias en el orden de ejecución.
+ */
+---
+
+<!-- Google Tag Manager -->
+<script is:inline>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-NBVFFCM8");
+</script>
+<!-- End Google Tag Manager -->

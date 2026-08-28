@@ -12,16 +12,22 @@
  * Props:
  *   - title:       obligatorio, título de la pestaña.
  *   - description: opcional, sobrescribe la descripción default del sitio.
+ *   - keywords:    opcional, sobrescribe las keywords default del sitio.
  */
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
 }
 
 const DEFAULT_DESCRIPTION =
   "Enlaces Playa ofrece servicios de internet por fibra óptica y antena satelital en Playa del Carmen, Tulum, Puerto Morelos y Bacalar. Conéctate con velocidad y estabilidad desde cualquier punto de Quintana Roo.";
 
-const { title, description = DEFAULT_DESCRIPTION } = Astro.props;
+const DEFAULT_KEYWORDS =
+  "Internet Playa del Carmen, fibra óptica Tulum, internet satelital Bacalar, Puerto Morelos internet, Enlaces Playa, internet rápido Quintana Roo, conexión estable, servicios de internet Riviera Maya";
+
+const { title, description = DEFAULT_DESCRIPTION, keywords = DEFAULT_KEYWORDS } =
+  Astro.props;
 ---
 
 <meta charset="UTF-8" />
@@ -40,10 +46,7 @@ const { title, description = DEFAULT_DESCRIPTION } = Astro.props;
 
 <meta name="description" content={description} />
 
-<meta
-  name="keywords"
-  content="Internet Playa del Carmen, fibra óptica Tulum, internet satelital Bacalar, Puerto Morelos internet, Enlaces Playa, internet rápido Quintana Roo, conexión estable, servicios de internet Riviera Maya"
-/>
+<meta name="keywords" content={keywords} />
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://enlacesplaya.com" />

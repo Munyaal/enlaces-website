@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar.astro";
 import BaseHead from "../components/BaseHead.astro";
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
+import GoogleTagManager from "../components/GoogleTagManager.astro";
+import GoogleTagManagerNoScript from "../components/GoogleTagManagerNoScript.astro";
 
 /**
  * Layout.astro
@@ -13,24 +15,32 @@ import Footer from "../components/Footer.astro";
  * Los metadatos de <head> se delegan a BaseHead.astro para mantener este
  * componente enfocado en su única responsabilidad: el shell del documento.
  *
+ * La instrumentación de Google Tag Manager se divide en dos componentes:
+ *   - GoogleTagManager.astro        → script dentro de <head>.
+ *   - GoogleTagManagerNoScript.astro → <noscript> justo después de <body>.
+ *
  * Props:
  *   - title:       obligatorio, título de la pestaña.
  *   - description: opcional, sobrescribe la descripción SEO por página.
+ *   - keywords:    opcional, sobrescribe las keywords SEO por página.
  */
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, keywords } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={title} description={description} />
+    <GoogleTagManager />
+    <BaseHead title={title} description={description} keywords={keywords} />
   </head>
   <body class="bg-primary text-light font-sans">
+    <GoogleTagManagerNoScript />
     <Navbar />
     <main>
       <slot />

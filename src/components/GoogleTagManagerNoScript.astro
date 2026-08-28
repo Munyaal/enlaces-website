@@ -1,0 +1,23 @@
+---
+/**
+ * GoogleTagManagerNoScript.astro
+ *
+ * Bloque <noscript> complementario al script de <head> (GoogleTagManager.astro).
+ * Se coloca inmediatamente después de la apertura de <body> en Layout.astro
+ * para garantizar que GTM pueda rastrear a los usuarios con JavaScript
+ * deshabilitado.
+ *
+ * El ID del contenedor está fijo (GTM-NBVFFCM8) por decisión de proyecto.
+ */
+---
+
+<!-- Google Tag Manager -->
+<noscript>
+  <iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-NBVFFCM8"
+    height="0"
+    width="0"
+    style="display:none;visibility:hidden"
+  ></iframe>
+</noscript>
+<!-- End Google Tag Manager -->
