@@ -1,32 +1,42 @@
 ---
-import { testimonios } from  "../../utils/testimonio.ts";
+import { testimonios } from "../../utils/testimonio.ts";
 import TestimonioCard from "../testimonioCard.astro";
 ---
 
-<section class="py-5 px-4 md:px-20">
-<h1 class="text-4xl lg:text-6xl text-line text-center font-bold">¡Lo que dicen de nosotros!</h1>
-  
-  <div class="flex ">
-    <div class="swiper testimonials-swiper w-full max-w-[1250px] h-[400px] relative">
-      <div class="swiper-wrapper">
-        {
-          testimonios.map((testimonio) => (
-            <div class="swiper-slide">
-              <TestimonioCard
-                foto={testimonio.foto}
-                name={testimonio.name}
-                message={testimonio.message}
-                rol={testimonio.rol}
-              />
-            </div>
-          ))
-        }
-      </div>
+<section aria-labelledby="companies-title">
+  <div class="mt-10 text-center px-6">
+    <h1 id="testimonies" class="text-3xl md:text-4xl font-bold">
+      <span class="text-accent">Opiniones</span> sobre nuestro servicio de <span
+        class="text-accent">Internet</span
+      >
+    </h1>
+    <p class="mx-auto mt-4 max-w-2xl text-sm text-light/80 md:text-base">
+      Conoce la experiencia de clientes que ya disfrutan de Internet rápido, estable y con soporte técnico local de Enlaces Playa.
+    </p>
+    <div class="flex">
+      <div
+        class="swiper testimonials-swiper w-full max-w-[1250px] h-[400px] relative"
+      >
+        <div class="swiper-wrapper">
+          {
+            testimonios.map((testimonio) => (
+              <div class="swiper-slide">
+                <TestimonioCard
+                  foto={testimonio.foto}
+                  name={testimonio.name}
+                  message={testimonio.message}
+                  rol={testimonio.rol}
+                />
+              </div>
+            ))
+          }
+        </div>
 
-      <!-- Controles -->
-      <div class="swiper-pagination mt-6 "></div>
-      <div class="swiper-button-prev !text-line"></div>
-      <div class="swiper-button-next !text-line"></div>
+        <!-- Controles -->
+        <div class="swiper-pagination mt-6"></div>
+        <div class="swiper-button-prev !text-line"></div>
+        <div class="swiper-button-next !text-line"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -42,7 +52,7 @@ import TestimonioCard from "../testimonioCard.astro";
     grabCursor: true,
     loop: true,
     centeredSlides: false,
-    spaceBetween: 20, 
+    spaceBetween: 20,
     breakpoints: {
       0: {
         slidesPerView: 1,
@@ -52,7 +62,7 @@ import TestimonioCard from "../testimonioCard.astro";
       },
       1024: {
         slidesPerView: 3,
-      }
+      },
     },
     pagination: {
       el: ".swiper-pagination",

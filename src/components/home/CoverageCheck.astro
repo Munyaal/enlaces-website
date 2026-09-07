@@ -24,20 +24,18 @@ const CTA = {
 >
   <div class="mx-auto w-full max-w-4xl text-center">
     <header class="mx-auto max-w-2xl">
-      <p
-        class="text-xs font-bold uppercase tracking-widest text-accent md:text-sm"
-      >
-        Cobertura
-      </p>
       <h2
         id="coverage-check-title"
         class="mt-3 text-2xl font-bold text-light md:text-4xl"
       >
-        Consulta la cobertura en tu domicilio
+        ¿Buscas <span class="text-accent">Internet</span> con cobertura en la <span
+          class="text-accent">Riviera Maya?</span
+        >
       </h2>
       <p class="mt-4 text-base text-light/85 md:text-lg">
-        Ingresa tu código postal y te diremos si llegamos con fibra óptica o
-        internet inalámbrico a tu zona en la Riviera Maya.
+        Consulta la disponibilidad de nuestro servicio en Playa del Carmen,
+        Puerto Morelos y Tulum y encuentra la opción de conexión ideal para tu
+        hogar o negocio.
       </p>
     </header>
 
@@ -48,12 +46,6 @@ const CTA = {
       aria-label="Consulta de cobertura por código postal"
     >
       <div class="flex-1 text-left">
-        <label
-          for="postal-code"
-          class="block text-sm font-medium text-light"
-        >
-          Código postal
-        </label>
         <input
           id="postal-code"
           name="cp"
@@ -61,7 +53,7 @@ const CTA = {
           inputmode="numeric"
           pattern="[0-9]{4,5}"
           maxlength="5"
-          placeholder="Ej. 77710"
+          placeholder="Ingresa tu código postal"
           required
           class="mt-2 block w-full rounded-lg border border-white/10 bg-primary px-3 py-2 text-light placeholder-light/50 focus:border-accent focus:outline-none"
         />
@@ -75,10 +67,8 @@ const CTA = {
     </form>
 
     <p class="mt-4 text-xs text-light/70 md:text-sm">
-      ¿No conoces tu código postal? Visita nuestra
-      <a href="/cobertura" class="underline hover:text-accent">
-        página de cobertura completa
-      </a>.
+      Consulta la disponibilidad de nuestro servicio en Playa del Carmen, Puerto
+      Morelos y Tulum.
     </p>
   </div>
 </section>

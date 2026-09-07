@@ -16,24 +16,22 @@
 
 const PLANS = [
   {
-    segmento: "Hogar",
-    titulo: "Internet para tu casa",
+    titulo: "Internet para hogar",
     descripcion:
-      "Conexión estable para streaming, videollamadas, clases en línea y entretenimiento en familia. Fibra óptica o internet inalámbrico según tu zona.",
-    precio: "Desde $549 MXN / mes",
+      "Internet rápido y estable para trabajar, estudiar, disfrutar streaming y conectar todos tus dispositivos.",
+    precio: "Desde $499 / mes",
     cta: {
-      label: "Ver planes de Hogar",
+      label: "Ver planes para hogar",
       href: "/internet-hogar",
     },
   },
   {
-    segmento: "Empresas",
     titulo: "Internet para tu negocio",
     descripcion:
-      "Conectividad diseñada para operaciones críticas: enlaces dedicados, fibra óptica y soporte profesional para que tu empresa esté siempre en línea.",
-    precio: "Cotización personalizada",
+      "Soluciones de internet para mantener conectados tus sistemas, operaciones, clientes y equipos.",
+    precio: "Desde $899 / mes",
     cta: {
-      label: "Ver planes de Empresas",
+      label: "Ver planes para empresa",
       href: "/internet-empresas",
     },
   },
@@ -46,32 +44,24 @@ const PLANS = [
 >
   <div class="mx-auto w-full max-w-7xl">
     <header class="mb-10 max-w-3xl text-center md:mx-auto md:mb-14">
-      <p
-        class="text-xs font-bold uppercase tracking-widest text-accent md:text-sm"
-      >
-        Nuestros planes
-      </p>
       <h2
         id="plans-title"
         class="mt-3 text-2xl font-bold text-light md:text-4xl"
       >
-        Internet para hogar y para empresas
+        <span class="text-accent">Internet</span> para Hogar y Empresas en la <span
+          class="text-accent">Riviera Maya</span
+        >
       </h2>
       <p class="mt-4 text-base text-light/85 md:text-lg">
-        Elige el plan que mejor se adapta a tu uso. Te acompañamos desde la
-        consulta de cobertura hasta la instalación.
+        Encuentra la solución de conectividad que necesitas, ya sea para tu
+        hogar, negocio o empresa.
       </p>
     </header>
 
     <div class="grid gap-6 md:grid-cols-2">
       {
         PLANS.map((plan) => (
-          <article
-            class="flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm md:p-8"
-          >
-            <p class="text-xs font-bold uppercase tracking-widest text-accent md:text-sm">
-              {plan.segmento}
-            </p>
+          <article class="flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm md:p-8">
             <h3 class="mt-2 text-xl font-semibold text-light md:text-2xl">
               {plan.titulo}
             </h3>
