@@ -1,14 +1,37 @@
 ---
-
+/**
+ * Companies.astro
+ *
+ * Sección "Empresas que confían" de la página principal. Muestra los
+ * logos de las marcas que forman parte del grupo y los presenta con un
+ * encabezado introductorio para reforzar la confianza del visitante.
+ *
+ * Se conserva la estructura de marcado y las clases existentes para
+ * evitar un rediseño visual; solo se ajustan el título y el copy
+ * introductorio definidos en el SDD aprobado.
+ */
 ---
 
-<section>
-<div class="mt-10">
-    <h1 class="text-3xl md:text-4xl text-center font-bold">Empresas Hermanas</h1>
-</div>
-<div class="lg:flex place-items-center justify-center my-5 mx-12 ">
-    <img src="/images/logo-meguz.webp" alt="Logo Meguz" class="w-40 ">
-    <img src="/images/logo-munyaal.webp" alt="Logo Munyaal " class=" my-10 lg:mx-20 w-40 ">
-    <img src="/images/logo-ilogs.webp" alt="Logo Ilogs"  class="w-30">
-</div>
+<section aria-labelledby="companies-title">
+  <div class="mt-10 text-center px-6">
+    <h1
+      id="companies-title"
+      class="text-3xl md:text-4xl font-bold"
+    >
+      Empresas que confían
+    </h1>
+    <p class="mx-auto mt-4 max-w-2xl text-sm text-light/80 md:text-base">
+      Somos parte de un grupo de empresas que trabaja por ofrecer servicios
+      de conectividad y tecnología en la Riviera Maya.
+    </p>
+  </div>
+  <div class="lg:flex place-items-center justify-center my-5 mx-12">
+    <img src="/images/logo-meguz.webp" alt="Logo Meguz" class="w-40">
+    <img
+      src="/images/logo-munyaal.webp"
+      alt="Logo Munyaal"
+      class="my-10 lg:mx-20 w-40"
+    >
+    <img src="/images/logo-ilogs.webp" alt="Logo Ilogs" class="w-30">
+  </div>
 </section>

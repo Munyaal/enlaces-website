@@ -1,11 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/home/Hero.astro";
-import Ourcobertory from "../components/home/Ourcobertory.astro";
-import CallToAction from "../components/home/callToAction.astro";
-import Testimonio from "../components/home/Testimonio.astro";
+import Benefits from "../components/home/Benefits.astro";
+import Plans from "../components/home/Plans.astro";
+import WhyChooseUs from "../components/home/WhyChooseUs.astro";
+import CoverageCheck from "../components/home/CoverageCheck.astro";
 import Companies from "../components/home/companies.astro";
-import Payment from "../components/home/payment.astro";
+import Testimonio from "../components/home/Testimonio.astro";
+import FinalCTA from "../components/home/FinalCTA.astro";
 
 const title =
   "Internet en la Riviera Maya | Internet Rápido y Estable | Enlaces Playa";
@@ -60,10 +62,13 @@ const jsonLd = {
   ></script>
   <div class="relative overflow-hidden">
     <Hero />
-    <Ourcobertory />
-    <CallToAction />
-    <Payment />
-    <Testimonio />
+    <Benefits />
+    <Plans />
+    <WhyChooseUs />
+    <CoverageCheck />
     <Companies />
+    <Testimonio />
+    <FinalCTA />
   </div>
 </Layout>
+

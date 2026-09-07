@@ -1,0 +1,97 @@
+---
+/**
+ * Plans.astro
+ *
+ * Sección que muestra los dos grandes bloques de planes de Internet
+ * de Enlaces Playa: Hogar y Empresas. Cada plan incluye un título,
+ * una descripción breve, un precio orientativo y una llamada a la
+ * acción hacia la página de detalle correspondiente.
+ *
+ * El copy vive como constante en el frontmatter para mantener el
+ * template declarativo y concentrar futuros ajustes en un solo lugar.
+ * Los precios son orientativos y se exponen como texto porque el
+ * tarifario real vive en las páginas de detalle (internet-hogar y
+ * internet-empresas).
+ */
+
+const PLANS = [
+  {
+    segmento: "Hogar",
+    titulo: "Internet para tu casa",
+    descripcion:
+      "Conexión estable para streaming, videollamadas, clases en línea y entretenimiento en familia. Fibra óptica o internet inalámbrico según tu zona.",
+    precio: "Desde $549 MXN / mes",
+    cta: {
+      label: "Ver planes de Hogar",
+      href: "/internet-hogar",
+    },
+  },
+  {
+    segmento: "Empresas",
+    titulo: "Internet para tu negocio",
+    descripcion:
+      "Conectividad diseñada para operaciones críticas: enlaces dedicados, fibra óptica y soporte profesional para que tu empresa esté siempre en línea.",
+    precio: "Cotización personalizada",
+    cta: {
+      label: "Ver planes de Empresas",
+      href: "/internet-empresas",
+    },
+  },
+];
+---
+
+<section
+  aria-labelledby="plans-title"
+  class="border-b-8 border-line bg-secondary/10 px-6 py-16 md:py-20"
+>
+  <div class="mx-auto w-full max-w-7xl">
+    <header class="mb-10 max-w-3xl text-center md:mx-auto md:mb-14">
+      <p
+        class="text-xs font-bold uppercase tracking-widest text-accent md:text-sm"
+      >
+        Nuestros planes
+      </p>
+      <h2
+        id="plans-title"
+        class="mt-3 text-2xl font-bold text-light md:text-4xl"
+      >
+        Internet para hogar y para empresas
+      </h2>
+      <p class="mt-4 text-base text-light/85 md:text-lg">
+        Elige el plan que mejor se adapta a tu uso. Te acompañamos desde la
+        consulta de cobertura hasta la instalación.
+      </p>
+    </header>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        PLANS.map((plan) => (
+          <article
+            class="flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm md:p-8"
+          >
+            <p class="text-xs font-bold uppercase tracking-widest text-accent md:text-sm">
+              {plan.segmento}
+            </p>
+            <h3 class="mt-2 text-xl font-semibold text-light md:text-2xl">
+              {plan.titulo}
+            </h3>
+            <p class="mt-4 text-sm leading-relaxed text-light/85 md:text-base">
+              {plan.descripcion}
+            </p>
+            <p class="mt-6 text-lg font-bold text-light md:text-2xl">
+              {plan.precio}
+            </p>
+            <div class="mt-6 md:mt-auto md:pt-6">
+              <a
+                href={plan.cta.href}
+                class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
+              >
+                {plan.cta.label}
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

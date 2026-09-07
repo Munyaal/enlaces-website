@@ -1,0 +1,60 @@
+---
+/**
+ * FinalCTA.astro
+ *
+ * Cierre previo al footer con una llamada a la acción clara para
+ * contratar el servicio de Internet. Reutiliza el patrón de botón ya
+ * presente en el sitio (rounded-full + bg-accent + bg-accent-grad-t)
+ * para mantener la consistencia visual sin introducir estilos nuevos.
+ */
+
+const PRIMARY_CTA = {
+  label: "Contratar Internet",
+  href: "/contacto",
+};
+
+const SECONDARY_CTA = {
+  label: "Llamar a un asesor",
+  href: "tel:+529841440714",
+};
+---
+
+<section
+  aria-labelledby="final-cta-title"
+  class="bg-primary px-6 py-16 md:py-20"
+>
+  <div
+    class="mx-auto flex w-full max-w-4xl flex-col items-center text-center"
+  >
+    <p
+      class="text-xs font-bold uppercase tracking-widest text-accent md:text-sm"
+    >
+      Da el siguiente paso
+    </p>
+    <h2
+      id="final-cta-title"
+      class="mt-3 text-2xl font-bold text-light md:text-4xl"
+    >
+      Contrata hoy tu Internet en la Riviera Maya
+    </h2>
+    <p class="mt-4 max-w-2xl text-base text-light/85 md:text-lg">
+      Estamos listos para ayudarte a elegir el plan ideal para tu hogar o tu
+      empresa. Solicita tu cotización sin compromiso.
+    </p>
+
+    <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+      <a
+        href={PRIMARY_CTA.href}
+        class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-7 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
+      >
+        {PRIMARY_CTA.label}
+      </a>
+      <a
+        href={SECONDARY_CTA.href}
+        class="inline-flex items-center justify-center rounded-full border border-light/40 px-7 py-3 text-base font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
+      >
+        {SECONDARY_CTA.label}
+      </a>
+    </div>
+  </div>
+</section>
