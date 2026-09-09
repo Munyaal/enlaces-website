@@ -1,213 +1,194 @@
 ---
 import Container from "./Container.astro";
+import HyperlinksSection from "./layouts/HyperlinksSection.astro";
 
-import { Icon } from "astro-icon/components";
+// Tagline aprobada: posicionamiento del sitio.
+const TAGLINE =
+  "Internet rápido y estable para hogares y empresas en la Riviera Maya, con cobertura local y soporte técnico cercano.";
 
-const servicios = [
-  { href: "#", text: "Internet para hogar" },
-  { href: "#", text: "Internet para empresas" },
-  { href: "/cobertura", text: "Coberturas" },
-  { href: "/blog", text: "Blog" },
-  { href: "#", text: "Preguntas frecuentes" },
+// Columna Internet — cuatro enlaces principales de producto.
+const internet = [
+  { href: "#", text: "Internet para Hogar" },
+  { href: "#", text: "Planes de Internet" },
+  { href: "#", text: "Fibra Óptica" },
+  { href: "#", text: "Internet Inalámbrico" },
 ];
 
-const empresa = [
-  { href: "/aboutUs", text: "Nuestra historia" },
-  { href: "#", text: "Términos y condiciones" },
-  { href: "#", text: "Política de Uso Justo" },
-  { href: "#", text: "Aviso de privacidad" },
-];
-
+// Columna Cobertura — tres enlaces de zona.
 const cobertura = [
-  { href: "/cobertura/playa-del-carmen", text: "Playa del Carmen" },
-  { href: "/cobertura/puerto-morelos", text: "Puerto Morelos" },
-  { href: "/cobertura/tulum", text: "Tulum" },
+  { href: "#", text: "Cobertura de Internet" },
+  { href: "#", text: "Cobertura de Playa del Carmen" },
+  { href: "#", text: "Cobertura de Puerto Morelos" },
 ];
 
-const redesSociales = [
-  { href: "#", label: "Facebook", icon: "brand-facebook" },
-  { href: "#", label: "Instagram", icon: "brand-instagram" },
-  { href: "#", label: "WhatsApp", icon: "brand-whatsapp" },
+// Sub-bloque Recursos — tres enlaces de soporte y contenido.
+const recursos = [
+  { href: "#", text: "Blog" },
+  { href: "#", text: "Preguntas frecuentes" },
+  { href: "#", text: "Soporte técnico" },
 ];
 
-const portalCliente = {
-  href: "#",
-  ctaLabel: "Ir al Portal de Cliente",
+// Columna Atención a clientes — intro y cuatro canales de contacto.
+// Los `href` apuntan a `#` por aprobación temporal; los textos visibles
+// conservan el formato aprobado en el resto del sitio.
+const atencion = {
+  intro: "¿Necesitas ayuda? Estamos para atenderte",
+  contactos: [
+    {
+      label: "Atención telefónica",
+      value: "984 109 111",
+      href: "#",
+    },
+    {
+      label: "Atención a Clientes y Ventas Residenciales",
+      value: "984 144 0714",
+      href: "#",
+    },
+    {
+      label: "Ventas Empresariales y PYME",
+      value: "984 184 5726",
+      href: "#",
+    },
+    {
+      label: "Correo",
+      value: "hola@enlacesplaya.com.mx",
+      href: "#",
+    },
+  ],
 };
 
-// El Portal de Cliente ya tiene su propio botón compacto en la
-// columna "Síguenos", así que no se duplica en los enlaces legales.
+// Franja Portal de Cliente — copy y CTA outline.
+const portalCliente = {
+  copy: "¿YA ERES CLIENTE? Consulta y paga tu servicio desde tu Portal de Cliente.",
+  href: "#",
+  label: "Iniciar sesión",
+};
+
+// Franja legal — enlaces a documentos y domicilio corporativo.
 const legalLinks = [
-  { href: "#", text: "Aviso de Privacidad", external: false },
-  { href: "#", text: "Términos y Condiciones", external: false },
+  { href: "#", text: "Términos y Condiciones" },
+  { href: "#", text: "Aviso de Privacidad" },
 ];
 
-const year = 2026;
+const direccion =
+  "Enlaces Playa, una empresa de Grupo Webtel, Calle 72 entre Av. Sian Ka'an y Carr. Federal, Mza. 026, Lote 0, Col. Ejidal, C.P. 77714, Playa del Carmen, Q. Roo.";
+
+// Copyright dinámico: se evalúa en build, así queda congelado al año de
+// generación del sitio sin perder la convención dinámica del proyecto.
+const year = new Date().getFullYear();
 ---
 
 <footer class="bg-secondary text-light">
   <Container>
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-      {/* Marca + Contáctanos */}
-      <div class="sm:col-span-2 lg:col-span-3">
-        <img
-          src="/images/logo-enlaces-blanco.webp"
-          alt="Logo Enlaces Playa"
-          class="mb-4 h-12 w-auto lg:h-14"
-          loading="lazy"
-          decoding="async"
-        />
-        <h3 class="text-xs font-bold uppercase tracking-widest text-light">
-          Contáctanos
-        </h3>
-        <address
-          class="not-italic mt-3 space-y-2 text-sm leading-relaxed text-light/90"
+    <!-- ─────────────────────────────────────────────────────────────
+     * Franja 1 — Cuerpo principal
+     * Cuadrícula: 1 col mobile, 2 cols tablet, 4 cols desktop.
+     * ───────────────────────────────────────────────────────────── -->
+    <div class="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-10">
+      <!-- Columna 1 — Marca -->
+      <div>
+        <a
+          href="#"
+          aria-label="Ir al inicio de Enlaces Playa"
+          class="inline-block"
         >
-          <p>
-            <a
-              href="https://maps.app.goo.gl/g1xk8DjxTot7QoTr5"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Abrir ubicación de oficinas en Google Maps"
-              class="transition-colors hover:text-light"
-            >
-              Oficinas en Playa del Carmen
-            </a>
-          </p>
-          <p>
-            <a
-              href="mailto:hola@enlacesplaya.com.mx"
-              class="transition-colors hover:text-light"
-            >
-              hola@enlacesplaya.com.mx
-            </a>
-          </p>
-          <p>
-            <a
-              href="tel:+529841440714"
-              class="transition-colors hover:text-light"
-            >
-              +52 (984) 144 0714
-            </a>
-          </p>
-        </address>
+          <img
+            src="/images/logo-enlaces-blanco.webp"
+            alt="Logo Enlaces Playa"
+            class="h-12 w-auto lg:h-14"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-light/85">
+          {TAGLINE}
+        </p>
+        <a
+          href="#"
+          class="mt-5 inline-flex shrink-0 items-center justify-center rounded-full border border-light/40 px-6 py-2 text-sm font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
+        >
+          Conoce Enlaces Playa
+        </a>
       </div>
 
-      {/* Servicios */}
-      <nav aria-label="Servicios" class="lg:col-span-2">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-light">
-          Servicios
-        </h3>
-        <ul class="mt-3 space-y-2 text-sm">
-          {
-            servicios.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="text-light/90 transition-colors hover:text-light"
-                >
-                  {link.text}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+      <!-- Columna 2 — Internet -->
+      <nav class="space-y-4">
+        <HyperlinksSection
+          sectionName="Internet"
+          sectionIcon="wifi"
+          links={internet}
+        />
       </nav>
 
-      {/* Empresa */}
-      <nav aria-label="Empresa" class="lg:col-span-2">
+      <!-- Columna 3 — Cobertura + Recursos -->
+      <div class="space-y-4">
+        <HyperlinksSection
+          sectionName="Cobertura"
+          sectionIcon="broadcast-tower"
+          links={cobertura}
+        />
+        <HyperlinksSection
+          sectionName="Recursos"
+          sectionIcon="chart-pie"
+          links={recursos}
+        />
+      </div>
+
+      <!-- Columna 4 — Atención a clientes -->
+      <div>
         <h3 class="text-xs font-bold uppercase tracking-widest text-light">
-          Empresa
+          Atención a clientes
         </h3>
-        <ul class="mt-3 space-y-2 text-sm">
+        <p class="mt-4 text-sm leading-relaxed text-light/85">
+          {atencion.intro}
+        </p>
+        <ul class="mt-4 space-y-3 text-sm">
           {
-            empresa.map((link) => (
+            atencion.contactos.map((contacto) => (
               <li>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-light/70">
+                  {contacto.label}
+                </span>
                 <a
-                  href={link.href}
-                  class="text-light/90 transition-colors hover:text-light"
+                  href={contacto.href}
+                  class="mt-0.5 inline-block text-light/90 transition-colors hover:text-light focus-visible:outline-none focus-visible:underline"
                 >
-                  {link.text}
+                  {contacto.value}
                 </a>
               </li>
             ))
           }
         </ul>
-      </nav>
-
-      {/* Cobertura */}
-      <nav aria-label="Cobertura" class="lg:col-span-2">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-light">
-          Cobertura
-        </h3>
-        <ul class="mt-3 space-y-2 text-sm">
-          {
-            cobertura.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="text-light/90 transition-colors hover:text-light"
-                >
-                  {link.text}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      {/* Síguenos (solo iconos) + Portal de Cliente (botón compacto) */}
-      <div class="lg:col-span-3">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-light">
-          Síguenos
-        </h3>
-        <ul class="mt-3 flex gap-2">
-          {
-            redesSociales.map((red) => (
-              <li>
-                <a
-                  href={red.href}
-                  aria-label={red.label}
-                  class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-light/10 text-light transition-colors hover:bg-light/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
-                >
-                  <Icon
-                    name={red.icon}
-                    class="h-5 w-5 shrink-0"
-                    aria-hidden="true"
-                  />
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-
-        <h3 class="mt-6 text-xs font-bold uppercase tracking-widest text-light">
-          Portal de Cliente
-        </h3>
-        <a
-          href={portalCliente.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-3 inline-flex items-center gap-2 rounded-full bg-accent bg-accent-grad-t px-4 py-2 text-sm font-bold text-dark shadow-sm transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
-        >
-          <span>{portalCliente.ctaLabel}</span>
-          <span aria-hidden="true">↗</span>
-        </a>
       </div>
     </div>
 
-    {/* Separador inferior */}
-    <hr class="mt-8 border-light/20" />
-
-    {/* Copyright + enlaces legales */}
+    <!-- ─────────────────────────────────────────────────────────────
+     * Franja 2 — Portal de Cliente
+     * ───────────────────────────────────────────────────────────── -->
     <div
-      class="flex flex-col items-center gap-3 pt-6 text-center text-xs text-light/85 md:flex-row md:justify-between md:text-left"
+      class="mt-10 flex flex-col items-center gap-3 border-t border-light/10 pt-8 text-center md:flex-row md:justify-between md:gap-6 md:text-left"
+    >
+      <p class="text-sm text-light/90 md:text-base">
+        {portalCliente.copy}
+      </p>
+      <a
+        href={portalCliente.href}
+        class="inline-flex shrink-0 items-center justify-center rounded-full border border-light/40 px-6 py-2 text-sm font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light md:text-base"
+      >
+        {portalCliente.label}
+      </a>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────────────
+     * Franja 3 — Legal
+     * ───────────────────────────────────────────────────────────── -->
+    <hr class="mt-10 border-light/20" />
+
+    <div
+      class="flex flex-col items-center gap-3 pt-6 text-center text-xs text-light/80 md:flex-row md:justify-between md:gap-6 md:text-left"
     >
       <p>
         © {year} Enlaces Playa · Todos los derechos reservados.
-        <span class="block md:inline">
-          Enlaces Playa es una empresa del grupo Webtel.
-        </span>
       </p>
       <ul
         class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 md:justify-end"
@@ -217,10 +198,7 @@ const year = 2026;
             <li class="inline-flex items-center gap-x-3">
               <a
                 href={link.href}
-                class="transition-colors hover:text-light"
-                {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
+                class="transition-colors hover:text-light focus-visible:outline-none focus-visible:underline"
               >
                 {link.text}
               </a>
@@ -232,6 +210,12 @@ const year = 2026;
             </li>
           ))
         }
+        <li class="inline-flex items-center gap-x-3 text-light/70">
+          <span aria-hidden="true" class="text-light/40"> · </span>
+          <address class="not-italic">
+            {direccion}
+          </address>
+        </li>
       </ul>
     </div>
   </Container>

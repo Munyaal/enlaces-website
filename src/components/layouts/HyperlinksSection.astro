@@ -1,0 +1,40 @@
+---
+import { Icon } from "astro-icon/components";
+
+type Hyperlink = {
+  text: string;
+  href: string;
+};
+
+type Props = {
+  sectionName: string;
+  sectionIcon: string;
+  links: Array<Hyperlink>;
+};
+
+const { sectionName, sectionIcon, links } = Astro.props;
+---
+
+<nav aria-label={sectionIcon}>
+  <div class="flex items-baseline gap-2">
+    <Icon name={sectionIcon} class="w-5 h-5 text-primary" />
+    <h3 class="text-base font-bold text-accent">
+      {sectionName}
+    </h3>
+  </div>
+
+  <ul class="mt-1 ml-3 space-y-0.5 text-sm list-disc list-inside">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="text-light/90 transition-colors hover:text-light focus-visible:outline-none focus-visible:underline"
+          >
+            {link.text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
