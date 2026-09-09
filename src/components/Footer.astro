@@ -1,36 +1,5 @@
 ---
 import Container from "./Container.astro";
-/**
- * Footer.astro
- *
- * Pie de página principal del sitio. Se renderiza desde
- * `src/layouts/Layout.astro` y aparece en todas las páginas.
- *
- * Estructura visual compacta (apilada en móvil, 2 columnas en sm,
- * grid horizontal de 12 columnas en lg):
- *   - Marca + Contáctanos (lg:col-span-3)
- *   - Servicios (lg:col-span-2)
- *   - Empresa (lg:col-span-2)
- *   - Cobertura (lg:col-span-2)
- *   - Síguenos (solo iconos) + Portal de Cliente (botón compacto)
- *     (lg:col-span-3)
- *
- * El bloque de copyright + enlaces legales vive debajo, separado por
- * un `hr` sutil.
- *
- * Toda la información vive como constantes declaradas arriba del
- * template para mantener el marcado declarativo y concentrar los
- * cambios de contenido en un solo lugar.
- *
- * Notas de iconografía:
- *  - Los íconos de redes sociales se renderizan con `astro-icon` a
- *    partir de los SVG locales en `src/icons/` (Tabler Icons).
- *  - El carácter Unicode `↗` (U+2197) sigue siendo el indicador
- *    textual del botón del portal, tal como pide la spec.
- *  - Las redes sociales se muestran ahora como botones circulares
- *    con sólo el ícono (etiqueta accesible vía `aria-label`) para
- *    mantener el footer bajo y limpio.
- */
 
 import { Icon } from "astro-icon/components";
 
@@ -78,11 +47,6 @@ const year = 2026;
 
 <footer class="bg-secondary text-light">
   <Container>
-    {
-      /* ──────────────────────────────────────────────────────────
-        Sección única: marca, navegación, redes y portal
-       ────────────────────────────────────────────────────────── */
-    }
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
       {/* Marca + Contáctanos */}
       <div class="sm:col-span-2 lg:col-span-3">

@@ -1,0 +1,157 @@
+/* =========================================================================
+ * Typography scale — reusable utility classes
+ * =========================================================================
+ *
+ * Approved type scale (mobile / desktop, expressed in points):
+ *
+ *   heading-1    48 / 80
+ *   heading-2    40 / 60
+ *   heading-3    32 / 48
+ *   heading-4    28 / 36
+ *   heading-5    24 / 28
+ *   heading-6    20 / 24
+ *
+ *   paragraph-lg 24 / 32
+ *   paragraph-md 20 / 26
+ *   paragraph-sm 18 / 20
+ *
+ * -------------------------------------------------------------------------
+ * pt → rem conversion (accessibility-first)
+ * -------------------------------------------------------------------------
+ * Browsers render `1rem` from the root font-size, which defaults to 16px.
+ * CSS defines `1pt = 1/72 in` and `1in = 96px`, therefore:
+ *
+ *     1pt = 96 / 72 px = 1.3333... px
+ *     1pt = 1.3333 / 16 rem = 1/12 rem
+ *
+ * So the conversion formula is simply:  rem = pt / 12.
+ *
+ * Examples:
+ *     48pt -> 4rem        (heading-1 mobile)
+ *     80pt -> 6.6667rem   (heading-1 desktop)
+ *     18pt -> 1.5rem      (paragraph-sm mobile)
+ *
+ * Storing the scale in rem (instead of px or pt) means every heading and
+ * paragraph scales automatically when a user changes their browser font
+ * size or zooms — the whole rhythm stays consistent.
+ *
+ * -------------------------------------------------------------------------
+ * Responsive strategy
+ * -------------------------------------------------------------------------
+ * Mobile is the default (smallest screens, ≤ 47.999rem). Desktop values
+ * kick in at the Tailwind v4 default `md` breakpoint: `48rem` (768px),
+ * which matches the breakpoint already used across the site (Hero.astro,
+ * Title.astro, plans/benefits cards, etc.). We use the modern logical
+ * range syntax `@media (width >= 48rem)` to stay consistent with v4.
+ *
+ * -------------------------------------------------------------------------
+ * Family & weight
+ * -------------------------------------------------------------------------
+ * Headings AND paragraphs both use Poppins as the primary family, sourced
+ * from the `--font-sans` token already defined in `global.css` so the
+ * fallback stack stays in sync with the rest of the design system.
+ *
+ *   - Headings   -> font-weight: 700
+ *   - Paragraphs -> font-weight: 400
+ *
+ * Line-height is intentionally NOT baked in; combine with Tailwind's
+ * `leading-tight | leading-snug | leading-normal | leading-relaxed`
+ * utilities where a specific rhythm is needed.
+ *
+ * -------------------------------------------------------------------------
+ * File wiring
+ * -------------------------------------------------------------------------
+ * Imported from `src/styles/global.css` via `@import "./typography.css";`
+ * AFTER the `@font-face` declarations in `fonts.css` so Poppins is
+ * registered before any utility tries to use it.
+ * ========================================================================= */
+
+@utility heading-1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 4rem; /* 48pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 6.6667rem; /* 80pt desktop */
+  }
+}
+
+@utility heading-2 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 3.3333rem; /* 40pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 5rem; /* 60pt desktop */
+  }
+}
+
+@utility heading-3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 2.6667rem; /* 32pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 4rem; /* 48pt desktop */
+  }
+}
+
+@utility heading-4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 2.3333rem; /* 28pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 3rem; /* 36pt desktop */
+  }
+}
+
+@utility heading-5 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 2rem; /* 24pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 2.3333rem; /* 28pt desktop */
+  }
+}
+
+@utility heading-6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.6667rem; /* 20pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 2rem; /* 24pt desktop */
+  }
+}
+
+@utility paragraph-lg {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 2rem; /* 24pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 2.6667rem; /* 32pt desktop */
+  }
+}
+
+@utility paragraph-md {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.6667rem; /* 20pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 2.1667rem; /* 26pt desktop */
+  }
+}
+
+@utility paragraph-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.5rem; /* 18pt mobile */
+
+  @media (width >= 48rem) {
+    font-size: 1.6667rem; /* 20pt desktop */
+  }
+}

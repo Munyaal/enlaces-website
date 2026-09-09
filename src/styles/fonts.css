@@ -1,0 +1,112 @@
+/* =========================================================================
+ * Local typography (@font-face declarations)
+ * =========================================================================
+ * Poppins is the primary sans-serif family (replaces Fira Sans).
+ * SkolaSans is the secondary display family for titles/highlighted text.
+ *
+ * Source files live under /public/fonts/. They are served as static assets
+ * and referenced with absolute paths so the URLs resolve at the site root.
+ *
+ * This file is imported from src/styles/global.css via:
+ *     @import "./fonts.css";
+ * It is intentionally kept separate so the typography declarations can be
+ * maintained, swapped or audited without touching the rest of the global
+ * stylesheet (tokens, utilities, Swiper overrides, etc.).
+ * ========================================================================= */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-BoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/Poppins/Poppins-ExtraBold.woff2") format("woff2");
+}
+
+/* SkolaSans: only the weights/styles that ship in /public/fonts/SkolaSans/. */
+@font-face {
+  font-family: "SkolaSans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/SkolaSans/Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/SkolaSans/RegularItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/SkolaSans/BoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/SkolaSans/Black.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "SkolaSans";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/SkolaSans/BlackItalic.woff2") format("woff2");
+}

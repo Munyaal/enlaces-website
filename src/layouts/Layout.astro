@@ -9,16 +9,6 @@ import GoogleTagManagerNoScript from "../components/GoogleTagManagerNoScript.ast
 /**
  * Layout.astro
  *
- * Contenedor general y reutilizable para TODO el sitio.
- * Estructura compartida: <NavBar /> + <slot /> (contenido) + <Footer />.
- *
- * Los metadatos de <head> se delegan a BaseHead.astro para mantener este
- * componente enfocado en su única responsabilidad: el shell del documento.
- *
- * La instrumentación de Google Tag Manager se divide en dos componentes:
- *   - GoogleTagManager.astro        → script dentro de <head>.
- *   - GoogleTagManagerNoScript.astro → <noscript> justo después de <body>.
- *
  * Props:
  *   - title:       obligatorio, título de la pestaña.
  *   - description: opcional, sobrescribe la descripción SEO por página.
