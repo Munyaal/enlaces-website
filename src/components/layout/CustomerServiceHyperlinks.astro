@@ -31,47 +31,47 @@ const correo = buildContact("comercial@webtelsistemas.com", "comercial@webtelsis
 <nav class="space-y-1" aria-label={"user"}>
   <div class="flex items-baseline gap-2">
     <Icon name="user" class="w-5 h-5 text-primary" />
-    <h3 class="text-base font-bold text-accent">{atencion.title}</h3>
+    <h3 class="paragraph-sm font-bold text-accent">{atencion.title}</h3>
   </div>
 
-  <p class="text-sm leading-relaxed text-light/80">
+  <p class="paragraph-xs leading-relaxed text-light/80">
     {atencion.intro}
   </p>
 
   <div>
-    <p class="text-sm text-light/70">
+    <p class="paragraph-xs text-light/70">
       {atencionTelefonica.label}
     </p>
     <a
       href={atencionTelefonica.href}
       aria-label={`Llamar a ${atencionTelefonica.label}: ${atencionTelefonica.value}`}
-      class="text-sm font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
     >
       {atencionTelefonica.value}
     </a>
   </div>
 
   <div>
-    <p class="text-sm text-light/70">
+    <p class="paragraph-xs text-light/70">
       {atencionClientesVentasResidenciales.label}
     </p>
     <a
       href={atencionClientesVentasResidenciales.href}
       aria-label={`Llamar a ${atencionClientesVentasResidenciales.label}: ${atencionClientesVentasResidenciales.value}`}
-      class="text-sm font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
     >
       {atencionClientesVentasResidenciales.value}
     </a>
   </div>
 
   <div>
-    <p class="text-sm text-light/70">
+    <p class="paragraph-xs text-light/70">
       {ventasEmpresarialesPYME.label}
     </p>
     <a
       href={ventasEmpresarialesPYME.href}
       aria-label={`Llamar a ${ventasEmpresarialesPYME.label}: ${ventasEmpresarialesPYME.value}`}
-      class="text-sm font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
     >
       {ventasEmpresarialesPYME.value}
     </a>
@@ -79,7 +79,7 @@ const correo = buildContact("comercial@webtelsistemas.com", "comercial@webtelsis
     <a
       href={correo.href}
       aria-label={`Enviar correo a ${correo.label}: ${correo.value}`}
-      class="text-sm font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
     >
       {correo.label}
     </a>

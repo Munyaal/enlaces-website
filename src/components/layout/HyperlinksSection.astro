@@ -18,12 +18,12 @@ const { sectionName, sectionIcon, links } = Astro.props;
 <nav aria-label={sectionIcon}>
   <div class="flex items-baseline gap-2">
     <Icon name={sectionIcon} class="w-5 h-5 text-primary" />
-    <h3 class="text-base font-bold text-accent">
+    <h3 class="paragraph-sm font-bold text-accent">
       {sectionName}
     </h3>
   </div>
 
-  <ul class="mt-1 ml-3 space-y-0.5 text-sm list-disc list-inside">
+  <ul class="mt-1 ml-3 space-y-0.5 paragraph-xs list-disc list-inside">
     {
       links.map((link) => (
         <li>

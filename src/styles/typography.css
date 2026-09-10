@@ -4,7 +4,7 @@
   font-size: 2.986rem; /* 48pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 2.986rem;
+    font-size: 3.583rem; /* 57pt desktop */
   }
 }
 
@@ -14,7 +14,7 @@
   font-size: 2.488rem; /* 40pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 2.488rem; /* 60pt desktop */
+    font-size: 2.986rem; /* 60pt desktop */
   }
 }
 
@@ -24,7 +24,7 @@
   font-size: 2.074rem; /* 32pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 2.074rem; /* 48pt desktop */
+    font-size: 2.488rem; /* 48pt desktop */
   }
 }
 
@@ -34,7 +34,7 @@
   font-size: 1.728rem; /* 28pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 1.728rem; /* 36pt desktop */
+    font-size: 2.074rem; /* 36pt desktop */
   }
 }
 
@@ -44,7 +44,7 @@
   font-size: 1.44rem; /* 24pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 1.44rem; /* 28pt desktop */
+    font-size: 1.728rem; /* 28pt desktop */
   }
 }
 
@@ -54,7 +54,7 @@
   font-size: 1.2rem; /* 20pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 1.2rem; /* 24pt desktop */
+    font-size: 1.44rem; /* 24pt desktop */
   }
 }
 
@@ -64,7 +64,7 @@
   font-size: 1.2rem; /* 24pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 1.2rem; /* 24pt desktop */
+    font-size: 1.44rem; /* 24pt desktop */
   }
 }
 
@@ -74,7 +74,7 @@
   font-size: 1rem; /* 20pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 1rem; /* 24pt desktop */
+    font-size: 1.2rem; /* 24pt desktop */
   }
 }
 
@@ -84,7 +84,7 @@
   font-size: 0.833rem; /* 18pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 0.833rem; /* 20pt desktop */
+    font-size: 1rem; /* 20pt desktop */
   }
 }
 
@@ -94,6 +94,6 @@
   font-size: 0.694rem; /* 18pt mobile */
 
   @media (width >= 48rem) {
-    font-size: 0.694rem; /* 20pt desktop */
+    font-size: 0.833rem; /* 20pt desktop */
   }
 }

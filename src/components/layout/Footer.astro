@@ -59,9 +59,9 @@ const year = new Date().getFullYear();
      * Franja 1 — Cuerpo principal
      * Cuadrícula: 1 col mobile, 2 cols tablet, 4 cols desktop.
      * ───────────────────────────────────────────────────────────── -->
-    <div class="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-10">
+    <div class="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-10">
       <!-- Columna 1 — Marca -->
-      <div class="flex flex-col gap-4">
+      <div class="space-y-6">
         <a
           href="#"
           aria-label="Ir al inicio de Enlaces Playa"
@@ -75,10 +75,14 @@ const year = new Date().getFullYear();
             decoding="async"
           />
         </a>
-        <p class="text-sm leading-relaxed text-light/80">
+        <p class="paragraph-xs leading-relaxed text-light/80">
           {TAGLINE}
         </p>
-        <Button as="a" href="#" variant="navy"> Conoce Enlaces Playa </Button>
+        <div>
+          <Button as="a" href="#" variant="navy" size="sm">
+            Conoce Enlaces Playa
+          </Button>
+        </div>
       </div>
 
       <!-- Columna 2 — Internet -->
@@ -117,7 +121,7 @@ const year = new Date().getFullYear();
     <div
       class="flex flex-col justify-center items-center text-center gap-3 md:flex-row md:gap-6 py-5"
     >
-      <p class="text-sm text-light/90 md:text-base">
+      <p class="paragraph-xs text-light/90">
         {portalCliente.copy}
       </p>
       <Button
@@ -126,6 +130,7 @@ const year = new Date().getFullYear();
         variant="navy"
         target="_blank"
         icon="user"
+        size="sm"
       >
         {portalCliente.label}
       </Button>
@@ -136,7 +141,7 @@ const year = new Date().getFullYear();
      * Franja 3 — Legal
      * ───────────────────────────────────────────────────────────── -->
     <div class="flex flex-col justify-center items-center text-center gap-3">
-      <p class="text-xs text-light/90">
+      <p class="text-xs text-accent">
         © {year} Enlaces Playa · Todos los derechos reservados.{" "}
         {
           legalLinks.map((link, idx) => (
@@ -154,7 +159,7 @@ const year = new Date().getFullYear();
           ))
         }
       </p>
-      <address class="text-xs text-light/90">
+      <address class="text-xs text-accent">
         {direccion}
       </address>
     </div>
