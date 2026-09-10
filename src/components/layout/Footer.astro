@@ -1,6 +1,10 @@
 ---
-import Container from "./Container.astro";
-import HyperlinksSection from "./layouts/HyperlinksSection.astro";
+import HyperlinksSection from "./HyperlinksSection.astro";
+import enlacesLogo from "./../../assets/images/enlaces-logo-letras-blancas.png";
+import Container from "../Container.astro";
+import Button from "../ui/Button.astro";
+import { Image } from "astro:assets";
+import CustomerServiceHyperlinks from "./CustomerServiceHyperlinks.astro";
 
 // Tagline aprobada: posicionamiento del sitio.
 const TAGLINE =
@@ -28,39 +32,10 @@ const recursos = [
   { href: "#", text: "Soporte técnico" },
 ];
 
-// Columna Atención a clientes — intro y cuatro canales de contacto.
-// Los `href` apuntan a `#` por aprobación temporal; los textos visibles
-// conservan el formato aprobado en el resto del sitio.
-const atencion = {
-  intro: "¿Necesitas ayuda? Estamos para atenderte",
-  contactos: [
-    {
-      label: "Atención telefónica",
-      value: "984 109 111",
-      href: "#",
-    },
-    {
-      label: "Atención a Clientes y Ventas Residenciales",
-      value: "984 144 0714",
-      href: "#",
-    },
-    {
-      label: "Ventas Empresariales y PYME",
-      value: "984 184 5726",
-      href: "#",
-    },
-    {
-      label: "Correo",
-      value: "hola@enlacesplaya.com.mx",
-      href: "#",
-    },
-  ],
-};
-
 // Franja Portal de Cliente — copy y CTA outline.
 const portalCliente = {
   copy: "¿YA ERES CLIENTE? Consulta y paga tu servicio desde tu Portal de Cliente.",
-  href: "#",
+  href: "https://portal.enlacesplaya.com.mx/cliente/login",
   label: "Iniciar sesión",
 };
 
@@ -86,29 +61,24 @@ const year = new Date().getFullYear();
      * ───────────────────────────────────────────────────────────── -->
     <div class="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-10">
       <!-- Columna 1 — Marca -->
-      <div>
+      <div class="flex flex-col gap-4">
         <a
           href="#"
           aria-label="Ir al inicio de Enlaces Playa"
-          class="inline-block"
+          class="block mx-auto"
         >
-          <img
-            src="/images/logo-enlaces-blanco.webp"
+          <Image
+            src={enlacesLogo}
             alt="Logo Enlaces Playa"
-            class="h-12 w-auto lg:h-14"
+            class="h-20 w-auto lg:h-24"
             loading="lazy"
             decoding="async"
           />
         </a>
-        <p class="mt-4 max-w-xs text-sm leading-relaxed text-light/85">
+        <p class="text-sm leading-relaxed text-light/80">
           {TAGLINE}
         </p>
-        <a
-          href="#"
-          class="mt-5 inline-flex shrink-0 items-center justify-center rounded-full border border-light/40 px-6 py-2 text-sm font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
-        >
-          Conoce Enlaces Playa
-        </a>
+        <Button as="a" href="#" variant="navy"> Conoce Enlaces Playa </Button>
       </div>
 
       <!-- Columna 2 — Internet -->
@@ -136,66 +106,41 @@ const year = new Date().getFullYear();
 
       <!-- Columna 4 — Atención a clientes -->
       <div>
-        <h3 class="text-xs font-bold uppercase tracking-widest text-light">
-          Atención a clientes
-        </h3>
-        <p class="mt-4 text-sm leading-relaxed text-light/85">
-          {atencion.intro}
-        </p>
-        <ul class="mt-4 space-y-3 text-sm">
-          {
-            atencion.contactos.map((contacto) => (
-              <li>
-                <span class="block text-xs font-semibold uppercase tracking-wider text-light/70">
-                  {contacto.label}
-                </span>
-                <a
-                  href={contacto.href}
-                  class="mt-0.5 inline-block text-light/90 transition-colors hover:text-light focus-visible:outline-none focus-visible:underline"
-                >
-                  {contacto.value}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+        <CustomerServiceHyperlinks />
       </div>
     </div>
 
     <!-- ─────────────────────────────────────────────────────────────
      * Franja 2 — Portal de Cliente
      * ───────────────────────────────────────────────────────────── -->
+    <hr class="mt-10 text-light/20" />
     <div
-      class="mt-10 flex flex-col items-center gap-3 border-t border-light/10 pt-8 text-center md:flex-row md:justify-between md:gap-6 md:text-left"
+      class="flex flex-col justify-center items-center text-center gap-3 md:flex-row md:gap-6 py-5"
     >
       <p class="text-sm text-light/90 md:text-base">
         {portalCliente.copy}
       </p>
-      <a
+      <Button
+        as="a"
         href={portalCliente.href}
-        class="inline-flex shrink-0 items-center justify-center rounded-full border border-light/40 px-6 py-2 text-sm font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light md:text-base"
+        variant="navy"
+        target="_blank"
+        icon="user"
       >
         {portalCliente.label}
-      </a>
+      </Button>
     </div>
+    <hr class="mb-5 text-light/20" />
 
     <!-- ─────────────────────────────────────────────────────────────
      * Franja 3 — Legal
      * ───────────────────────────────────────────────────────────── -->
-    <hr class="mt-10 border-light/20" />
-
-    <div
-      class="flex flex-col items-center gap-3 pt-6 text-center text-xs text-light/80 md:flex-row md:justify-between md:gap-6 md:text-left"
-    >
-      <p>
-        © {year} Enlaces Playa · Todos los derechos reservados.
-      </p>
-      <ul
-        class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 md:justify-end"
-      >
+    <div class="flex flex-col justify-center items-center text-center gap-3">
+      <p class="text-xs text-light/90">
+        © {year} Enlaces Playa · Todos los derechos reservados.{" "}
         {
           legalLinks.map((link, idx) => (
-            <li class="inline-flex items-center gap-x-3">
+            <Fragment>
               <a
                 href={link.href}
                 class="transition-colors hover:text-light focus-visible:outline-none focus-visible:underline"
@@ -203,20 +148,15 @@ const year = new Date().getFullYear();
                 {link.text}
               </a>
               {idx < legalLinks.length - 1 && (
-                <span aria-hidden="true" class="text-light/40">
-                  ·
-                </span>
+                <span aria-hidden="true"> · </span>
               )}
-            </li>
+            </Fragment>
           ))
         }
-        <li class="inline-flex items-center gap-x-3 text-light/70">
-          <span aria-hidden="true" class="text-light/40"> · </span>
-          <address class="not-italic">
-            {direccion}
-          </address>
-        </li>
-      </ul>
+      </p>
+      <address class="text-xs text-light/90">
+        {direccion}
+      </address>
     </div>
   </Container>
 </footer>

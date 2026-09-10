@@ -1,0 +1,195 @@
+---
+/**
+ * ButtonsShowcase.astro
+ */
+
+import Button from "./Button.astro";
+
+type ButtonProps = NonNullable<Parameters<typeof Button>[0]>;
+type Variant = NonNullable<ButtonProps["variant"]>;
+type Size = NonNullable<ButtonProps["size"]>;
+
+// Lista controlada: solo se exponen las variantes aprobadas para
+const solidVariants: Variant[] = ["orange", "navy"];
+
+const sizes: Size[] = ["sm", "md", "lg"];
+
+// Etiqueta legible para cada variante. Vive aquí y no en el componente
+// porque es contenido editorial de la demo, no parte del sistema.
+const variantLabels: Record<Variant, string> = {
+  orange: "Naranja sólido",
+  navy: "Azul marino sólido",
+};
+
+// Etiquetas por tamaño (para subtítulos coherentes en la grilla).
+const sizeLabels: Record<Size, string> = {
+  sm: "sm",
+  md: "md",
+  lg: "lg",
+};
+
+// Fondo de las cards internas para las secciones de "Tamaños",
+// "Con iconos", "Estados", "Como <a>/<button>" y "CTA telefónico".
+// Es uniforme (oscuro) porque muestran múltiples variantes a la vez
+// y un solo fondo garantiza contraste consistente entre todas.
+const showcaseCardClass =
+  "flex flex-col gap-4 rounded-2xl border border-white/10 bg-light/50 p-5";
+const showcaseLabelClass =
+  "text-xs font-semibold uppercase tracking-wider text-accent";
+---
+
+<section class="space-y-12">
+  {/* Encabezado */}
+  <header class="space-y-3">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+      Sistema de botones
+    </p>
+    <h1 class="text-3xl font-bold text-light md:text-5xl">
+      Botones de Enlaces Playa
+    </h1>
+    <p class="max-w-3xl text-base text-light/85 md:text-lg">
+      Sistema visual de llamadas a la acción. Mantiene las píldoras,
+      proporciones, pesos tipográficos y tokens cromáticos del sitio, y los
+      expone como un componente polimórfico (<code
+        class="rounded bg-white/10 px-1.5 py-0.5 text-sm">a</code
+      > o <code class="rounded bg-white/10 px-1.5 py-0.5 text-sm">button</code>)
+      reutilizable.
+    </p>
+  </header>
+
+  {/* ─── Bloque: Sólidos ─── */}
+  <div class="space-y-4">
+    <h2 class="text-xl font-semibold text-light md:text-2xl">Sólidos</h2>
+    <p class="text-sm text-light/75 md:text-base">
+      Acciones primarias con fondo del color de marca y micro-elevación al pasar
+      el cursor.
+    </p>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        solidVariants.map((v) => (
+          <article class="flex flex-col gap-4 rounded-2xl border border-light bg-light/50 p-5">
+            <span class="text-xs font-semibold uppercase tracking-wider text-secondary">
+              {variantLabels[v]}
+            </span>
+            <div class="flex flex-wrap items-center gap-3">
+              <Button as="a" href="#" variant={v}>
+                Contratar
+              </Button>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <Button as="a" href="#" variant={v} iconTrailing="arrow-right">
+                Conoce más
+              </Button>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  {/* ─── Bloque: Tamaños ─── */}
+  <div class="space-y-4">
+    <h2 class="text-xl font-semibold text-light md:text-2xl">Tamaños</h2>
+    <p class="text-sm text-light/75 md:text-base">
+      Tres tamaños coherentes con la escala tipográfica del sitio (Poppins
+      Bold).
+    </p>
+    <article
+      class="flex flex-wrap items-center gap-4 rounded-2xl border border-light bg-light/50 p-5"
+    >
+      {
+        sizes.map((s) => (
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-secondary">
+              {sizeLabels[s]}
+            </span>
+            <Button as="a" href="#" variant="orange" size={s}>
+              Contratar plan
+            </Button>
+          </div>
+        ))
+      }
+    </article>
+  </div>
+
+  {/* ─── Bloque: Con iconos ─── */}
+  <div class="space-y-4">
+    <h2 class="text-xl font-semibold text-light md:text-2xl">Con iconos</h2>
+    <p class="text-sm text-light/75 md:text-base">
+      Iconos leading y trailing vía <code
+        class="rounded bg-white/10 px-1.5 py-0.5 text-sm">astro-icon</code
+      >. El CTA telefónico lleva el icono de teléfono por defecto.
+    </p>
+    <article
+      class="flex flex-wrap items-center gap-4 rounded-2xl border border-light bg-light/50 p-5"
+    >
+      <Button as="a" href="#" variant="orange" icon="arrow-right">
+        Empezar ahora
+      </Button>
+      <Button as="a" href="#" variant="navy" iconTrailing="arrow-right">
+        Continuar
+      </Button>
+    </article>
+  </div>
+
+  {/* ─── Bloque: Estados ─── */}
+  <div class="space-y-4">
+    <h2 class="text-xl font-semibold text-light md:text-2xl">Estados</h2>
+    <p class="text-sm text-light/75 md:text-base">
+      Hover, focus-visible, active, disabled y loading se aplican sobre todas
+      las variantes sin romper la composición.
+    </p>
+    <article class={`${showcaseCardClass} gap-5`}>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Default </span>
+          <Button as="a" href="#" variant="orange"> Contratar </Button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Hover </span>
+          <Button as="a" href="#" variant="orange" class="scale-[1.03]">
+            Contratar
+          </Button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Focus-visible </span>
+          <Button
+            as="a"
+            href="#"
+            variant="orange"
+            class="ring-2 ring-light ring-offset-2 ring-offset-secondary"
+          >
+            Contratar
+          </Button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Active </span>
+          <Button as="a" href="#" variant="orange" class="scale-[0.98]">
+            Contratar
+          </Button>
+        </div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Disabled (link) </span>
+          <Button as="a" href="#" variant="navy" disabled>
+            No disponible
+          </Button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Disabled (button) </span>
+          <Button as="button" variant="navy" disabled> No disponible </Button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Loading (link) </span>
+          <Button as="a" href="#" variant="navy" loading> Enviando… </Button>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class={showcaseLabelClass}> Loading (button) </span>
+          <Button as="button" variant="navy" loading> Enviando… </Button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
