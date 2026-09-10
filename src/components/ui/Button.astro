@@ -99,26 +99,6 @@ const finalClass = [
 ]
   .filter(Boolean)
   .join(" ");
-
-// Spinner inline (sin dependencias externas) para el estado loading.
-// Ocupa el espacio del icono leading mientras carga.
-const spinnerSvg = `
-  <svg
-    class="animate-spin"
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M12 3a9 9 0 1 0 9 9" />
-  </svg>
-`;
 ---
 
 {
@@ -134,13 +114,13 @@ const spinnerSvg = `
       class={finalClass}
     >
       {loading ? (
-        <span set:html={spinnerSvg} />
-      ) : icon ? (
         <Icon
-          name={icon}
-          class="h-5 w-5 shrink-0"
+          name={"loader"}
+          class="h-5 w-5 shrink-0 animate-spin"
           aria-hidden="true"
         />
+      ) : icon ? (
+        <Icon name={icon} class="h-5 w-5 shrink-0" aria-hidden="true" />
       ) : null}
       <slot />
       {iconTrailing && !loading ? (
@@ -157,13 +137,13 @@ const spinnerSvg = `
       class={finalClass}
     >
       {loading ? (
-        <span set:html={spinnerSvg} />
-      ) : icon ? (
         <Icon
-          name={icon}
-          class="h-5 w-5 shrink-0"
+          name={"loader"}
+          class="h-5 w-5 shrink-0 animate-spin"
           aria-hidden="true"
         />
+      ) : icon ? (
+        <Icon name={icon} class="h-5 w-5 shrink-0" aria-hidden="true" />
       ) : null}
       <slot />
       {iconTrailing && !loading ? (
