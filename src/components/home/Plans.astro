@@ -14,6 +14,10 @@
  * internet-empresas).
  */
 
+import IconHome from '../../icons/home.svg'
+import IconBuilding from '../../icons/building.svg'
+import IconArrowRight from '../../icons/arrow-right.svg'
+
 const PLANS = [
   {
     tipo: "hogar",
@@ -42,7 +46,7 @@ const PLANS = [
 
 <section
   aria-labelledby="plans-title"
-  class="border-b-8 border-line bg-light px-6 py-16 md:py-20"
+  class="border-b-8 border-line bg-light px-6 pt-16 md:pt-20"
 >
   <div class="mx-auto w-full max-w-7xl justify-center text-center items-center">
     <header class="mb-10 max-w-3xl text-center md:mx-auto md:mb-14">
@@ -78,44 +82,9 @@ const PLANS = [
               ]}
             >
               {plan.tipo === "empresarial" ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-building"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M3 21h18" />
-                  <path d="M9 8h1" />
-                  <path d="M9 12h1" />
-                  <path d="M13 8h1" />
-                  <path d="M13 12h1" />
-                  <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" />
-                </svg>
+                <IconBuilding class='h-10 w-10'/>
               ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-home"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-                  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-                </svg>
+                <IconHome class='h-10 w-10'/>
               )}
             </div>
             <h3
@@ -182,15 +151,7 @@ const PLANS = [
                       : "border-white/30 bg-light text-primary",
                   ]}
                 >
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    class="h-4 w-4 fill-none stroke-current stroke-[2]"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M13 5l7 7-7 7" />
-                  </svg>
+                  <IconArrowRight class="h-6 w-6"/>
                 </div>
               </a>
             </div>
