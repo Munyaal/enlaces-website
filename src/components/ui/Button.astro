@@ -1,0 +1,174 @@
+---
+/**
+ * Button.astro
+ *
+ * Componente de botón reutilizable para Enlaces Playa. Mantiene el patrón
+ * visual ya presente en el sitio (píldora `rounded-full`, tipografía
+ * Poppins Bold, padding horizontal generoso) y lo expone como un sistema
+ * controlado por props para que las páginas y secciones futuras no
+ * dupliquen las mismas clases utility inline.
+ *
+ * Props:
+ *   - as:        'a' (defecto) o 'button'. Define el elemento raíz.
+ *   - variant:   familia visual. Ver VARIANTS abajo.
+ *   - size:      'sm' | 'md' (defecto) | 'lg'.
+ *   - icon:      nombre de icono astro-icon (leading).
+ *   - iconTrailing: nombre de icono astro-icon (trailing).
+ *   - loading:   muestra un spinner inline y deshabilita interacción.
+ *   - disabled:  bloquea interacción y aplica opacidad.
+ *   - href:      requerido cuando `as === 'a'`.
+ *   - type:      tipo de botón (cuando `as === 'button'`).
+ *   - ariaLabel: etiqueta accesible opcional.
+ *
+ * Las variantes 'phone-*' renderizan automáticamente un icono `phone`
+ * leading para reforzar la lectura del canal; puede sobreescribirse
+ * pasando `icon`.
+ */
+
+import { Icon } from "astro-icon/components";
+
+type Variant = "orange" | "navy";
+
+type Size = "sm" | "md" | "lg";
+
+interface Props {
+  as?: "a" | "button";
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  icon?: string;
+  iconTrailing?: string;
+  loading?: boolean;
+  disabled?: boolean;
+  ariaLabel?: string;
+  target?: "_blank" | "_self";
+  rel?: string;
+  id?: string;
+  class?: string;
+}
+
+const {
+  as = "a",
+  variant = "orange",
+  size = "md",
+  href,
+  type = "button",
+  icon,
+  iconTrailing,
+  loading = false,
+  disabled = false,
+  ariaLabel,
+  target,
+  rel,
+  id,
+  class: className = "",
+}: Props = Astro.props;
+
+const baseVariantClasses: Record<Variant, string> = {
+  // Naranja de marca (#ffa61f → bg-primary). Texto dark para contraste.
+  orange:
+    "border-2 border-primary bg-primary text-light hover:bg-light hover:text-primary hover:scale-[1.03]",
+
+  // Azul marino (#002741 → bg-secondary). Texto light.
+  navy: "border-2 border-light bg-secondary text-light hover:bg-primary hover:text-light hover:border-primary hover:scale-[1.03]",
+};
+
+const sizeClasses: Record<Size, string> = {
+  sm: "px-4 py-1.5 text-sm",
+  md: "px-6 py-2.5 text-base",
+  lg: "px-7 py-3 text-base sm:text-lg",
+};
+
+// Clases comunes: píldora, layout flex, estados focus/active/disabled.
+const sharedClasses =
+  "inline-flex items-center justify-center gap-2 rounded-full font-bold transition-[transform,box-shadow,color,background] duration-200 ease-out select-none whitespace-nowrap outline-none focus-visible:shadow-[0_0_0_2px_var(--color-light),0_0_0_4px_var(--color-secondary)] active:scale-[0.98] shadow hover:shadow-md";
+
+const stateClasses =
+  "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 aria-[busy=true]:cursor-progress aria-[busy=true]:hover:scale-100";
+
+const isDisabled = disabled || loading;
+const variantClasses = baseVariantClasses[variant];
+const finalClass = [
+  sharedClasses,
+  variantClasses,
+  sizeClasses[size],
+  stateClasses,
+  isDisabled ? "pointer-events-none" : "",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+
+// Spinner inline (sin dependencias externas) para el estado loading.
+// Ocupa el espacio del icono leading mientras carga.
+const spinnerSvg = `
+  <svg
+    class="animate-spin"
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 3a9 9 0 1 0 9 9" />
+  </svg>
+`;
+---
+
+{
+  as === "a" ? (
+    <a
+      href={isDisabled ? undefined : href}
+      aria-disabled={isDisabled ? "true" : undefined}
+      aria-busy={loading ? "true" : undefined}
+      aria-label={ariaLabel}
+      target={target}
+      rel={target === "_blank" ? (rel ?? "noopener noreferrer") : rel}
+      id={id}
+      class={finalClass}
+    >
+      {loading ? (
+        <span set:html={spinnerSvg} />
+      ) : icon ? (
+        <Icon
+          name={icon}
+          class="h-5 w-5 shrink-0"
+          aria-hidden="true"
+        />
+      ) : null}
+      <slot />
+      {iconTrailing && !loading ? (
+        <Icon name={iconTrailing} class="h-5 w-5 shrink-0" aria-hidden="true" />
+      ) : null}
+    </a>
+  ) : (
+    <button
+      type={type}
+      disabled={isDisabled}
+      aria-busy={loading ? "true" : undefined}
+      aria-label={ariaLabel}
+      id={id}
+      class={finalClass}
+    >
+      {loading ? (
+        <span set:html={spinnerSvg} />
+      ) : icon ? (
+        <Icon
+          name={icon}
+          class="h-5 w-5 shrink-0"
+          aria-hidden="true"
+        />
+      ) : null}
+      <slot />
+      {iconTrailing && !loading ? (
+        <Icon name={iconTrailing} class="h-5 w-5 shrink-0" aria-hidden="true" />
+      ) : null}
+    </button>
+  )
+}
