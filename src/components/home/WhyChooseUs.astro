@@ -12,6 +12,8 @@
  * patrones ya presentes en el sitio (cards, botones, tipografías).
  */
 
+import IconArrowRight from '../../icons/arrow-right.svg'
+
 const TELEFONO = {
   label: "984 109 1111",
   href: "tel:+529841091111",
@@ -25,41 +27,56 @@ const VISUAL = {
 
 <section
   aria-labelledby="why-choose-title"
-  class="border-b-8 border-line bg-primary px-6 py-16 md:py-20"
+  class="border-b-8 border-line bg-light p-6"
 >
   <div
     class="mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-2 lg:items-center"
   >
     <div>
-      <header class="max-w-xl">
+      <hr class="border-primary border max-w-35" />
+      <header class="max-w-xl mt-6">
         <h2
           id="why-choose-title"
-          class="mt-3 text-2xl font-bold text-light md:text-4xl"
+          class="mt-3 text-2xl font-bold text-secondary md:text-4xl"
         >
-          <span class="text-accent">Internet</span> en la Riviera Maya:
+          <span class="text-primary">Internet</span> en la Riviera Maya:
         </h2>
         <h2
           id="why-choose-title"
-          class="mt-3 text-2xl font-bold text-light md:text-4xl"
+          class="mt-2 text-2xl font-bold text-secondary md:text-4xl"
         >
-          ¿Por qué elegir <span class="text-accent">Enlaces Playa?</span>
+          ¿Por qué elegir <p class="text-primary mt-2">Enlaces Playa?</p>
         </h2>
-        <p class="mt-4 text-base text-light/85 md:text-lg">
+        <p class="mt-4 text-secondary font-medium md:text-lg">
           Disfruta de Internet para tu hogar o negocio, con cobertura,
           tecnología y soporte técnico local en Playa del Carmen, Puerto Morelos
           y Tulum.
         </p>
       </header>
 
-      <div class="mt-8 rounded-2xl border border-accent/40 bg-accent/5 p-5">
-        <p class="text-sm font-medium uppercase tracking-widest text-accent">
-          Llámanos
-        </p>
+      <div class="mt-6 text-secondary md:mt-auto md:pt-6">
         <a
           href={TELEFONO.href}
-          class="mt-2 block text-2xl font-bold text-light underline-offset-4 hover:underline md:text-3xl"
+          class="inline-flex border-2 gap-6 border-primary items-center justify-center rounded-full px-6 py-3 text-base font-bold shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
         >
-          {TELEFONO.label}
+          <div class="flex flex-col text-secondary">
+            <span
+              class="text-sm font-medium"
+            >
+              Llámanos
+            </span>
+            <span
+              class="text-3xl font-bold uppercase tracking"
+            >
+              {TELEFONO.label}
+            </span>
+          </div>
+
+          <span
+            class="flex h-12 w-12 items-center justify-center rounded-full border text-light bg-primary"
+          >
+            <IconArrowRight class="h-8 w-8"/>
+          </span>
         </a>
       </div>
     </div>
