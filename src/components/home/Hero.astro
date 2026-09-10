@@ -1,54 +1,17 @@
 ---
-/**
- * Hero.astro
- *
- * Hero principal de la landing. Muestra el mensaje de marca sobre un background
- * a ancho completo, con copy alineado a la izquierda y dos CTAs (cotización y
- * exploración de cobertura).
- *
- * El copy y las URLs se mantienen en constantes para que un futuro ajuste de
- * mensajes o destinos se haga en un solo lugar. La imagen de fondo es
- * decorativa (`aria-hidden` + `alt=""`) porque el valor del Hero vive en su
- * contenido textual; existe un único <h1> por página.
- */
+import { Image } from "astro:assets";
+import internetEnlacesPlaya from "../../assets/images/internet-riviera-maya-enlaces-playa.jpg";
+import Button from "../ui/Button.astro";
 
-// Imagen de fondo: se mantiene como `<img>` para preservar `brightness-75`
-// sobre la propia imagen. La capa de overlay es independiente y solo aporta
-// legibilidad al texto.
-const BACKGROUND = {
-  src: "/images/hero-background.webp",
-  alt: "",
-};
-
-// Segmentos de la descripción. Las frases clave se marcan con `bold: true`
-// para envolverlas en `<strong class="font-bold">` y enfatizarlas solo por
-// peso (sin cambiar color) dentro del copy en cursiva.
-const DESCRIPTION_SEGMENTS = [
-  { text: "Conecta tu hogar o negocio con Internet de alta velocidad en la " },
-  { text: "Riviera Maya.", bold: true },
-  { text: " Enlaces Playa ofrece soluciones de Internet para Hogar y Empresas en " },
-  { text: "Playa del Carmen, Puerto Morelos y Tulum", bold: true },
-  { text: ", con opciones de fibra óptica e Internet inalámbrico, instalación profesional y soporte técnico local. " }
-];
-
-const PRIMARY_CTA = {
-  label: "Consultar cobertura",
-  href: "/cobertura",
-};
-
-const SECONDARY_CTA = {
-  label: "Ver planes y precios",
-  href: "/internet-hogar",
-};
 ---
 
 <header
-  class="relative isolate w-full min-h-[600px] md:min-h-[680px] lg:min-h-[760px] overflow-hidden border-b-8 border-line"
+  class="relative isolate w-full min-h-[600px] md:min-h-[660px] lg:min-h-[920px] overflow-hidden border-b-8 border-line"
 >
   {/* Imagen de fondo (decorativa) */}
-  <img
-    src={BACKGROUND.src}
-    alt={BACKGROUND.alt}
+  <Image
+    src={internetEnlacesPlaya}
+    alt={"Imagen de fondo del Hero"}
     aria-hidden="true"
     loading="eager"
     decoding="async"
@@ -56,51 +19,52 @@ const SECONDARY_CTA = {
     class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
   />
 
-  {/* Overlay sutil para legibilidad. El `brightness-75` se conserva en la
-      imagen; este degradado solo oscurece la franja donde va el texto. */}
+  {
+    /* Overlay sutil para legibilidad. El `brightness-75` se conserva en la
+      imagen; este degradado solo oscurece la franja donde va el texto. */
+  }
   <div
     aria-hidden="true"
-    class="absolute inset-0 -z-10 bg-gradient-to-r from-primary/80 via-primary/40 to-transparent"
+    class="absolute inset-0 -z-10 bg-gradient-to-r from-secondary/80 via-secondary/40 to-transparent"
   >
   </div>
 
   <div
     class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-24 md:items-start md:py-28 lg:py-32"
   >
-    <div class="max-w-2xl">
-      <h1
-        class="font-display my-7 -rotate-1 text-balance text-center text-3xl font-bold italic leading-tight text-light sm:my-8 sm:text-4xl md:my-9 md:text-left md:text-5xl lg:my-11 lg:text-6xl"
-      >
-        <span class="text-accent">Internet</span>{" "}
+    <div class="mt-20">
+      <h1 class="heading-1 text-balance text-light text-center md:text-left">
+        <span class="text-primary">Internet</span>{" "}
         para tu hogar y negocio{" "}
-        <span class="text-accent">en la Riviera Maya</span>{" "}
+        <span class="text-primary">en la Riviera Maya</span>{" "}
       </h1>
 
+      <hr class="w-36 h-1 bg-accent-grad-r border-0 my-4 mx-auto md:ml-0" />
+
       <p
-        class="max-w-xl text-pretty text-center text-base italic text-light/90 sm:text-lg md:text-left md:text-xl"
+        class="paragraph-md max-w-2xl text-pretty text-center text-light/90 md:text-left"
       >
-        {DESCRIPTION_SEGMENTS.map((segment) => (
-          segment.bold ? (
-            <strong class="font-bold">{segment.text}</strong>
-          ) : (
-            segment.text
-          )
-        ))}
+        Conecta tu hogar o negocio con Internet de alta velocidad en la{
+          " "
+        }<span class="text-accent font-semibold">Riviera Maya.</span>{" "}
+        Enlaces Playa ofrece soluciones de Internet para Hogar y Empresas en{
+          " "
+        }
+        <span class="text-accent">Playa del Carmen, Puerto Morelos y Tulum</span
+        >{" "}
+        , con opciones de fibra óptica e Internet inalámbrico, instalación profesional
+        y soporte técnico local.
       </p>
 
-      <div class="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:gap-4 md:items-start">
-        <a
-          href={PRIMARY_CTA.href}
-          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-7 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
-        >
-          {PRIMARY_CTA.label}
-        </a>
-        <a
-          href={SECONDARY_CTA.href}
-          class="inline-flex items-center justify-center rounded-full border border-light/40 px-7 py-3 text-base font-semibold text-light transition-colors hover:border-light/70 hover:bg-light/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
-        >
-          {SECONDARY_CTA.label}
-        </a>
+      <div
+        class="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:gap-4 md:items-start"
+      >
+        <Button as="a" href="/internet-hogar" size="lg" icon="wifi" variant="navy">
+          Ver planes y precios
+        </Button>
+        <Button as="a" href="/cobertura" size="lg" icon="map-pin">
+          Consultar cobertura
+        </Button>
       </div>
     </div>
   </div>
@@ -112,10 +76,14 @@ const SECONDARY_CTA = {
   // Zoom in/out muy leve en loop SOLO sobre la imagen de fondo del Hero.
   // Respeta prefers-reduced-motion: si el usuario lo tiene activo, no anima.
   const initHeroBackgroundZoom = () => {
-    const bg = document.querySelector<HTMLImageElement>("[data-hero-background]");
+    const bg = document.querySelector<HTMLImageElement>(
+      "[data-hero-background]",
+    );
     if (!bg) return;
 
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: no-preference)");
+    const motionQuery = window.matchMedia(
+      "(prefers-reduced-motion: no-preference)",
+    );
     if (!motionQuery.matches) return;
 
     const ctx = gsap.context(() => {

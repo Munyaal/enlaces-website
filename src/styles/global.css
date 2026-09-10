@@ -14,11 +14,9 @@
 
   /* Typography: Poppins is the primary family, served from /public/fonts/.
      SkolaSans is the secondary display family for titles/highlighted text. */
-  --font-sans:
-    "Poppins", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+  --font-sans: "Poppins", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
-  --font-display:
-    "SkolaSans", "Poppins", "Segoe UI", system-ui, sans-serif;
+  --font-display: "SkolaSans", "Poppins", "Segoe UI", system-ui, sans-serif;
 }
 
 @utility bg-accent-grad-t {
@@ -27,6 +25,10 @@
 
 @utility bg-accent-grad-r {
   background-image: linear-gradient(to right, #f0bc1f, #f0df1f);
+}
+
+@utility bg-accent-grad-radial {
+  background-image: radial-gradient(circle, #ffa61f, #ffa61f, 100%);
 }
 
 .swiper-pagination-bullet {
