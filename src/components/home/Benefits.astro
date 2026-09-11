@@ -45,41 +45,40 @@ const BENEFITS = [
     /* Patrón de contenedor seguro: se conserva `max-w-[90rem]` y el
       padding existentes para no alterar el layout. */
   }
-  <div class="mx-auto w-full max-w-[90rem] px-2 py-10 sm:px-4 lg:py-12">
-    <ul
-      class="relative z-10 -mt-0 grid gap-8 sm:-mt-22 md:-mt-26 sm:grid-cols-2 sm:gap-10 lg:-mt-44 xl:-mt-64 lg:grid-cols-3 lg:gap-12"
-      role="list"
-    >
-      {
-        BENEFITS.map((benefit) => (
-          <li class="flex flex-col rounded-3xl border-2 border-light/40 px-6 py-6 text-left shadow-xl bg-light sm:rounded-2xl sm:px-8 sm:py-7 lg:px-10">
-            <div class="mx-auto mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-primary/20 sm:h-28 sm:w-28 md:h-32 md:w-32 lg:h-36 lg:w-36">
-              <Icon
-                name={benefit.icon}
-                class="h-14 w-14 text-primary sm:h-20 sm:w-20 md:h-24 md:w-24"
+  <section class="px-6 py-10 lg:py-16">
+    <div class="relative z-10 sm:-mt-24 lg:-mt-44 xl:-mt-64 w-full">
+      <ul class="flex flex-col items-center md:flex-row md:flex-wrap md:justify-center md:items-stretch gap-20" role="list">
+        {
+          BENEFITS.map((benefit) => (
+            <li class="flex flex-col rounded-3xl border-2 border-light/25 px-6 py-6 text-left shadow-xl bg-light sm:rounded-2xl sm:px-8 sm:py-7 lg:px-10 w-full max-w-sm">
+              <div class="mx-auto mb-2 flex items-center justify-center rounded-full bg-primary/20 h-20 w-20 sm:h-26 sm:w-26 md:h-32 md:w-32 lg:h-36 lg:w-36">
+                <Icon
+                  name={benefit.icon}
+                  class="text-primary h-14 w-14 sm:h-20 sm:w-20 md:h-26 md:w-26"
+                  aria-hidden="true"
+                />
+              </div>
+              <h3 class="heading-6 text-center text-secondary">
+                {Array.isArray(benefit.titulo)
+                  ? benefit.titulo.map((line, i) => (
+                      <>
+                        {i > 0 && <br />}
+                        {line}
+                      </>
+                    ))
+                  : benefit.titulo}
+              </h3>
+              <hr
                 aria-hidden="true"
+                class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-40"
               />
-            </div>
-            <h3 class="heading-6 text-center text-secondary">
-              {Array.isArray(benefit.titulo)
-                ? benefit.titulo.map((line, i) => (
-                    <>
-                      {i > 0 && <br />}
-                      {line}
-                    </>
-                  ))
-                : benefit.titulo}
-            </h3>
-            <hr
-              aria-hidden="true"
-              class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-40"
-            />
-            <p class="paragraph-md mt-5 leading-relaxed text-secondary sm:mt-6">
-              {benefit.descripcion}
-            </p>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
+              <p class="paragraph-md mt-5 leading-relaxed text-secondary sm:mt-6">
+                {benefit.descripcion}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
 </section>
