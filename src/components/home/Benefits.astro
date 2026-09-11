@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import Container from "../Container.astro";
 
 /**
  * Benefits.astro
@@ -42,12 +43,12 @@ const BENEFITS = [
   </h2>
 
   {
-    /* Patrón de contenedor seguro: se conserva `max-w-[90rem]` y el
-      padding existentes para no alterar el layout. */
+    /* El contenedor interno reutiliza `Container` para alinear el
+      max-width y el padding con el resto de secciones (Plans, etc.). */
   }
-  <section class="px-6 py-10 lg:py-16">
+  <Container>
     <div class="relative z-10 sm:-mt-24 lg:-mt-44 xl:-mt-64 w-full">
-      <ul class="flex flex-col items-center md:flex-row md:flex-wrap md:justify-center md:items-stretch gap-20" role="list">
+      <ul class="flex flex-col items-center gap-20 lg:flex-row lg:flex-nowrap lg:justify-between lg:items-stretch lg:gap-6" role="list">
         {
           BENEFITS.map((benefit) => (
             <li class="flex flex-col rounded-3xl border-2 border-light/25 px-6 py-6 text-left shadow-xl bg-light sm:rounded-2xl sm:px-8 sm:py-7 lg:px-10 w-full max-w-sm">
@@ -80,5 +81,5 @@ const BENEFITS = [
         }
       </ul>
     </div>
-  </section>
+  </Container>
 </section>
