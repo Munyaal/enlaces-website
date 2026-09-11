@@ -5,20 +5,22 @@ import Container from "../Container.astro";
 /**
  * Benefits.astro
  */
-
 const BENEFITS = [
   {
     titulo: "Internet que se adapta a tu forma de vivir",
+    icon: 'wifi',
     descripcion:
       "Disfruta de una conexión de internet estable para trabajar, estudiar, hacer streaming y mantener todos tus dispositivos conectados.",
   },
   {
     titulo: "Cobertura de Internet en la Riviera Maya",
+    icon: 'map-pin',
     descripcion:
       "Conectamos hogares y negocios en Playa del Carmen, Puerto Morelos y Tulum, con opciones de fibra óptica e internet inalámbrico según disponibilidad.",
   },
   {
     titulo: ["Soporte", "técnico local"],
+    icon: 'tool',
     descripcion:
       "Atención personalizada de expertos en conectividad que conocen la Riviera Maya y tu zona.",
   },
@@ -26,7 +28,7 @@ const BENEFITS = [
 ---
 
 <section aria-labelledby="benefits-title">
-  <div class="mx-auto w-full max-w-7xl px-6 py-10 lg:py-12">
+  <div class="mx-auto w-full max-w-[90rem] px-6 py-10 lg:py-12">
     <div class="relative h-44">
       <ul
         class="grid gap-16 sm:grid-cols-2 lg:grid-cols-3 absolute -top-64"
@@ -37,7 +39,7 @@ const BENEFITS = [
             <li class="flex flex-col rounded-4xl border-2 border-white/10 px-10 py-6 text-left shadow-2xl bg-light">
               <div class="mx-auto w-36 h-36 bg-primary/20 mb-1 rounded-full flex justify-center items-center">
                 <Icon
-                  name="map-pin"
+                  name={benefit.icon}
                   class="h-24 w-24 text-primary"
                   aria-hidden="true"
                 />

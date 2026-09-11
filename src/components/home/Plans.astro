@@ -17,6 +17,7 @@
 import IconHome from "../../icons/home.svg";
 import IconBuilding from "../../icons/building.svg";
 import IconArrowRight from "../../icons/arrow-right.svg";
+import Container from "../Container.astro";
 
 const PLANS = [
   {
@@ -44,26 +45,21 @@ const PLANS = [
 ];
 ---
 
-<section
-  aria-labelledby="plans-title"
-  class="border-b-8 border-line bg-light px-6 pt-16 md:pt-20"
->
-  <div class="mx-auto w-full max-w-7xl justify-center text-center items-center">
-    <header class="mb-10 text-center md:mx-auto md:mb-14">
-      <h2 id="plans-title" class="heading-2 mt-3 font-bold text-secondary">
-        <span class="text-primary">Internet</span> para Hogar y Empresas<p>
-          en la <span class="text-primary">Riviera Maya</span>
-        </p>
-      </h2>
-      <hr class="w-36 h-1 bg-accent-grad-r border-0 mx-auto" />
-      <p class="paragraph-md mt-6 text-secondary">
-        Encuentra la solución de conectividad que necesitas, ya sea para tu
-        hogar, negocio o empresa.
-      </p>
-    </header>
+<section aria-labelledby="plans-title">
+  <Container>
+    <h2 id="plans-title" class="heading-2 font-bold text-secondary text-center">
+      <span class="text-primary">Internet</span> para Hogar y Empresas <br /> en la
+      {" "}
+      <span class="text-primary">Riviera Maya</span>
+    </h2>
+    <hr class="w-36 h-1 bg-accent-grad-r border-0 mx-auto" />
+    <p class="paragraph-md mt-6 text-secondary text-center">
+      Encuentra la solución de conectividad que necesitas, ya sea para tu hogar,
+      negocio o empresa.
+    </p>
 
     <div
-      class="flex flex-col md:flex-row gap-8 md:gap-28 items-center justify-center"
+      class="flex flex-col md:flex-row gap-8 md:gap-28 items-center justify-center mt-12"
     >
       {
         PLANS.map((plan) => (
@@ -158,5 +154,5 @@ const PLANS = [
         ))
       }
     </div>
-  </div>
+  </Container>
 </section>
