@@ -1,13 +1,10 @@
 ---
+import { Icon } from "astro-icon/components";
+import type { InternetHogar } from "../pages/internet-hogar.astro";
 import Container from "./Container.astro";
 
 /*
  * Navbar flotante con backdrop-blur bajo, borde sutil, redondeado amplio y
- * sombra suave. Envuelto en <Container /> para mantener el ancho máximo y
- * el padding horizontal consistentes con el resto del sitio.
- *
- * Las URLs y el contenido se mantienen en constantes para que un cambio
- * futuro (rutas reales, destinos de CTA, etc.) se haga en un solo lugar.
  */
 
 const LOGO = {
@@ -17,16 +14,22 @@ const LOGO = {
 };
 
 const NAV_URLS = {
-  servicios: "#",
-  nosotros: "#",
-  cobertura: "#",
+  homeInternet: "#",
+  businessInternet: "#",
+  coverage: "#",
+  aboutUs: "#",
+  help: "#",
+  contact: "#",
   cta: "#",
 };
 
 const NAV_LINKS = [
-  { label: "Servicios", href: NAV_URLS.servicios },
-  { label: "Nosotros", href: NAV_URLS.nosotros },
-  { label: "Cobertura", href: NAV_URLS.cobertura },
+  { label: "Internet para Hogar", href: NAV_URLS.homeInternet },
+  { label: "Internet para Empresas", href: NAV_URLS.businessInternet },
+  { label: "Cobertura", href: NAV_URLS.coverage },
+  { label: "Nosotros", href: NAV_URLS.aboutUs },
+  { label: "Ayuda", href: NAV_URLS.help },
+  { label: "Contacto", href: NAV_URLS.contact },
 ];
 
 const CTA_LINK = {
@@ -35,10 +38,13 @@ const CTA_LINK = {
 };
 ---
 
-<header class="fixed inset-x-0 top-0 z-50">
-  <div class="mx-auto w-full max-w-7xl px-6 mt-4 lg:mt-6">
+<!-- py-10 lg:py-16 -->
+<header
+  class="fixed inset-x-0 top-0 z-50 bg-secondary/70 backdrop-blur transition duration-300 focus-within:backdrop-blur-none focus-within:bg-secondary md:hover:bg-secondary md:hover:backdrop-blur-none"
+>
+  <div class="mx-auto w-full max-w-7xl">
     <nav
-      class="relative flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-secondary/70 px-4 py-3 shadow backdrop-blur transition duration-300 focus-within:bg-secondary focus-within:backdrop-blur-none md:hover:bg-secondary md:hover:backdrop-blur-none md:px-6"
+      class="flex items-center justify-between gap-4 px-4 py-3 md:px-6"
       aria-label="Navegación principal"
     >
       {/* Logo */}
@@ -85,7 +91,7 @@ const CTA_LINK = {
       {/* Contenedor de links + CTA */}
       <div
         id="primary-menu"
-        class="absolute inset-x-0 top-full mt-2 hidden flex-col gap-3 rounded-2xl border border-white/10 bg-primary/90 p-4 shadow-lg backdrop-blur md:static md:mt-0 md:flex md:flex-row md:items-center md:justify-end md:gap-6 md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none md:rounded-none"
+        class="absolute inset-x-0 top-full mt-2 hidden flex-col gap-3 rounded-2xl border border-white/10 bg-secondary/90 p-4 shadow-lg backdrop-blur md:static md:mt-0 md:flex md:flex-row md:items-center md:justify-end md:gap-6 md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none md:rounded-none"
       >
         <ul class="flex flex-col gap-1 md:flex-row md:items-center md:gap-2">
           {
@@ -93,7 +99,7 @@ const CTA_LINK = {
               <li>
                 <a
                   href={link.href}
-                  class="block rounded-md px-3 py-2 text-sm font-semibold text-light transition-colors hover:bg-white/10 hover:text-accent md:text-base"
+                  class="block rounded-md px-3 py-2 text-sm font-semibold text-light transition-colors hover:bg-light/10 hover:text-primary md:text-base"
                 >
                   {link.label}
                 </a>
@@ -104,9 +110,9 @@ const CTA_LINK = {
 
         <a
           href={CTA_LINK.href}
-          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-5 py-2.5 text-sm font-bold text-dark shadow-md transition-transform hover:scale-[1.03] md:ml-2"
+          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t p-2.5 text-sm font-bold text-dark shadow-md transition-transform hover:scale-[1.03] md:ml-2"
         >
-          {CTA_LINK.label}
+          <Icon name="phone" class="w-8 h-8" />
         </a>
       </div>
     </nav>
