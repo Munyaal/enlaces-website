@@ -10,6 +10,9 @@
  * detalle pasando el código postal como parámetro de URL. Esto evita
  * añadir dependencias de backend o animaciones nuevas y mantiene el
  * alcance del cambio en contenido/estructura semántica.
+ *
+ * Todo el sizing tipográfico usa exclusivamente los tokens definidos
+ * en `src/styles/typography.css`.
  */
 import IconMapPin from "../../icons/map-pin.svg";
 
@@ -21,60 +24,61 @@ const CTA = {
 
 <section
   aria-labelledby="coverage-check-title"
-  class="border-b-8 border-line bg-secondary px-6 py-16 md:py-20"
+  class="border-b-8 border-line bg-secondary px-4 py-14 sm:px-6 sm:py-16 md:py-20"
 >
+  {/* Patrón de contenedor seguro: conserva el max-w específico de esta
+      sección y el centrado horizontal. */}
   <div class="mx-auto w-full max-w-4xl text-center">
     <header class="mx-auto max-w-3xl">
-      <h2
-        id="coverage-check-title"
-        class="mt-3 text-2xl font-bold text-light md:text-4xl"
-      >
-        ¿Buscas <span class="text-primary">Internet</span> con cobertura <p>
-          en la <span class="text-primary">Riviera Maya?</span>
-        </p>
+      <h2 id="coverage-check-title" class="heading-2 mt-3 text-light">
+        ¿Buscas <span class="text-primary">Internet</span> con cobertura
+        <span class="block text-primary">en la Riviera Maya?</span>
       </h2>
-      <p class="mt-4 text-base text-light/85 md:text-lg">
+      <p class="paragraph-md mt-4 text-light/85">
         Consulta la disponibilidad de nuestro servicio en Playa del Carmen,
         Puerto Morelos y Tulum y encuentra la opción de conexión ideal para tu
         hogar o negocio.
       </p>
     </header>
-    <div class="mt-6 text-secondary md:mt-auto md:pt-6">
-      <div
-        class="inline-flex border-2 gap-6  bg-light items-center justify-center rounded-full px-6 py-3 text-base font-bold shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
+
+    <form
+      action={CTA.href}
+      method="get"
+      class="mx-auto mt-8 flex w-full max-w-2xl flex-col items-center gap-3 rounded-full bg-light p-2 shadow-md transition-transform hover:scale-[1.02] focus-within:ring-2 focus-within:ring-accent sm:mt-10 sm:flex-row sm:items-center sm:gap-2 sm:p-1.5 md:gap-4"
+      aria-label="Consulta de cobertura por código postal"
+    >
+      <span
+        aria-hidden="true"
+        class="hidden shrink-0 items-center justify-center pl-3 text-primary sm:flex sm:h-10 sm:w-10"
       >
-          <IconMapPin
-            class="h-12 w-12 text-primary"
-          />
-        <form
-          action={CTA.href}
-          method="get"
-          class="flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-baseline"
-          aria-label="Consulta de cobertura por código postal"
-        >
-          <div class="flex-1 text-left">
-            <input
-              id="postal-code"
-              name="cp"
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]{4,5}"
-              maxlength="5"
-              placeholder="Ingresa tu código postal"
-              required
-              class="block w-full py-2 text-secondary placeholder-gray-400 focus:outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-bold text-light shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light"
-          >
-            {CTA.label}
-          </button>
-        </form>
-      </div>
-    </div>
-    <p class="mt-4 text-xs text-light/70 md:text-sm">
+        <IconMapPin class="h-9 w-9" />
+      </span>
+
+      <label for="postal-code" class="sr-only">
+        Código postal
+      </label>
+      <input
+        id="postal-code"
+        name="cp"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]{4,5}"
+        maxlength="5"
+        placeholder="Ingresa tu código postal"
+        required
+        autocomplete="postal-code"
+        class="block w-full bg-transparent px-4 py-3 paragraph-md text-secondary placeholder-gray-400 focus:outline-none sm:px-3 sm:py-2"
+      />
+
+      <button
+        type="submit"
+        class="inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 paragraph-md font-bold text-light shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto"
+      >
+        {CTA.label}
+      </button>
+    </form>
+
+    <p class="paragraph-xs mt-4 text-light/70">
       Consulta la disponibilidad de nuestro servicio en Playa del Carmen, Puerto
       Morelos y Tulum.
     </p>

@@ -28,7 +28,7 @@
 }
 
 @utility bg-accent-grad-radial {
-  background-image: radial-gradient(circle, #ffa61f, #ffa61f, 100%);
+  background-image: radial-gradient(circle, #FAB855 10%, #FFA61F 100%);
 }
 
 .swiper-pagination-bullet {

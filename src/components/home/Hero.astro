@@ -2,16 +2,15 @@
 import { Image } from "astro:assets";
 import internetEnlacesPlaya from "../../assets/images/internet-riviera-maya-enlaces-playa.jpg";
 import Button from "../ui/Button.astro";
-
 ---
 
 <header
-  class="relative isolate w-full min-h-[600px] md:min-h-[660px] lg:min-h-[920px] overflow-hidden"
+  class="relative isolate w-full min-h-[560px] sm:min-h-[600px] md:min-h-[660px] lg:min-h-[820px] xl:min-h-[920px] overflow-hidden"
 >
   {/* Imagen de fondo (decorativa) */}
   <Image
     src={internetEnlacesPlaya}
-    alt={"Imagen de fondo del Hero"}
+    alt=""
     aria-hidden="true"
     loading="eager"
     decoding="async"
@@ -30,39 +29,47 @@ import Button from "../ui/Button.astro";
   </div>
 
   <div
-    class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-24 md:items-start md:py-28 lg:py-32"
+    class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-5 py-20 sm:px-6 sm:py-24 md:items-start md:py-28 lg:py-32"
   >
-    <div class="mt-20">
+    <div class="mt-16 w-full sm:mt-20">
       <h1 class="heading-1 text-balance text-light text-center md:text-left">
         <span class="text-primary">Internet</span>{" "}
         para tu hogar y negocio{" "}
         <span class="text-primary">en la Riviera Maya</span>{" "}
       </h1>
 
-      <hr class="w-36 h-1 bg-accent-grad-r border-0 my-4 mx-auto md:ml-0" />
+      <hr
+        aria-hidden="true"
+        class="mx-auto mt-4 h-1 w-32 border-0 bg-accent-grad-radial md:ml-0 md:mr-0 sm:w-52"
+      />
 
       <p
-        class="paragraph-md max-w-3xl text-pretty text-center text-light/90 md:text-left"
+        class="paragraph-md mt-5 max-w-3xl text-pretty text-center text-light/90 md:text-left"
       >
-        Conecta tu hogar o negocio con Internet de alta velocidad en la{
-          " "
-        }<span class="text-accent font-semibold">Riviera Maya.</span>{" "}
+        Conecta tu hogar o negocio con Internet de alta velocidad en la{" "}
+        <span class="text-accent font-semibold">Riviera Maya.</span>{" "}
         Enlaces Playa ofrece soluciones de Internet para Hogar y Empresas en{
           " "
         }
         <span class="text-accent">Playa del Carmen, Puerto Morelos y Tulum</span
-        >{" "}
+        >
         , con opciones de fibra óptica e Internet inalámbrico, instalación profesional
         y soporte técnico local.
       </p>
 
       <div
-        class="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:gap-4 md:items-start"
+        class="mt-8 flex w-full flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 md:items-start md:justify-start"
       >
-        <Button as="a" href="/internet-hogar" size="lg" icon="wifi" variant="navy">
+        <Button
+          as="a"
+          href="#"
+          size="lg"
+          icon="wifi"
+          variant="navy"
+        >
           Ver planes y precios
         </Button>
-        <Button as="a" href="/cobertura" size="lg" icon="map-pin">
+        <Button as="a" href="#" size="lg" icon="map-pin">
           Consultar cobertura
         </Button>
       </div>

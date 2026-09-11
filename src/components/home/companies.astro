@@ -6,54 +6,81 @@
  * logos de las marcas que forman parte del grupo y los presenta con un
  * encabezado introductorio para reforzar la confianza del visitante.
  *
- * Se conserva la estructura de marcado y las clases existentes para
- * evitar un rediseño visual; solo se ajustan el título y el copy
- * introductorio definidos en el SDD aprobado.
+ * Se conserva la estructura de marcado y los assets existentes; se
+ * ajusta el nivel de encabezado para mantener un único `h1` en la
+ * página (Hero) y se reemplazan las clases tipográficas crudas por
+ * los tokens de `src/styles/typography.css`.
  */
 ---
 
 <section
   aria-labelledby="companies-title"
-  class="border-b-8 border-line bg-light p-6"
+  class="border-b-8 border-line bg-light px-4 py-8 sm:px-6 sm:py-10"
 >
-  <div class="mt-10 text-center px-6 text-secondary">
-    <h1 id="companies-title" class="text-3xl md:text-4xl font-bold">
-      <span class="text-primary">Empresas</span> que confían <p class="mt-2">
-        en nuestro <span class="text-primary">Internet</span>
-      </p>
-    </h1>
-    <hr class="mx-auto mt-2 max-w-30 border-t-2 border-primary" />
-    <p class="mx-auto mt-4 max-w-4xl text-sm md:text-base">
+  {/* Patrón de contenedor seguro, alineado con Container.astro pero con
+      padding vertical propio para esta sección. */}
+  <div class="mx-auto max-w-7xl text-center text-secondary">
+    <h2 id="companies-title" class="heading-2">
+      <span class="text-primary">Empresas</span> que confían
+      <span class="block text-primary">en nuestro Internet</span>
+    </h2>
+    <hr
+      aria-hidden="true"
+      class="mx-auto mt-3 h-1 w-28 max-w-30 border-0 bg-accent-grad-r sm:w-32"
+    />
+    <p class="paragraph-md mx-auto mt-4 max-w-4xl text-secondary">
       Conectamos empresas y negocios de la Riviera Maya con soluciones de
       Internet diseñadas para mantener sus operaciones, comunicación y servicios
       siempre activos.
     </p>
   </div>
-  <div class="flex flex-col md:flex-row place-items-center justify-center my-5 mx-12 gap-4 md:gap-8 lg:gap-10">
+  <div
+    class="mx-auto mt-8 grid max-w-6xl grid-cols-2 place-items-center gap-6 px-4 sm:mt-10 sm:grid-cols-3 sm:gap-8 md:flex md:flex-row md:items-center md:justify-center md:gap-8 lg:gap-10"
+  >
     <img
       src="/images/logos/logo-colegio.png"
       alt="Logo Colegio"
-      class="w-28 sm:w-32 lg:w-36 grayscale contrast-50 brightness-75 opacity-80"
+      loading="lazy"
+      decoding="async"
+      width="1546"
+      height="600"
+      class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
     />
     <img
       src="/images/logos/logo-leones.png"
       alt="Logo Leones"
-      class="w-24 sm:w-24 lg:w-28 grayscale contrast-50 brightness-75 opacity-80"
+      loading="lazy"
+      decoding="async"
+      width="667"
+      height="592"
+      class="w-24 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-24 lg:w-28"
     />
     <img
       src="/images/logos/logo-munyaal.webp"
       alt="Logo Munyaal"
-      class="w-28 sm:w-32 lg:w-36 grayscale contrast-50 brightness-75 opacity-80"
+      loading="lazy"
+      decoding="async"
+      width="720"
+      height="197"
+      class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
     />
     <img
       src="/images/logos/logo-cui.svg"
       alt="Logo CUI"
-      class="w-28 sm:w-32 lg:w-36 grayscale contrast-50 brightness-75 opacity-80"
+      loading="lazy"
+      decoding="async"
+      width="1920"
+      height="941"
+      class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
     />
     <img
       src="/images/logos/logo-idiomar.webp"
       alt="Logo Idiomar"
-      class="w-28 sm:w-32 lg:w-36 grayscale contrast-50 brightness-75 opacity-80"
+      loading="lazy"
+      decoding="async"
+      width="993"
+      height="206"
+      class="col-span-2 w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:col-span-1 sm:w-32 lg:w-36"
     />
   </div>
 </section>
