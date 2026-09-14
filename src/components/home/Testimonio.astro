@@ -1,45 +1,106 @@
 ---
+/**
+ * Testimonio.astro
+ *
+ * Sección "Opiniones" de la página principal. Presenta los testimonios
+ * de clientes en un carrusel Swiper para reforzar la confianza del
+ * visitante.
+ *
+ * Rediseño inspirado en Google Reviews: las tarjetas muestran una
+ * jerarquía tipo review (encabezado con avatar/nombre, estrellas
+ * amarillas, rol, mensaje legible e insignia de Google) y los
+ * controles del carrusel se reestilizan para mantener coherencia
+ * visual sin tocar la configuración ni el comportamiento de Swiper.
+ *
+ * El copy, el array de testimonios, la configuración completa de
+ * Swiper, la navegación, la paginación, los breakpoints y el
+ * comportamiento responsive permanecen idénticos.
+ */
+
 import { testimonios } from "../../utils/testimonio.ts";
+import Container from "../Container.astro";
 import TestimonioCard from "../testimonioCard.astro";
 ---
 
-<section aria-labelledby="companies-title">
-  <div class="mt-10 text-center px-6">
-    <h1 id="testimonies" class="text-3xl md:text-4xl font-bold">
-      <span class="text-accent">Opiniones</span> sobre nuestro servicio de <span
-        class="text-accent">Internet</span
-      >
-    </h1>
-    <p class="mx-auto mt-4 max-w-2xl text-sm text-light/80 md:text-base">
-      Conoce la experiencia de clientes que ya disfrutan de Internet rápido, estable y con soporte técnico local de Enlaces Playa.
+<section aria-labelledby="testimonios-title" class="bg-amber-100">
+  <Container>
+    <h2 id="testimonios-title" class="heading-2 text-center">
+      <span class="text-primary">Opiniones</span>{" "}sobre nuestro <br /> servicio
+      de <span class="text-primary">Internet</span>
+    </h2>
+    <hr
+      aria-hidden="true"
+      class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
+    />
+    <p class="paragraph-md mx-auto mt-4 max-w-2xl text-center">
+      Conoce la experiencia de clientes que ya disfrutan de Internet rápido,
+      estable y con soporte técnico local de Enlaces Playa.
     </p>
-    <div class="flex">
-      <div
-        class="swiper testimonials-swiper w-full max-w-[1250px] h-[400px] relative"
-      >
-        <div class="swiper-wrapper">
-          {
-            testimonios.map((testimonio) => (
-              <div class="swiper-slide">
-                <TestimonioCard
-                  foto={testimonio.foto}
-                  name={testimonio.name}
-                  message={testimonio.message}
-                  rol={testimonio.rol}
-                />
-              </div>
-            ))
-          }
-        </div>
 
-        <!-- Controles -->
-        <div class="swiper-pagination mt-6"></div>
-        <div class="swiper-button-prev !text-line"></div>
-        <div class="swiper-button-next !text-line"></div>
+    <div class="swiper testimonials-swiper mx-auto w-full relative sm:mt-10">
+      <div class="swiper-wrapper">
+        {
+          testimonios.map((testimonio) => (
+            <div class="swiper-slide">
+              <TestimonioCard
+                foto={testimonio.foto}
+                name={testimonio.name}
+                message={testimonio.message}
+                rol={testimonio.rol}
+              />
+            </div>
+          ))
+        }
       </div>
+
+      <!-- Controles -->
+      <div class="swiper-pagination mt-6"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </div>
-  </div>
+  </Container>
 </section>
+
+<style>
+  /* Estilos coherentes para los controles del carrusel: se reaplican
+     sobre los botones por defecto de Swiper (SVG con `fill: currentColor`)
+     sin alterar su API ni su comportamiento. Los selectores `.testimonials-swiper`
+     y las clases `.swiper-button-prev` / `.swiper-button-next` las sigue
+     esperando el JS del slider. */
+  .testimonials-swiper .swiper-button-prev,
+  .testimonials-swiper .swiper-button-next {
+    --swiper-navigation-color: var(--color-secondary);
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-light);
+    border: 1px solid rgb(226 232 240); /* slate-200 */
+    border-radius: 9999px;
+    box-shadow: 0 4px 12px rgb(15 23 42 / 0.08);
+    transition:
+      transform 0.2s ease-out,
+      box-shadow 0.2s ease-out,
+      background-color 0.2s ease-out;
+  }
+
+  .testimonials-swiper .swiper-button-prev:hover,
+  .testimonials-swiper .swiper-button-next:hover {
+    background-color: var(--color-secondary);
+    --swiper-navigation-color: var(--color-light);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgb(15 23 42 / 0.14);
+  }
+
+  /* En móvil los botones quedan ligeramente más compactos para no
+     invadir el área de las tarjetas. */
+  @media (max-width: 639px) {
+    .testimonials-swiper .swiper-button-prev,
+    .testimonials-swiper .swiper-button-next {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>
+
 <script>
   import Swiper from "swiper";
   import { Navigation, Pagination } from "swiper/modules";
