@@ -6,81 +6,83 @@
  * logos de las marcas que forman parte del grupo y los presenta con un
  * encabezado introductorio para reforzar la confianza del visitante.
  *
- * Se conserva la estructura de marcado y los assets existentes; se
- * ajusta el nivel de encabezado para mantener un único `h1` en la
- * página (Hero) y se reemplazan las clases tipográficas crudas por
- * los tokens de `src/styles/typography.css`.
+ * Sigue el patrón de Plans.astro / CoverageCheck.astro: el contenedor
+ * compartido `Container.astro` centraliza el `max-w-7xl` y el padding
+ * lateral/vertical para no duplicarlos en la sección. La sección
+ * conserva únicamente sus estilos propios (color de fondo y borde
+ * inferior). Los assets, copy, filtros, dimensiones y el
+ * comportamiento responsive del grid de logos permanecen idénticos.
  */
+
+import Container from "../Container.astro";
 ---
 
-<section
-  aria-labelledby="companies-title"
-  class="border-b-8 border-line bg-light px-4 py-8 sm:px-6 sm:py-10"
->
-  {/* Patrón de contenedor seguro, alineado con Container.astro pero con
-      padding vertical propio para esta sección. */}
-  <div class="mx-auto max-w-7xl text-center text-secondary">
-    <h2 id="companies-title" class="heading-2">
-      <span class="text-primary">Empresas</span> que confían
-      <span class="block text-primary">en nuestro Internet</span>
+<section aria-labelledby="companies-title">
+  <Container>
+    <h2 id="companies-title" class="heading-2 text-center text-secondary">
+      <span class="text-primary">Empresas</span>{' '}que confían en nuestro {' '}
+      <span class="block text-primary">Internet</span>
     </h2>
     <hr
       aria-hidden="true"
-      class="mx-auto mt-3 h-1 w-28 max-w-30 border-0 bg-accent-grad-radial sm:w-32"
+      class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
     />
-    <p class="paragraph-md mx-auto mt-4 max-w-4xl text-secondary">
+    <p
+      class="paragraph-md mx-auto mt-4 max-w-4xl text-center text-secondary"
+    >
       Conectamos empresas y negocios de la Riviera Maya con soluciones de
       Internet diseñadas para mantener sus operaciones, comunicación y servicios
       siempre activos.
     </p>
-  </div>
-  <div
-    class="mx-auto mt-8 grid max-w-6xl grid-cols-2 place-items-center gap-6 px-4 sm:mt-10 sm:grid-cols-3 sm:gap-8 md:flex md:flex-row md:items-center md:justify-center md:gap-8 lg:gap-10"
-  >
-    <img
-      src="/images/logos/logo-colegio.png"
-      alt="Logo Colegio"
-      loading="lazy"
-      decoding="async"
-      width="1546"
-      height="600"
-      class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
-    />
-    <img
-      src="/images/logos/logo-leones.png"
-      alt="Logo Leones"
-      loading="lazy"
-      decoding="async"
-      width="667"
-      height="592"
-      class="w-24 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-24 lg:w-28"
-    />
-    <img
-      src="/images/logos/logo-munyaal.webp"
-      alt="Logo Munyaal"
-      loading="lazy"
-      decoding="async"
-      width="720"
-      height="197"
-      class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
-    />
-    <img
-      src="/images/logos/logo-cui.svg"
-      alt="Logo CUI"
-      loading="lazy"
-      decoding="async"
-      width="1920"
-      height="941"
-      class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
-    />
-    <img
-      src="/images/logos/logo-idiomar.webp"
-      alt="Logo Idiomar"
-      loading="lazy"
-      decoding="async"
-      width="993"
-      height="206"
-      class="col-span-2 w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:col-span-1 sm:w-32 lg:w-36"
-    />
-  </div>
+
+    <div
+      class="mx-auto mt-8 grid max-w-6xl grid-cols-2 place-items-center gap-6 sm:mt-10 sm:grid-cols-3 sm:gap-8 md:flex md:flex-row md:items-center md:justify-center md:gap-8 lg:gap-10"
+    >
+      <img
+        src="/images/logos/logo-colegio.png"
+        alt="Logo Colegio"
+        loading="lazy"
+        decoding="async"
+        width="1546"
+        height="600"
+        class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
+      />
+      <img
+        src="/images/logos/logo-leones.png"
+        alt="Logo Leones"
+        loading="lazy"
+        decoding="async"
+        width="667"
+        height="592"
+        class="w-24 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-24 lg:w-28"
+      />
+      <img
+        src="/images/logos/logo-munyaal.webp"
+        alt="Logo Munyaal"
+        loading="lazy"
+        decoding="async"
+        width="720"
+        height="197"
+        class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
+      />
+      <img
+        src="/images/logos/logo-cui.svg"
+        alt="Logo CUI"
+        loading="lazy"
+        decoding="async"
+        width="1920"
+        height="941"
+        class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
+      />
+      <img
+        src="/images/logos/logo-idiomar.webp"
+        alt="Logo Idiomar"
+        loading="lazy"
+        decoding="async"
+        width="993"
+        height="206"
+        class="col-span-2 w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:col-span-1 sm:w-32 lg:w-36"
+      />
+    </div>
+  </Container>
 </section>
