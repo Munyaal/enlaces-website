@@ -1,10 +1,10 @@
 ---
-import IconArrowRight from "../../icons/arrow-right.svg";
 import { Image } from "astro:assets";
+import PhoneCTAButton from "../ui/PhoneCTAButton.astro";
 import internetHogar from "../../assets/images/internet-hogar-riviera-maya.jpg";
 
 const TELEFONO = {
-  label: "984 109 1111",
+  phone: "984 109 1111",
   href: "tel:+529841091111",
 };
 ---
@@ -34,26 +34,8 @@ const TELEFONO = {
         </p>
       </header>
 
-      <div class="mt-6 md:mt-8">
-        <a
-          href={TELEFONO.href}
-          aria-label={`Llámanos al ${TELEFONO.label}`}
-          class="inline-flex w-full max-w-sm items-center justify-between gap-4 rounded-full border-2 border-primary px-5 py-3 shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto sm:gap-6 sm:px-6"
-        >
-          <span class="flex flex-col text-left text-secondary">
-            <span class="paragraph-sm font-medium">Llámanos</span>
-            <span class="heading-3 uppercase tracking-normal">
-              {TELEFONO.label}
-            </span>
-          </span>
-
-          <span
-            aria-hidden="true"
-            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-light"
-          >
-            <IconArrowRight class="h-8 w-8" />
-          </span>
-        </a>
+      <div class="mt-4 md:mt-6">
+        <PhoneCTAButton phone={TELEFONO.phone} href={TELEFONO.href} />
       </div>
     </div>
 

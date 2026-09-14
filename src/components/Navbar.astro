@@ -1,17 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { InternetHogar } from "../pages/internet-hogar.astro";
-import Container from "./Container.astro";
-
-/*
- * Navbar flotante con backdrop-blur bajo, borde sutil, redondeado amplio y
- */
-
-const LOGO = {
-  src: "/images/logos/logo-enlacesplaya.webp",
-  alt: "Enlaces Playa",
-  href: "#",
-};
+import { Image } from "astro:assets";
+import logoEnlaces from "../assets/images/logo-enlacesplaya.webp";
 
 const NAV_URLS = {
   homeInternet: "#",
@@ -48,15 +38,11 @@ const CTA_LINK = {
       aria-label="Navegación principal"
     >
       {/* Logo */}
-      <a
-        href={LOGO.href}
-        class="flex shrink-0 items-center"
-        aria-label={LOGO.alt}
-      >
-        <img
-          src={LOGO.src}
-          alt={LOGO.alt}
-          class="h-10 w-auto md:h-11"
+      <a href={"/"} class="flex shrink-0 items-center" aria-label={"/"}>
+        <Image
+          src={logoEnlaces}
+          alt="Enlaces Playa"
+          class="h-10 w-auto md:h-16"
           loading="eager"
           decoding="async"
         />
@@ -110,9 +96,9 @@ const CTA_LINK = {
 
         <a
           href={CTA_LINK.href}
-          class="inline-flex items-center justify-center rounded-full bg-primary p-2.5 text-sm font-bold text-dark shadow-md transition-transform hover:scale-[1.03] md:ml-2"
+          class="inline-flex items-center justify-center rounded-full bg-primary p-2 text-sm font-bold text-dark shadow-md transition-transform hover:scale-[1.03] md:ml-2"
         >
-          <Icon name="phone" class="w-8 h-8 text-light" />
+          <Icon name="phone" class="w-6 h-5 text-light" />
         </a>
       </div>
     </nav>
