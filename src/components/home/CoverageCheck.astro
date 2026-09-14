@@ -24,11 +24,33 @@ const CTA = {
 
 <section
   aria-labelledby="coverage-check-title"
-  class="border-b-8 border-line bg-secondary px-4 py-14 sm:px-6 sm:py-16 md:py-20"
+  class="relative isolate overflow-hidden border-b-8 border-line px-4 py-14 sm:px-6 sm:py-16 md:py-20"
 >
+  {/* Imagen de fondo decorativa. Equivale al patrón del Hero: imagen
+      absoluta que cubre el área, oscurecida con `brightness-75` y oculta
+      a tecnología asistiva para no añadir ruido al lector de pantalla. */}
+  <img
+    src="/images/hero-background.webp"
+    alt=""
+    aria-hidden="true"
+    loading="lazy"
+    decoding="async"
+    class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
+  />
+
+  {/* Overlay oscuro/degradado para garantizar la legibilidad del copy
+      blanco sobre la imagen. Mismo gradiente que el Hero para mantener
+      coherencia visual entre secciones. */}
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-gradient-to-r from-secondary/80 via-secondary/40 to-transparent"
+  >
+  </div>
+
   {/* Patrón de contenedor seguro: conserva el max-w específico de esta
-      sección y el centrado horizontal. */}
-  <div class="mx-auto w-full max-w-4xl text-center">
+      sección y el centrado horizontal. El `relative` lo posiciona por
+      encima del fondo y el overlay (que usan z-index negativo). */}
+  <div class="relative mx-auto w-full max-w-4xl text-center">
     <header class="mx-auto max-w-3xl">
       <h2 id="coverage-check-title" class="heading-2 mt-3 text-light">
         ¿Buscas <span class="text-primary">Internet</span> con cobertura
