@@ -6,39 +6,47 @@
  * contratar el servicio de Internet. Reutiliza el patrón de botón ya
  * presente en el sitio (rounded-full + bg-accent + bg-accent-grad-t)
  * para mantener la consistencia visual sin introducir estilos nuevos.
+ *
+ * Estandariza el wrapper manual con `Container` para alinear max-w y
+ * padding con el resto de secciones de la página principal (Plans,
+ * CoverageCheck, Companies, Testimonio) y migra heading y párrafo a
+ * los tokens tipográficos definidos en `src/styles/typography.css`.
+ * Conserva `bg-primary`, los colores, el copy, el enlace, el botón, el
+ * gradiente, las clases funcionales y el comportamiento responsive
+ * del original. El ancho máximo específico del contenido (max-w-4xl)
+ * se mantiene en un wrapper interno porque Container centraliza un
+ * max-w-7xl para todas las secciones.
  */
+
+import Container from "../Container.astro";
 
 const PRIMARY_CTA = {
   label: "Contratar plan",
   href: "/contacto",
 };
-
 ---
 
-<section
-  aria-labelledby="final-cta-title"
-  class="bg-primary px-6 py-16 md:py-20"
->
-  <div
-    class="mx-auto flex w-full max-w-4xl flex-col items-center text-center"
-  >
-    <h2
-      id="final-cta-title"
-      class="mt-3 text-2xl font-bold text-light md:text-4xl"
+<section aria-labelledby="final-cta-title" class="bg-primary">
+  <Container>
+    <div
+      class="mx-auto flex w-full max-w-4xl flex-col items-center text-center"
     >
-      ¿Listo para contratar Internet en la Riviera Maya?
-    </h2>
-    <p class="mt-4 max-w-2xl text-base text-light/85 md:text-lg">
-      Encuentra el plan de Internet ideal para tu hogar o negocio y disfruta una conexión rápida y estable, con cobertura y soporte técnico local.
-    </p>
+      <h2 id="final-cta-title" class="heading-2 text-light">
+        ¿Listo para contratar Internet en la Riviera Maya?
+      </h2>
+      <p class="paragraph-md mx-auto mt-6 max-w-2xl text-light/85">
+        Encuentra el plan de Internet ideal para tu hogar o negocio y disfruta una
+        conexión rápida y estable, con cobertura y soporte técnico local.
+      </p>
 
-    <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-      <a
-        href={PRIMARY_CTA.href}
-        class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-7 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
-      >
-        {PRIMARY_CTA.label}
-      </a>
+      <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+        <a
+          href={PRIMARY_CTA.href}
+          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-7 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
+        >
+          {PRIMARY_CTA.label}
+        </a>
+      </div>
     </div>
-  </div>
+  </Container>
 </section>
