@@ -1,30 +1,11 @@
 ---
-/**
- * WhyChooseUs.astro
- *
- * Sección "Por qué elegir Enlaces Playa". Reúne los argumentos clave de
- * cobertura y confianza, expone el teléfono de atención y se apoya en
- * el visual existente `persona-feliz-enlaces.webp` que ya se usa en
- * otras piezas del sitio para mantener una sola identidad visual.
- *
- * El copy vive como constante en el frontmatter para centralizar los
- * ajustes. No se introducen estilos nuevos: se reutilizan tokens y
- * patrones ya presentes en el sitio (cards, botones, tipografías).
- *
- * Todo el sizing tipográfico usa exclusivamente los tokens definidos
- * en `src/styles/typography.css`.
- */
-
 import IconArrowRight from "../../icons/arrow-right.svg";
+import { Image } from "astro:assets";
+import internetHogar from "../../assets/images/internet-hogar-riviera-maya.jpg";
 
 const TELEFONO = {
   label: "984 109 1111",
   href: "tel:+529841091111",
-};
-
-const VISUAL = {
-  src: "/images/persona-feliz-enlaces.webp",
-  alt: "Persona feliz con el servicio de Internet de Enlaces Playa",
 };
 ---
 
@@ -32,20 +13,19 @@ const VISUAL = {
   aria-labelledby="why-choose-title"
   class="border-b-8 border-line bg-light px-4 py-10 sm:px-6 sm:py-12 lg:py-14"
 >
-  {/* Patrón de contenedor seguro, alineado con Container.astro pero con
-      padding vertical propio para esta sección. */}
   <div
     class="mx-auto grid w-full max-w-7xl gap-10 md:gap-12 lg:grid-cols-2 lg:items-center lg:gap-16"
   >
     <div>
-      <hr aria-hidden="true" class="w-30 max-w-35 border-t-2 border-primary" />
-      <header class="mt-5 max-w-xl sm:mt-6">
-        <h2
-          id="why-choose-title"
-          class="heading-2 mt-3 text-secondary"
-        >
-          <span class="text-primary">Internet</span> en la Riviera Maya:
-          <span class="block text-primary">¿Por qué elegir Enlaces Playa?</span>
+      <hr
+        aria-hidden="true"
+        class="mx-auto lg:ml-0 mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
+      />
+      <header class="heading-2 text-left mt-5 sm:mt-6">
+        <h2 id="why-choose-title" class="heading-2 mt-3 text-secondary">
+          <span class="text-primary">Internet</span>{" "}en la Riviera Maya:
+          ¿Por qué elegir{" "}
+          <span class="block text-primary">Enlaces Playa?</span>
         </h2>
         <p class="paragraph-md mt-4 text-secondary">
           Disfruta de Internet para tu hogar o negocio, con cobertura,
@@ -78,12 +58,12 @@ const VISUAL = {
     </div>
 
     <div class="flex items-center justify-center">
-      <img
-        src={VISUAL.src}
-        alt={VISUAL.alt}
+      <Image
+        src={internetHogar}
+        alt="Internet en la Riviera Maya"
         loading="lazy"
         decoding="async"
-        class="w-full max-w-sm rounded-2xl object-cover sm:max-w-md"
+        class="w-full max-w-lg rounded-2xl object-cover sm:max-w-xl"
       />
     </div>
   </div>
