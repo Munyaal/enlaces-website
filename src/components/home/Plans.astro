@@ -13,17 +13,35 @@
  * tarifario real vive en las páginas de detalle (internet-hogar y
  * internet-empresas).
  *
+ * La presentación de cada plan se delega a `PackageCard.astro` para
+ * reutilizar el markup y mantener la variante visual (hogar vs
+ * empresarial) centralizada en un único componente.
+ *
  * Todo el sizing tipográfico usa exclusivamente los tokens definidos
  * en `src/styles/typography.css`.
  */
 
-import { Icon } from "astro-icon/components";
-import IconArrowRight from "../../icons/arrow-right.svg";
 import Container from "../Container.astro";
+import PackageCard from "./PackageCard.astro";
 
-const PLANS = [
+// Tipo explícito para que `plan.tipo` sea compatible con la unión
+// `"hogar" | "empresarial"` esperada por `PackageCard`.
+type Plan = {
+  tipo: "hogar" | "empresarial";
+  icon: string;
+  titulo: string;
+  descripcion: string;
+  precio: string;
+  cta: {
+    label: string;
+    href: string;
+  };
+};
+
+const PLANS: Plan[] = [
   {
     tipo: "hogar",
+    icon: "home",
     titulo: "Internet para hogar",
     descripcion:
       "Internet rápido y estable para trabajar, estudiar, disfrutar streaming y conectar todos tus dispositivos.",
@@ -35,6 +53,7 @@ const PLANS = [
   },
   {
     tipo: "empresarial",
+    icon: "building",
     titulo: "Internet para tu negocio",
     descripcion:
       "Soluciones de internet para mantener conectados tus sistemas, operaciones, clientes y equipos.",
@@ -68,100 +87,14 @@ const PLANS = [
     >
       {
         PLANS.map((plan) => (
-          <article
-            class:list={[
-              "flex w-full max-w-md flex-col rounded-2xl border p-6 text-center shadow-2xl sm:p-7 md:max-w-md md:p-8",
-              plan.tipo === "empresarial"
-                ? "border-secondary bg-secondary text-white"
-                : "border-secondary/10 bg-white text-secondary",
-            ]}
-          >
-            <div
-              class:list={[
-                "mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-accent bg-secondary text-accent",
-              ]}
-            >
-              {plan.tipo === "empresarial" ? (
-                <Icon class="h-14 w-14" name="building" aria-hidden="true" />
-              ) : (
-                <Icon class="h-14 w-14" name="home" aria-hidden="true" />
-              )}
-            </div>
-            <h3
-              class:list={[
-                "heading-6 mt-6 text-center",
-                plan.tipo === "empresarial" ? "text-white" : "text-dark",
-              ]}
-            >
-              {plan.titulo}
-            </h3>
-
-            <hr
-              aria-hidden="true"
-              class="mx-auto mt-2 h-0.5 w-32 border-0 bg-accent-grad-radial"
-            />
-
-            <p
-              class:list={[
-                "paragraph-md mt-5 text-center leading-relaxed",
-                plan.tipo === "empresarial" ? "text-white" : "text-secondary",
-              ]}
-            >
-              {plan.descripcion}
-            </p>
-            <p
-              class:list={[
-                "paragraph-xs mt-10 text-center font-semibold uppercase tracking-[0.18em]",
-                plan.tipo === "empresarial" ? "text-white" : "text-secondary",
-              ]}
-            >
-              DESDE
-            </p>
-            <p class="mt-2 mb-2 flex items-end justify-center gap-1">
-              <span
-                class:list={[
-                  "heading-2 leading-none",
-                  plan.tipo === "empresarial" ? "text-white" : "text-secondary",
-                ]}
-              >
-                {plan.precio}
-              </span>
-              <span
-                class:list={[
-                  "paragraph-xs pb-1 text-center uppercase tracking-wide",
-                  plan.tipo === "empresarial"
-                    ? "text-white/80"
-                    : "text-secondary/80",
-                ]}
-              >
-                /mes
-              </span>
-            </p>
-            <div class="mt-6 md:mt-auto md:pt-6">
-              <a
-                href={plan.cta.href}
-                class:list={[
-                  "inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 paragraph-md font-bold shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto",
-                  plan.tipo === "empresarial"
-                    ? "bg-secondary text-light border border-accent "
-                    : "bg-secondary text-light border border-white",
-                ]}
-              >
-                {plan.cta.label}
-                <span
-                  class:list={[
-                    "inline-flex h-8 w-8 items-center justify-center rounded-full border",
-                    plan.tipo === "empresarial"
-                      ? "border-white/30 bg-accent text-secondary"
-                      : "border-white/30 bg-light text-primary",
-                  ]}
-                  aria-hidden="true"
-                >
-                  <IconArrowRight class="h-6 w-6" />
-                </span>
-              </a>
-            </div>
-          </article>
+          <PackageCard
+            tipo={plan.tipo}
+            icon={plan.icon}
+            titulo={plan.titulo}
+            descripcion={plan.descripcion}
+            precio={plan.precio}
+            cta={plan.cta}
+          />
         ))
       }
     </div>

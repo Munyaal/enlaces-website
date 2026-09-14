@@ -1,0 +1,120 @@
+---
+/**
+ * CTAButton.astro
+ */
+
+import { Icon } from "astro-icon/components";
+import IconArrowRight from "../../icons/arrow-right.svg";
+
+type Variant = "solid" | "navy";
+
+interface Props {
+  as?: "a" | "button";
+  variant?: Variant;
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  loading?: boolean;
+  disabled?: boolean;
+  ariaLabel?: string;
+  target?: "_blank" | "_self";
+  rel?: string;
+  id?: string;
+  class?: string;
+}
+
+const {
+  as = "a",
+  variant = "solid",
+  href,
+  type = "button",
+  loading = false,
+  disabled = false,
+  ariaLabel,
+  target,
+  rel,
+  id,
+  class: className = "",
+}: Props = Astro.props;
+
+// Clases separadas para botón y círculo, replicando las dos ramas de
+// `plan.tipo === "empresarial" ? … : …` en Plans.astro.
+const variantClasses: Record<Variant, { button: string; circle: string }> = {
+  navy: {
+    button: "bg-secondary text-light border border-white",
+    circle: "border-white/30 bg-light text-primary",
+  },
+  solid: {
+    button: "bg-secondary text-light border border-accent",
+    circle: "border-white/30 bg-accent text-secondary",
+  },
+};
+
+// Clases compartidas copiadas literalmente de Plans.astro para garantizar
+// fidelidad visual (incluye el w-full sm:w-auto propio de la card).
+const sharedClasses =
+  "inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 paragraph-md font-bold shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto";
+
+const circleClasses =
+  "inline-flex h-8 w-8 items-center justify-center rounded-full border";
+
+const stateClasses =
+  "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 aria-[busy=true]:cursor-progress aria-[busy=true]:hover:scale-100";
+
+const isDisabled = disabled || loading;
+const classes = variantClasses[variant];
+const finalClass = [
+  sharedClasses,
+  classes.button,
+  stateClasses,
+  isDisabled ? "pointer-events-none" : "",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  as === "a" ? (
+    <a
+      href={isDisabled ? undefined : href}
+      aria-disabled={isDisabled ? "true" : undefined}
+      aria-busy={loading ? "true" : undefined}
+      aria-label={ariaLabel}
+      target={target}
+      rel={target === "_blank" ? (rel ?? "noopener noreferrer") : rel}
+      id={id}
+      class={finalClass}
+    >
+      <slot />
+      {loading ? (
+        <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
+          <Icon name="loader" class="h-6 w-6 animate-spin" />
+        </span>
+      ) : (
+        <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
+          <IconArrowRight class="h-6 w-6" />
+        </span>
+      )}
+    </a>
+  ) : (
+    <button
+      type={type}
+      disabled={isDisabled}
+      aria-busy={loading ? "true" : undefined}
+      aria-label={ariaLabel}
+      id={id}
+      class={finalClass}
+    >
+      <slot />
+      {loading ? (
+        <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
+          <Icon name="loader" class="h-6 w-6 animate-spin" />
+        </span>
+      ) : (
+        <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
+          <IconArrowRight class="h-6 w-6" />
+        </span>
+      )}
+    </button>
+  )
+}
