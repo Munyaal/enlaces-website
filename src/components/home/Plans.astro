@@ -17,8 +17,7 @@
  * en `src/styles/typography.css`.
  */
 
-import IconHome from "../../icons/home.svg";
-import IconBuilding from "../../icons/building.svg";
+import { Icon } from "astro-icon/components";
 import IconArrowRight from "../../icons/arrow-right.svg";
 import Container from "../Container.astro";
 
@@ -50,10 +49,7 @@ const PLANS = [
 
 <section aria-labelledby="plans-title">
   <Container>
-    <h2
-      id="plans-title"
-      class="heading-2 text-center text-secondary"
-    >
+    <h2 id="plans-title" class="heading-2 text-center text-secondary">
       <span class="text-primary">Internet</span> para Hogar y Empresas <br /> en la
       {" "}
       <span class="text-primary">Riviera Maya</span>
@@ -82,30 +78,29 @@ const PLANS = [
           >
             <div
               class:list={[
-                "mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-accent bg-secondary text-accent",
+                "mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-accent bg-secondary text-accent",
               ]}
             >
               {plan.tipo === "empresarial" ? (
-                <IconBuilding class="h-10 w-10" aria-hidden="true" />
+                <Icon class="h-14 w-14" name="building" aria-hidden="true" />
               ) : (
-                <IconHome class="h-10 w-10" aria-hidden="true" />
+                <Icon class="h-14 w-14" name="home" aria-hidden="true" />
               )}
             </div>
             <h3
               class:list={[
-                "heading-3 mt-5 text-center",
+                "heading-6 mt-6 text-center",
                 plan.tipo === "empresarial" ? "text-white" : "text-dark",
               ]}
             >
               {plan.titulo}
             </h3>
+
             <hr
               aria-hidden="true"
-              class:list={[
-                "mx-auto mt-3 h-px w-24 border-0 border-t",
-                plan.tipo === "empresarial" ? "border-white/40" : "border-primary",
-              ]}
+              class="mx-auto mt-2 h-0.5 w-32 border-0 bg-accent-grad-radial"
             />
+
             <p
               class:list={[
                 "paragraph-md mt-5 text-center leading-relaxed",
@@ -116,13 +111,13 @@ const PLANS = [
             </p>
             <p
               class:list={[
-                "paragraph-xs mt-6 text-center font-semibold uppercase tracking-[0.18em]",
+                "paragraph-xs mt-10 text-center font-semibold uppercase tracking-[0.18em]",
                 plan.tipo === "empresarial" ? "text-white" : "text-secondary",
               ]}
             >
               DESDE
             </p>
-            <p class="mt-2 flex items-end justify-center gap-1">
+            <p class="mt-2 mb-2 flex items-end justify-center gap-1">
               <span
                 class:list={[
                   "heading-2 leading-none",
