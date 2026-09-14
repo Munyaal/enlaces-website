@@ -23,10 +23,6 @@
   background-image: linear-gradient(to top, #f0bc1f, #f0df1f);
 }
 
-@utility bg-accent-grad-r {
-  background-image: linear-gradient(to right, #f0bc1f, #f0df1f);
-}
-
 @utility bg-accent-grad-radial {
   background-image: radial-gradient(circle, #FAB855 10%, #FFA61F 100%);
 }
