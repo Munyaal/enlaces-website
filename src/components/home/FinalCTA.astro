@@ -19,6 +19,7 @@
  */
 
 import Container from "../Container.astro";
+import Button from "../ui/Button.astro";
 
 const PRIMARY_CTA = {
   label: "Contratar plan",
@@ -26,27 +27,18 @@ const PRIMARY_CTA = {
 };
 ---
 
-<section aria-labelledby="final-cta-title" class="bg-primary">
+<section aria-labelledby="final-cta-title">
   <Container>
-    <div
-      class="mx-auto flex w-full max-w-4xl flex-col items-center text-center"
-    >
-      <h2 id="final-cta-title" class="heading-2 text-light">
-        ¿Listo para contratar Internet en la Riviera Maya?
+    <div class="space-y-8">
+      <h2 id="final-cta-title" class="heading-2">
+        ¿Listo para {" "}<span class="text-primary">contratar <br> Internet</span>{" "} en
+        la <span class="text-primary">Riviera Maya?</span>
       </h2>
-      <p class="paragraph-md mx-auto mt-6 max-w-2xl text-light/85">
+      <p class="paragraph-md max-w-xl">
         Encuentra el plan de Internet ideal para tu hogar o negocio y disfruta una
         conexión rápida y estable, con cobertura y soporte técnico local.
       </p>
-
-      <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-        <a
-          href={PRIMARY_CTA.href}
-          class="inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-7 py-3 text-base font-bold text-dark shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:text-lg"
-        >
-          {PRIMARY_CTA.label}
-        </a>
-      </div>
+       <Button>{PRIMARY_CTA.label}</Button>
     </div>
   </Container>
 </section>
