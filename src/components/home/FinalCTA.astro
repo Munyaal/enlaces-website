@@ -1,25 +1,9 @@
 ---
-/**
- * FinalCTA.astro
- *
- * Cierre previo al footer con una llamada a la acción clara para
- * contratar el servicio de Internet. Reutiliza el patrón de botón ya
- * presente en el sitio (rounded-full + bg-accent + bg-accent-grad-t)
- * para mantener la consistencia visual sin introducir estilos nuevos.
- *
- * Estandariza el wrapper manual con `Container` para alinear max-w y
- * padding con el resto de secciones de la página principal (Plans,
- * CoverageCheck, Companies, Testimonio) y migra heading y párrafo a
- * los tokens tipográficos definidos en `src/styles/typography.css`.
- * Conserva `bg-primary`, los colores, el copy, el enlace, el botón, el
- * gradiente, las clases funcionales y el comportamiento responsive
- * del original. El ancho máximo específico del contenido (max-w-4xl)
- * se mantiene en un wrapper interno porque Container centraliza un
- * max-w-7xl para todas las secciones.
- */
-
 import Container from "../Container.astro";
 import Button from "../ui/Button.astro";
+import { Image } from "astro:assets";
+import internetHogar from "../../assets/images/internet-fibra-hogar.png";
+
 
 const PRIMARY_CTA = {
   label: "Contratar plan",
@@ -29,16 +13,31 @@ const PRIMARY_CTA = {
 
 <section aria-labelledby="final-cta-title">
   <Container>
-    <div class="space-y-8">
-      <h2 id="final-cta-title" class="heading-2">
-        ¿Listo para {" "}<span class="text-primary">contratar <br> Internet</span>{" "} en
-        la <span class="text-primary">Riviera Maya?</span>
-      </h2>
-      <p class="paragraph-md max-w-xl">
-        Encuentra el plan de Internet ideal para tu hogar o negocio y disfruta una
-        conexión rápida y estable, con cobertura y soporte técnico local.
-      </p>
-       <Button>{PRIMARY_CTA.label}</Button>
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      {/* Columna izquierda: copy + CTA */}
+      <div class="space-y-8">
+        <h2 id="final-cta-title" class="heading-2">
+          ¿Listo para {" "}<span class="text-primary"
+            >contratar <br /> Internet</span
+          >{" "} en la <span class="text-primary">Riviera Maya?</span>
+        </h2>
+        <p class="paragraph-md max-w-xl">
+          Encuentra el plan de Internet ideal para tu hogar o negocio y disfruta
+          una conexión rápida y estable, con cobertura y soporte técnico local.
+        </p>
+        <Button>{PRIMARY_CTA.label}</Button>
+      </div>
+
+      {/* Columna derecha: imagen representativa del servicio */}
+      <div class="w-full">
+        <Image
+          src={internetHogar}
+          alt="Mujer con laptop trabajando en casa, ilustrando el servicio de Internet para hogar de Enlaces Playa en la Riviera Maya"
+          loading="lazy"
+          decoding="async"
+          class="mx-auto block h-auto w-full max-w-md rounded-2xl object-cover shadow-lg lg:max-w-none"
+        />
+      </div>
     </div>
   </Container>
 </section>
