@@ -5,6 +5,7 @@ import Button from "../ui/Button.astro";
 ---
 
 <header
+  data-hero
   class="relative isolate w-full min-h-[560px] sm:min-h-[600px] md:min-h-[660px] lg:min-h-[820px] xl:min-h-[920px] overflow-hidden"
 >
   {/* Imagen de fondo (decorativa) */}
@@ -32,7 +33,10 @@ import Button from "../ui/Button.astro";
     class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-5 py-20 sm:px-6 sm:py-24 md:items-start md:py-28 lg:py-32"
   >
     <div class="mt-16 w-full sm:mt-20">
-      <h1 class="heading-1 text-balance text-light text-center lg:text-left">
+      <h1
+        class="heading-1 text-balance text-light text-center lg:text-left"
+        data-reveal
+      >
         <span class="text-primary">Internet</span>{" "}
         para tu hogar y negocio{" "}
         <span class="text-primary">en la Riviera Maya</span>{" "}
@@ -41,10 +45,12 @@ import Button from "../ui/Button.astro";
       <hr
         aria-hidden="true"
         class="mx-auto lg:ml-0 mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
+        data-reveal
       />
 
       <p
         class="paragraph-md mt-5 max-w-3xl text-pretty text-center mx-auto text-light/90 lg:ml-0 lg:text-left"
+        data-reveal
       >
         Conecta tu hogar o negocio con Internet de alta velocidad en la{" "}
         <span class="text-accent font-semibold">Riviera Maya.</span>{" "}
@@ -59,6 +65,7 @@ import Button from "../ui/Button.astro";
 
       <div
         class="mt-8 flex w-full flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 md:items-start lg:justify-start"
+        data-reveal
       >
         <Button
           as="a"
@@ -79,6 +86,7 @@ import Button from "../ui/Button.astro";
 
 <script>
   import { gsap } from "gsap";
+  import { revealImmediately } from "../../utils/reveal";
 
   // Zoom in/out muy leve en loop SOLO sobre la imagen de fondo del Hero.
   // Respeta prefers-reduced-motion: si el usuario lo tiene activo, no anima.
@@ -110,9 +118,27 @@ import Button from "../ui/Button.astro";
     });
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initHeroBackgroundZoom);
-  } else {
+  const initHeroEntry = () => {
+    // Entrada sutil del título, divisor, párrafo y CTAs. Inmediata (sin
+    // ScrollTrigger) porque el Hero está en el primer viewport. El Ken
+    // Burns del background sigue corriendo de forma independiente.
+    revealImmediately({
+      selector: "[data-reveal]",
+      root: document.querySelector("[data-hero]"),
+      stagger: 0.08,
+      duration: 0.5,
+      y: 12,
+    });
+  };
+
+  const init = () => {
     initHeroBackgroundZoom();
+    initHeroEntry();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
   }
 </script>

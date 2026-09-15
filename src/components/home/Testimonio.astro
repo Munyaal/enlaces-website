@@ -24,15 +24,16 @@ import TestimonioCard from "../testimonioCard.astro";
 
 <section aria-labelledby="testimonios-title" class="bg-amber-100">
   <Container>
-    <h2 id="testimonios-title" class="heading-2 text-center">
+    <h2 id="testimonios-title" class="heading-2 text-center" data-reveal>
       <span class="text-primary">Opiniones</span>{" "}sobre nuestro <br /> servicio
       de <span class="text-primary">Internet</span>
     </h2>
     <hr
       aria-hidden="true"
       class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
+      data-reveal
     />
-    <p class="paragraph-md mx-auto mt-4 max-w-2xl text-center">
+    <p class="paragraph-md mx-auto mt-4 max-w-2xl text-center" data-reveal>
       Conoce la experiencia de clientes que ya disfrutan de Internet rápido,
       estable y con soporte técnico local de Enlaces Playa.
     </p>
@@ -60,6 +61,34 @@ import TestimonioCard from "../testimonioCard.astro";
     </div>
   </Container>
 </section>
+
+<script>
+  import { revealOnEnter } from "../../utils/reveal";
+
+  // Sólo animamos el encabezado (h2 + hr + p). El wrapper, la
+  // configuración y los slides de Swiper permanecen intactos para no
+  // interferir con la inicialización del carrusel.
+  const init = () => {
+    const section = document.querySelector(
+      "section[aria-labelledby='testimonios-title']",
+    );
+    if (!section) return;
+
+    revealOnEnter({
+      selector: "[data-reveal]",
+      root: section,
+      stagger: 0.1,
+      duration: 0.55,
+      y: 14,
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>
 
 <style>
   /* Estilos coherentes para los controles del carrusel: se reaplican

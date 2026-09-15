@@ -15,29 +15,57 @@ const PRIMARY_CTA = {
   <Container>
     <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
       {/* Columna izquierda: copy + CTA */}
-      <div class="space-y-8">
-        <h2 id="final-cta-title" class="heading-2">
+      <div class="relative z-10 space-y-8">
+        <h2 id="final-cta-title" class="heading-2" data-reveal>
           ¿Listo para {" "}<span class="text-primary"
             >contratar <br /> Internet</span
           >{" "} en la <span class="text-primary">Riviera Maya?</span>
         </h2>
-        <p class="paragraph-md max-w-xl">
+        <p class="paragraph-md max-w-xl" data-reveal>
           Encuentra el plan de Internet ideal para tu hogar o negocio y disfruta
           una conexión rápida y estable, con cobertura y soporte técnico local.
         </p>
-        <Button>{PRIMARY_CTA.label}</Button>
+        <div data-reveal>
+          <Button>{PRIMARY_CTA.label}</Button>
+        </div>
       </div>
 
-      {/* Columna derecha: imagen representativa del servicio */}
-      <div class="w-full">
+      {/* Columna derecha: capa visual con la imagen del servicio */}
+      <div class="relative w-full lg:self-stretch lg:overflow-hidden" data-reveal>
         <Image
           src={internetHogar}
           alt="Mujer con laptop trabajando en casa, ilustrando el servicio de Internet para hogar de Enlaces Playa en la Riviera Maya"
           loading="lazy"
           decoding="async"
-          class="mx-auto block h-auto w-full max-w-md rounded-2xl object-cover shadow-lg lg:max-w-none"
+          class="block h-auto w-full object-cover lg:absolute lg:inset-0 lg:h-full lg:object-right"
         />
       </div>
     </div>
   </Container>
 </section>
+
+<script>
+  import { revealOnEnter } from "../../utils/reveal";
+
+  // Copy e imagen entran escalonados al primer avistamiento.
+  const init = () => {
+    const section = document.querySelector(
+      "section[aria-labelledby='final-cta-title']",
+    );
+    if (!section) return;
+
+    revealOnEnter({
+      selector: "[data-reveal]",
+      root: section,
+      stagger: 0.1,
+      duration: 0.55,
+      y: 18,
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>

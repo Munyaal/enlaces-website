@@ -68,7 +68,11 @@ const PLANS: Plan[] = [
 
 <section aria-labelledby="plans-title">
   <Container>
-    <h2 id="plans-title" class="heading-2 text-center text-secondary">
+    <h2
+      id="plans-title"
+      class="heading-2 text-center text-secondary"
+      data-reveal
+    >
       <span class="text-primary">Internet</span> para Hogar y Empresas <br /> en la
       {" "}
       <span class="text-primary">Riviera Maya</span>
@@ -76,8 +80,9 @@ const PLANS: Plan[] = [
     <hr
       aria-hidden="true"
       class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
+      data-reveal
     />
-    <p class="paragraph-md mt-6 text-center text-secondary">
+    <p class="paragraph-md mt-6 text-center text-secondary" data-reveal>
       Encuentra la solución de conectividad que necesitas, ya sea para tu hogar,
       negocio o empresa.
     </p>
@@ -94,9 +99,37 @@ const PLANS: Plan[] = [
             descripcion={plan.descripcion}
             precio={plan.precio}
             cta={plan.cta}
+            reveal
           />
         ))
       }
     </div>
   </Container>
 </section>
+
+<script>
+  import { revealOnEnter } from "../../utils/reveal";
+
+  // Título + divisor + intro entran primero, luego las dos tarjetas con
+  // un stagger corto. ScrollTrigger `once: true` evita re-animar.
+  const init = () => {
+    const section = document.querySelector(
+      "section[aria-labelledby='plans-title']",
+    );
+    if (!section) return;
+
+    revealOnEnter({
+      selector: "[data-reveal]",
+      root: section,
+      stagger: 0.1,
+      duration: 0.55,
+      y: 18,
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>

@@ -20,26 +20,31 @@ const TELEFONO = {
       <hr
         aria-hidden="true"
         class="mx-auto lg:ml-0 mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
+        data-reveal
       />
       <header class="heading-2 text-left mt-5 sm:mt-6">
-        <h2 id="why-choose-title" class="heading-2 mt-3 text-secondary">
+        <h2
+          id="why-choose-title"
+          class="heading-2 mt-3 text-secondary"
+          data-reveal
+        >
           <span class="text-primary">Internet</span>{" "}en la Riviera Maya:
           ¿Por qué elegir{" "}
           <span class="block text-primary">Enlaces Playa?</span>
         </h2>
-        <p class="paragraph-md mt-4 text-secondary">
+        <p class="paragraph-md mt-4 text-secondary" data-reveal>
           Disfruta de Internet para tu hogar o negocio, con cobertura,
           tecnología y soporte técnico local en Playa del Carmen, Puerto Morelos
           y Tulum.
         </p>
       </header>
 
-      <div class="mt-4 md:mt-6">
+      <div class="mt-4 md:mt-6" data-reveal>
         <PhoneCTAButton phone={TELEFONO.phone} href={TELEFONO.href} />
       </div>
     </div>
 
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center" data-reveal>
       <Image
         src={internetHogar}
         alt="Internet en la Riviera Maya"
@@ -50,3 +55,31 @@ const TELEFONO = {
     </div>
   </div>
 </section>
+
+<script>
+  import { revealOnEnter } from "../../utils/reveal";
+
+  // Entrada del copy (stagger corto) y de la imagen en paralelo. La
+  // imagen usa el mismo trigger con un offset implícito por aparecer
+  // después en el array de hermanos.
+  const init = () => {
+    const section = document.querySelector(
+      "section[aria-labelledby='why-choose-title']",
+    );
+    if (!section) return;
+
+    revealOnEnter({
+      selector: "[data-reveal]",
+      root: section,
+      stagger: 0.08,
+      duration: 0.55,
+      y: 18,
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>

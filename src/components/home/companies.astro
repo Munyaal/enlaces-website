@@ -19,16 +19,18 @@ import Container from "../Container.astro";
 
 <section aria-labelledby="companies-title">
   <Container>
-    <h2 id="companies-title" class="heading-2 text-center text-secondary">
+    <h2 id="companies-title" class="heading-2 text-center text-secondary" data-reveal>
       <span class="text-primary">Empresas</span>{' '}que confían en nuestro {' '}
       <span class="block text-primary">Internet</span>
     </h2>
     <hr
       aria-hidden="true"
       class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
+      data-reveal
     />
     <p
       class="paragraph-md mx-auto mt-4 max-w-4xl text-center text-secondary"
+      data-reveal
     >
       Conectamos empresas y negocios de la Riviera Maya con soluciones de
       Internet diseñadas para mantener sus operaciones, comunicación y servicios
@@ -46,6 +48,7 @@ import Container from "../Container.astro";
         width="1546"
         height="600"
         class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
+        data-reveal
       />
       <img
         src="/images/logos/logo-leones.png"
@@ -55,6 +58,7 @@ import Container from "../Container.astro";
         width="667"
         height="592"
         class="w-24 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-24 lg:w-28"
+        data-reveal
       />
       <img
         src="/images/logos/logo-munyaal.webp"
@@ -64,6 +68,7 @@ import Container from "../Container.astro";
         width="720"
         height="197"
         class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
+        data-reveal
       />
       <img
         src="/images/logos/logo-cui.svg"
@@ -73,6 +78,7 @@ import Container from "../Container.astro";
         width="1920"
         height="941"
         class="w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:w-32 lg:w-36"
+        data-reveal
       />
       <img
         src="/images/logos/logo-idiomar.webp"
@@ -82,7 +88,35 @@ import Container from "../Container.astro";
         width="993"
         height="206"
         class="col-span-2 w-28 h-auto grayscale contrast-50 brightness-75 opacity-80 sm:col-span-1 sm:w-32 lg:w-36"
+        data-reveal
       />
     </div>
   </Container>
 </section>
+
+<script>
+  import { revealOnEnter } from "../../utils/reveal";
+
+  // Encabezado y logos entran escalonados; ScrollTrigger `once: true`
+  // garantiza que sólo se dispara la primera vez que la sección entra.
+  const init = () => {
+    const section = document.querySelector(
+      "section[aria-labelledby='companies-title']",
+    );
+    if (!section) return;
+
+    revealOnEnter({
+      selector: "[data-reveal]",
+      root: section,
+      stagger: 0.08,
+      duration: 0.5,
+      y: 14,
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>

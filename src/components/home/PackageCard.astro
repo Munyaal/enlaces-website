@@ -18,6 +18,8 @@
  *   - descripcion: descripción corta del paquete.
  *   - precio:      precio desde (p. ej. "$499"), se expone como texto.
  *   - cta:         { label, href } consumido por `CTAButton`.
+ *   - reveal:      opcional. Si es true, añade `data-reveal` al article
+ *                  para que el padre lo recoja en una entrada escalonada.
  *
  * Todo el sizing tipográfico usa exclusivamente los tokens definidos
  * en `src/styles/typography.css`.
@@ -38,9 +40,18 @@ interface Props {
     label: string;
     href: string;
   };
+  reveal?: boolean;
 }
 
-const { tipo, icon, titulo, descripcion, precio, cta } = Astro.props;
+const {
+  tipo,
+  icon,
+  titulo,
+  descripcion,
+  precio,
+  cta,
+  reveal = false,
+} = Astro.props;
 
 // Clases condicionales equivalentes a las ramas
 // `plan.tipo === "empresarial" ? … : …` que existían inline en Plans.astro.
@@ -79,7 +90,7 @@ const perMonthClasses = [
 ];
 ---
 
-<article class:list={articleClasses}>
+<article class:list={articleClasses} data-reveal={reveal ? "" : undefined}>
   <div
     class:list={[
       "mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-accent bg-secondary text-accent",
