@@ -38,26 +38,31 @@ import TestimonioCard from "../testimonioCard.astro";
       estable y con soporte técnico local de Enlaces Playa.
     </p>
 
-    <div class="swiper testimonials-swiper mx-auto w-full relative sm:mt-10">
-      <div class="swiper-wrapper">
-        {
-          testimonios.map((testimonio) => (
-            <div class="swiper-slide">
-              <TestimonioCard
-                foto={testimonio.foto}
-                name={testimonio.name}
-                message={testimonio.message}
-                rol={testimonio.rol}
-              />
-            </div>
-          ))
-        }
+    <div class="testimonials-carousel relative mt-8 sm:mt-10">
+      <div class="swiper testimonials-swiper mx-auto w-full">
+        <div class="swiper-wrapper">
+          {
+            testimonios.map((testimonio) => (
+              <div class="swiper-slide">
+                <TestimonioCard
+                  foto={testimonio.foto}
+                  name={testimonio.name}
+                  message={testimonio.message}
+                  rol={testimonio.rol}
+                />
+              </div>
+            ))
+          }
+        </div>
       </div>
 
-      <!-- Controles -->
-      <div class="swiper-pagination mt-6"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
+      <!-- Controles: se reubican como hermanos del `.swiper` para poder
+           posicionarlos fuera del área de los slides y que no tapen el
+           contenido ni en móvil ni en desktop. Swiper los sigue
+           encontrando por selector (nextEl / prevEl). -->
+      <div class="swiper-pagination testimonials-pagination"></div>
+      <div class="swiper-button-prev testimonials-prev"></div>
+      <div class="swiper-button-next testimonials-next"></div>
     </div>
   </Container>
 </section>
@@ -96,34 +101,78 @@ import TestimonioCard from "../testimonioCard.astro";
      sin alterar su API ni su comportamiento. Los selectores `.testimonials-swiper`
      y las clases `.swiper-button-prev` / `.swiper-button-next` las sigue
      esperando el JS del slider. */
-  .testimonials-swiper .swiper-button-prev,
-  .testimonials-swiper .swiper-button-next {
+  .testimonials-prev,
+  .testimonials-next {
     --swiper-navigation-color: var(--color-secondary);
     width: 36px;
     height: 36px;
     background-color: var(--color-light);
-    border: 1px solid rgb(226 232 240); /* slate-200 */
+    border: 1px solid var(--color-line);
     border-radius: 9999px;
     box-shadow: 0 4px 12px rgb(15 23 42 / 0.08);
     transition:
       transform 0.2s ease-out,
       box-shadow 0.2s ease-out,
       background-color 0.2s ease-out;
+    /* Posicionados relativos al wrapper `.testimonials-carousel` para
+       que no caigan sobre el contenido de los slides. */
+    position: absolute;
+    top: 50%;
+    /* Reset explícito: Swiper aplica `margin-top: calc(-22px)` que
+       interfiere con el centrado por `transform: translateY(-50%)`. */
+    margin-top: 0;
+    transform: translateY(-50%);
+    z-index: 10;
   }
 
-  .testimonials-swiper .swiper-button-prev:hover,
-  .testimonials-swiper .swiper-button-next:hover {
+  /* Especificidad (0,2,0) para ganar a `.swiper-button-prev` /
+     `.swiper-button-next` (0,1,0) de Swiper sin depender del orden
+     de carga del CSS. */
+  .testimonials-carousel .testimonials-prev {
+    left: -8px;
+  }
+
+  .testimonials-carousel .testimonials-next {
+    right: -8px;
+  }
+
+  .testimonials-prev:hover,
+  .testimonials-next:hover {
     background-color: var(--color-secondary);
     --swiper-navigation-color: var(--color-light);
-    transform: scale(1.05);
+    transform: translateY(-50%) scale(1.05);
     box-shadow: 0 6px 16px rgb(15 23 42 / 0.14);
+  }
+
+  /* En viewports < lg los botones se reubican debajo del swiper
+     (a la altura de la paginación) para no tapar el slide vertical. */
+  @media (max-width: 1023px) {
+    .testimonials-prev,
+    .testimonials-next {
+      top: auto;
+      bottom: 4px;
+      transform: none;
+    }
+    .testimonials-carousel .testimonials-prev {
+      left: 0;
+    }
+    .testimonials-carousel .testimonials-next {
+      right: 0;
+    }
+    /* En hover en mobile/tablet conservamos solo el scale para no
+       reintroducir `translateY(-50%)` (que descentraría los botones
+       al estar anclados por `bottom`). */
+    .testimonials-prev:hover,
+    .testimonials-next:hover {
+      transform: scale(1.05);
+    }
   }
 
   /* En móvil los botones quedan ligeramente más compactos para no
      invadir el área de las tarjetas. */
   @media (max-width: 639px) {
-    .testimonials-swiper .swiper-button-prev,
-    .testimonials-swiper .swiper-button-next {
+    .testimonials-prev,
+    .testimonials-next {
       width: 32px;
       height: 32px;
     }

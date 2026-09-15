@@ -33,7 +33,7 @@ const BENEFITS = [
 ];
 ---
 
-<section aria-labelledby="benefits-title" class="px-4 sm:px-6">
+<section aria-labelledby="benefits-title">
   {
     /* Título accesible pero visualmente oculto para no romper el patrón
       de tarjetas que se apoyan en el Hero. */
@@ -43,15 +43,17 @@ const BENEFITS = [
   </h2>
 
   {
-    /* El contenedor interno reutiliza `Container` para alinear el
-      max-width y el padding con el resto de secciones (Plans, etc.). */
+    /* El contenedor interno reutiliza `Container` como fuente única de
+      max-width y padding horizontal/vertical. Antes la `<section>`
+      duplicaba el gutter lateral (`px-4 sm:px-6`), generando overflow
+      visible en mobile. */
   }
   <Container>
     <div class="relative z-10 sm:-mt-24 lg:-mt-44 xl:-mt-64 w-full">
       <ul class="flex flex-col items-center gap-20 lg:flex-row lg:flex-nowrap lg:justify-between lg:items-stretch lg:gap-6" role="list">
         {
           BENEFITS.map((benefit) => (
-            <li data-reveal class="flex flex-col rounded-3xl border-2 border-light/25 px-6 py-6 text-left shadow-xl bg-light sm:rounded-2xl sm:px-8 sm:py-7 lg:px-10 w-full max-w-sm">
+            <li data-reveal class="flex flex-col rounded-2xl border-2 border-light/25 px-6 py-6 text-left shadow-xl bg-light sm:px-8 sm:py-7 lg:px-10 w-full max-w-sm">
               <div class="mx-auto mb-2 flex items-center justify-center rounded-full bg-primary/20 h-20 w-20 sm:h-26 sm:w-26 md:h-32 md:w-32 lg:h-36 lg:w-36">
                 <Icon
                   name={benefit.icon}

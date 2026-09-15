@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import PhoneCTAButton from "../ui/PhoneCTAButton.astro";
+import Container from "../Container.astro";
 import internetHogar from "../../assets/images/internet-hogar-riviera-maya.jpg";
 
 const TELEFONO = {
@@ -11,49 +12,55 @@ const TELEFONO = {
 
 <section
   aria-labelledby="why-choose-title"
-  class="border-b-8 border-line bg-light px-4 py-10 sm:px-6 sm:py-12 lg:py-14"
+  class="border-b-8 border-line bg-light"
 >
-  <div
-    class="mx-auto grid w-full max-w-7xl gap-10 md:gap-12 lg:grid-cols-2 lg:items-center lg:gap-16"
-  >
-    <div>
-      <hr
-        aria-hidden="true"
-        class="mx-auto lg:ml-0 mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
-        data-reveal
-      />
-      <header class="heading-2 text-left mt-5 sm:mt-6">
-        <h2
-          id="why-choose-title"
-          class="heading-2 mt-3 text-secondary"
+  {
+    /* Se reutiliza `Container` para alinear el max-w, el gutter lateral
+      (px-6) y el spacing vertical (py-10 lg:py-16) con el resto de
+      secciones. La sección conserva únicamente sus estilos propios
+      (fondo y borde inferior). */
+  }
+  <Container>
+    <div class="grid gap-10 md:gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+      <div>
+        <hr
+          aria-hidden="true"
+          class="mx-auto lg:ml-0 mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
           data-reveal
-        >
-          <span class="text-primary-on-light">Internet</span>{" "}en la Riviera Maya:
-          ¿Por qué elegir{" "}
-          <span class="block text-primary-on-light">Enlaces Playa?</span>
-        </h2>
-        <p class="paragraph-md mt-4 text-secondary" data-reveal>
-          Disfruta de Internet para tu hogar o negocio, con cobertura,
-          tecnología y soporte técnico local en Playa del Carmen, Puerto Morelos
-          y Tulum.
-        </p>
-      </header>
+        />
+        <header class="heading-2 text-left mt-5 sm:mt-6">
+          <h2
+            id="why-choose-title"
+            class="heading-2 mt-3 text-secondary"
+            data-reveal
+          >
+            <span class="text-primary-on-light">Internet</span>{" "}en la Riviera Maya:
+            ¿Por qué elegir{" "}
+            <span class="block text-primary-on-light">Enlaces Playa?</span>
+          </h2>
+          <p class="paragraph-md mt-4 text-secondary" data-reveal>
+            Disfruta de Internet para tu hogar o negocio, con cobertura,
+            tecnología y soporte técnico local en Playa del Carmen, Puerto Morelos
+            y Tulum.
+          </p>
+        </header>
 
-      <div class="mt-4 md:mt-6" data-reveal>
-        <PhoneCTAButton phone={TELEFONO.phone} href={TELEFONO.href} />
+        <div class="mt-4 md:mt-6" data-reveal>
+          <PhoneCTAButton phone={TELEFONO.phone} href={TELEFONO.href} />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center" data-reveal>
+        <Image
+          src={internetHogar}
+          alt="Internet en la Riviera Maya"
+          loading="lazy"
+          decoding="async"
+          class="w-full max-w-lg rounded-2xl object-cover sm:max-w-xl"
+        />
       </div>
     </div>
-
-    <div class="flex items-center justify-center" data-reveal>
-      <Image
-        src={internetHogar}
-        alt="Internet en la Riviera Maya"
-        loading="lazy"
-        decoding="async"
-        class="w-full max-w-lg rounded-2xl object-cover sm:max-w-xl"
-      />
-    </div>
-  </div>
+  </Container>
 </section>
 
 <script>

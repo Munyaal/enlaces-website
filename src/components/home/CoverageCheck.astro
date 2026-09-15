@@ -78,7 +78,7 @@ const CTA = {
         action={CTA.href}
         method="get"
         data-reveal
-      class="mx-auto mt-8 flex w-full max-w-2xl flex-col items-center gap-3 rounded-full bg-light p-2 shadow-md transition-transform hover:scale-[1.02] focus-within:ring-2 focus-within:ring-accent sm:mt-10 sm:flex-row sm:items-center sm:gap-2 sm:p-1.5 md:gap-4"
+      class="mx-auto mt-8 flex w-full max-w-2xl flex-col items-stretch gap-3 rounded-2xl bg-light p-3 shadow-md transition-transform hover:scale-[1.02] focus-within:ring-2 focus-within:ring-accent sm:mt-10 sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-1.5 md:gap-4"
         aria-label="Consulta de cobertura por código postal"
       >
         <span
@@ -102,7 +102,7 @@ const CTA = {
           class="block w-full bg-transparent px-4 py-3 paragraph-md text-secondary placeholder-gray-400 focus:outline-none sm:px-3 sm:py-2"
         />
 
-        <Button>
+        <Button class="w-full sm:w-auto">
           {CTA.label}
         </Button>
       </form>

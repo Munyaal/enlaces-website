@@ -4,13 +4,13 @@ import { Image } from "astro:assets";
 import logoEnlaces from "../assets/images/logo-enlacesplaya.webp";
 
 const NAV_URLS = {
-  homeInternet: "#",
-  businessInternet: "#",
-  coverage: "#",
-  aboutUs: "#",
-  help: "#",
-  contact: "#",
-  cta: "#",
+  homeInternet: "/internet-hogar",
+  businessInternet: "/internet-empresas",
+  coverage: "/cobertura",
+  aboutUs: "/nosotros",
+  help: "/ayuda",
+  contact: "/contacto",
+  cta: "tel:+529841091111",
 };
 
 const NAV_LINKS = [
@@ -34,7 +34,7 @@ const CTA_LINK = {
 >
   <div class="mx-auto w-full max-w-7xl">
     <nav
-      class="flex items-center justify-between gap-4 px-4 py-3 md:px-6"
+      class="flex items-center justify-between gap-4 px-6 py-3"
       aria-label="Navegación principal"
     >
       {/* Logo */}
@@ -96,6 +96,7 @@ const CTA_LINK = {
 
         <a
           href={CTA_LINK.href}
+          aria-label="Llamar a Enlaces Playa al 984 109 1111"
           class="inline-flex items-center justify-center rounded-full bg-primary p-2 text-sm font-bold text-dark shadow-md transition-transform hover:scale-[1.03] md:ml-2"
         >
           <Icon name="phone" class="w-6 h-5 text-light" />

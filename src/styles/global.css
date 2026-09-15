@@ -13,6 +13,11 @@
   --color-light: #ffffff;
   --color-dark: #132c42;
 
+  /* Hairline / divider color used by `border-line` and `text-line`
+     utilities. Token value is #E2E8F0 (slate-200) to match the inline
+     border colors used historically in Cards/Sections. */
+  --color-line: #E2E8F0;
+
   /* Typography: Poppins is the primary family, served from /public/fonts/.
      SkolaSans is the secondary display family for titles/highlighted text. */
   --font-sans: "Poppins", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
