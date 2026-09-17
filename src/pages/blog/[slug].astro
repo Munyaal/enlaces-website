@@ -1,0 +1,180 @@
+---
+/**
+ * src/pages/blog/[slug].astro
+ *
+ * Ruta dinámica que renderiza cada artículo del blog desde la Content
+ * Collection `blog` (definida en src/content.config.ts).
+ *
+ * - Conserva exactamente las URLs existentes: el slug se deriva del
+ *   nombre del archivo Markdown sin extensión, generado por el glob
+ *   loader.
+ * - Conserva el SEO previo: title/description/keywords, JSON-LD de tipo
+ *   Article con datePublished/dateModified idénticos a la versión
+ *   anterior.
+ * - Conserva la estructura visual: kicker (category) + H1 + lede
+ *   (description), secciones con H2 y cuerpo Markdown, CTA en el
+ *   footer.
+ *
+ * Cambios visuales (alineados con el lenguaje del home):
+ *   - Sección oscura `bg-secondary` para garantizar legibilidad del
+ *     texto blanco (que ya existía en la versión previa pero sin
+ *     fondo, dejando el contenido invisible sobre el body blanco).
+ *   - `heading-1` con acento `text-primary` en el título, divisor
+ *     `bg-accent-grad-radial` y `paragraph-md` para el lede.
+ *   - Entrada escalonada con `revealOnEnter` para el encabezado.
+ *   - CTA del pie delegado al componente `Button` (variant="orange")
+ *     para mantener la jerarquía visual con el resto del sitio.
+ */
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/Container.astro";
+import Button from "../../components/ui/Button.astro";
+import { getCollection, render } from "astro:content";
+import { resolveDisplayTitle } from "../../utils/blog";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Formato YYYY-MM-DD para el JSON-LD: conserva el formato exacto de la
+// implementación anterior (string, no Date serializado por Astro).
+const toIsoDate = (d: Date) => d.toISOString().slice(0, 10);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.data.title,
+  description: post.data.description,
+  inLanguage: "es-MX",
+  author: {
+    "@type": "Organization",
+    name: "Enlaces Playa",
+    url: "https://enlacesplaya.com.mx/",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Enlaces Playa",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://enlacesplaya.com.mx/images/logos/logo-enlacesplaya.webp",
+    },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `https://enlacesplaya.com.mx/blog/${post.id}`,
+  },
+  datePublished: toIsoDate(post.data.datePublished),
+  dateModified: toIsoDate(post.data.dateModified),
+};
+
+// Fecha formateada para mostrar en el kicker junto a la categoría.
+// Misma utilidad que en `blog.astro` para mantener coherencia.
+// `timeZone: "UTC"` evita que una fecha `YYYY-MM-DD` (medianoche UTC)
+// se muestre como el día anterior en zonas horarias al oeste de UTC.
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("es-MX", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(date);
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  keywords={post.data.keywords}
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
+
+  <section
+    aria-labelledby="blog-article-title"
+    class="bg-secondary text-light"
+  >
+    <Container>
+      <article class="max-w-3xl">
+        <header>
+          <p
+            class="flex flex-wrap items-center gap-x-2 gap-y-1 paragraph-xs uppercase tracking-[0.18em] text-accent"
+            data-reveal
+          >
+            <span class="font-semibold">{post.data.category}</span>
+            <span aria-hidden="true" class="text-light/40">·</span>
+            <time
+              datetime={toIsoDate(post.data.datePublished)}
+              class="font-medium text-light/70 normal-case tracking-normal"
+            >
+              {formatDate(post.data.datePublished)}
+            </time>
+          </p>
+          <h1
+            id="blog-article-title"
+            class="heading-1 mt-3 text-balance text-light"
+            data-reveal
+          >
+            {resolveDisplayTitle(post)}
+          </h1>
+          <hr
+            aria-hidden="true"
+            class="mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
+            data-reveal
+          />
+          <p
+            class="paragraph-md mt-5 max-w-3xl text-pretty text-light/90"
+            data-reveal
+          >
+            {post.data.description}
+          </p>
+        </header>
+
+        <div class="article-body mt-10" data-reveal>
+          <Content />
+        </div>
+
+        <footer class="mt-12" data-reveal>
+          <Button as="a" href={post.data.cta.href} variant="orange" size="lg">
+            {post.data.cta.label}
+          </Button>
+        </footer>
+      </article>
+    </Container>
+  </section>
+</Layout>
+
+<script>
+  import { revealOnEnter } from "../../utils/reveal";
+
+  // Encabezado y cuerpo del artículo entran escalonados al primer
+  // avistamiento. ScrollTrigger `once: true` evita re-animar al hacer
+  // scroll de vuelta.
+  const init = () => {
+    const section = document.querySelector(
+      "section[aria-labelledby='blog-article-title']",
+    );
+    if (!section) return;
+
+    revealOnEnter({
+      selector: "[data-reveal]",
+      root: section,
+      stagger: 0.1,
+      duration: 0.55,
+      y: 18,
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>

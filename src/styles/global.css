@@ -46,3 +46,38 @@
 .swiper-pagination-bullet-active {
   background-color: var(--color-accent) !important;
 }
+
+/*
+ * Estilos para el cuerpo de los artículos del blog renderizados desde
+ * Markdown (Content Collection `blog`). Estos selectores replican exactamente
+ * las clases Tailwind que estaban inline en los antiguos `.astro` para que
+ * el resultado visual sea equivalente: H2 con accent, párrafos con opacidad,
+ * listas espaciadas y `<strong>` resaltado.
+ *
+ * El wrapper `.article-body` evita que estos estilos se filtren a otros
+ * bloques del sitio.
+ */
+.article-body h2 {
+  @apply text-2xl font-bold text-accent md:text-3xl;
+}
+
+.article-body h2:not(:first-child) {
+  @apply mt-10;
+}
+
+.article-body p {
+  @apply mt-3 text-light/85;
+}
+
+.article-body ul,
+.article-body ol {
+  @apply mt-4 space-y-3 text-light/85;
+}
+
+.article-body ol {
+  @apply list-decimal pl-6;
+}
+
+.article-body strong {
+  @apply text-light font-bold;
+}

@@ -1,0 +1,108 @@
+---
+/**
+ * BlogCard.astro
+ *
+ * Tarjeta reutilizable para el listado del blog
+ * (`src/pages/blog.astro`). Renderiza la categoría, fecha, título,
+ * resumen y CTA de un artículo.
+ *
+ * La tarjeta está pensada para fondos oscuros (la página `/blog`
+ * envuelve su contenido en una sección `bg-secondary`): por eso el
+ * borde y el fondo usan tonos claros con baja opacidad, replicando
+ * el patrón de tarjetas oscuras que ya existe en otras secciones del
+ * sitio (planes con `variant="solid"` en `Plans`, gradientes del
+ * Hero).
+ *
+ * Props:
+ *   - href:        URL del artículo (ej. `/blog/mi-slug`).
+ *   - title:       Título del artículo (H3 visible).
+ *   - summary:     Resumen breve que se muestra en la tarjeta.
+ *   - category:    Kicker/categoría visible sobre el título.
+ *   - dateLabel:   Fecha formateada (es-MX) que se muestra junto a
+ *                  la categoría. Si se omite, sólo aparece la
+ *                  categoría.
+ *   - dateTime:    Fecha ISO (`YYYY-MM-DD` o datetime completo) para
+ *                  el atributo `datetime` del `<time>`. Si se omite,
+ *                  se renderiza sin `datetime` (no se inventa).
+ *   - ctaLabel:    Texto del botón. Por defecto "Leer artículo".
+ *   - reveal:      Si es `true`, añade `data-reveal` para que el
+ *                  padre orqueste la entrada escalonada con
+ *                  `revealOnEnter`.
+ *
+ * Tipografía: tokens de `src/styles/typography.css` (`heading-6` para
+ * el título, `paragraph-sm`/`paragraph-xs` para el resto).
+ */
+import Button from "./ui/Button.astro";
+
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  category: string;
+  dateLabel?: string;
+  dateTime?: string;
+  ctaLabel?: string;
+  reveal?: boolean;
+}
+
+const {
+  href,
+  title,
+  summary,
+  category,
+  dateLabel,
+  dateTime,
+  ctaLabel = "Leer artículo",
+  reveal = false,
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    "group flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm transition-colors duration-200 hover:border-accent/40 hover:bg-white/10 sm:p-7",
+  ]}
+  data-reveal={reveal ? "" : undefined}
+>
+  {/* Kicker: categoría + fecha opcional */}
+  <p
+    class="flex flex-wrap items-center gap-x-2 gap-y-1 paragraph-xs uppercase tracking-[0.18em] text-accent"
+  >
+    <span class="font-semibold">{category}</span>
+    {
+      dateLabel && (
+        <>
+          <span aria-hidden="true" class="text-light/40">
+            ·
+          </span>
+          <time
+            datetime={dateTime}
+            class="font-medium text-light/70 normal-case tracking-normal"
+          >
+            {dateLabel}
+          </time>
+        </>
+      )
+    }
+  </p>
+
+  {/* Título como H3. El enlace envuelve el texto para que toda la
+     cabecera sea clicable sin duplicar el área. */}
+  <h3 class="heading-6 mt-3 text-light">
+    <a href={href} class="transition-colors hover:text-accent">
+      {title}
+    </a>
+  </h3>
+
+  {/* Resumen */}
+  <p class="paragraph-sm mt-3 text-light/80">
+    {summary}
+  </p>
+
+  {/* CTA al pie: alineado al fondo con `mt-auto` para que todas las
+     tarjetas queden iguales cuando los resúmenes varían en longitud. */}
+  <div class="mt-6">
+    <Button as="a" href={href} variant="orange" size="sm">
+      {ctaLabel}
+    </Button>
+  </div>
+</article>
