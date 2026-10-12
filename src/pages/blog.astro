@@ -3,25 +3,69 @@
  * src/pages/blog.astro
  *
  * Listado del blog. Consume la Content Collection `blog` (definida en
- * `src/content.config.ts`) y la presenta como un grid de tarjetas en
- * una sección oscura, replicando el lenguaje visual del home:
+ * `src/content.config.ts`) y la presenta como un grid de tarjetas
+ * precedido de un hero visual compacto:
  *
- *   - Fondo `bg-secondary` para que el texto blanco sea legible y la
- *     página dialogue con el navbar (`bg-secondary/80`) y el footer
- *     (`bg-secondary`) ya existentes.
- *   - Encabezado de tipo hero: `heading-1` con acento en color
- *     `text-primary`, divisor `bg-accent-grad-radial` y lede
- *     `paragraph-md`.
- *   - Entrada escalonada con `revealOnEnter` (respeta
- *     `prefers-reduced-motion`).
+ *   - Hero: reutiliza la imagen y el lenguaje del hero del home, pero
+ *     con alturas claramente menores (compacto, no protagonista) y un
+ *     overlay oscuro uniforme y centrado para mantener el contraste del
+ *     texto centrado. NO reutiliza el gradiente izquierda-derecha del
+ *     home; es un overlay plano y simétrico.
+ *   - Encabezado del hero: kicker (`paragraph-xs` en `text-accent`),
+ *     `heading-1` con acento en `text-primary`, divisor
+ *     `bg-accent-grad-radial` y lede `paragraph-md`. Todos con
+ *     `data-reveal` para entrar escalonados al cargar.
+ *   - Sección de artículos: `bg-secondary` para que el texto blanco
+ *     dialogue con el navbar (`bg-secondary/80`) y el footer
+ *     (`bg-secondary`) ya existentes. Conserva su `revealOnEnter` por
+ *     scroll (respeta `prefers-reduced-motion`).
  *   - Tarjetas delegadas a `BlogCard.astro` para no duplicar el
  *     markup y mantener la jerarquía del listado en un único sitio.
+ *
+ * Filtros client-side:
+ *   - Chips de categoría (incluye "Todas") y búsqueda libre en
+ *     título, resumen, descripción, keywords, categoría y cuerpo
+ *     del post. La normalización (lowercase + sin acentos) se hace
+ *     en SSR sobre el campo `data-search` de cada `<li>`, así el
+ *     cliente sólo hace `String.includes` y se mantiene barato.
+ *   - Paginación client-side de 12 elementos por página con
+ *     controles anterior/siguiente. El `<nav>` se oculta si la
+ *     colección filtrada cabe en una sola página. Sin estado en URL:
+ *     los filtros son efímeros y no afectan el SEO ni la página de
+ *     detalle.
+ *   - El reset a página 1 ocurre siempre que cambia el filtro o la
+ *     búsqueda para evitar quedarse en una página vacía.
+ *
+ * Animación:
+ *   - El hero usa `revealImmediately` (sin ScrollTrigger) porque está
+ *     en el primer viewport. La sección de artículos sigue usando
+ *     `revealOnEnter`. Ambos helpers respetan `prefers-reduced-motion`
+ *     vía `gsap.matchMedia` y centralizan la lógica en
+ *     `src/utils/reveal.ts`. El hero es independiente del hero del
+ *     home; ningún cambio al home.
+ *   - Riesgo: `revealOnEnter` aplica `gsap.set(opacity:0, y:18)` a
+ *     TODAS las tarjetas antes de que entren al viewport. Si el
+ *     usuario filtra antes del primer avistamiento y luego muestra
+ *     una tarjeta previamente oculta, podría heredar ese estado
+ *     inicial. El script de filtros fuerza `opacity:1, y:0` sobre
+ *     los descendientes `[data-reveal]` cada vez que una tarjeta se
+ *     vuelve a mostrar, anulando ese riesgo sin tocar la lógica de
+ *     reveal.
+ *
+ * Offset de navbar:
+ *   - El navbar es `fixed top-0`. El `mt-16 sm:mt-20` del contenido
+ *     interno del hero más el `py-20 sm:py-24 md:py-28 lg:py-32` del
+ *     contenedor garantiza que el título nunca queda tapado, ni en
+ *     móvil (navbar ~64px) ni en desktop (navbar ~88px).
  */
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/Container.astro";
 import BlogCard from "../components/BlogCard.astro";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import { resolveDisplayTitle } from "../utils/blog";
+import { resolveDisplayTitle, buildSearchText } from "../utils/blog";
+import internetEnlacesPlaya from "../assets/images/blog-de-internet.jpg";
 
 const title =
   "Blog de Internet | Fibra Óptica, Conectividad y Consejos | Enlaces Playa";
@@ -78,7 +122,22 @@ const articulos = (await getCollection("blog"))
     category: post.data.category,
     dateLabel: formatDate(post.data.datePublished),
     dateTime: toIsoDate(post.data.datePublished),
+    // Texto plano ya normalizado (lowercase + sin acentos) que el
+    // script de filtros compara con la consulta. Se calcula en SSR
+    // para no pagar el coste en cada tecleo del cliente.
+    searchText: buildSearchText(post),
   }));
+
+// Categorías únicas ordenadas alfabéticamente para renderizar los
+// chips en orden estable entre builds. "Todas" se añade como primera
+// opción desde la plantilla; aquí sólo listamos las del contenido.
+const categorias = Array.from(
+  new Set(articulos.map((art) => art.category)),
+).sort((a, b) => a.localeCompare(b, "es"));
+
+// Cantidad inicial de artículos para el contador SSR. El script lo
+// actualiza en tiempo real al filtrar/paginar.
+const totalArticulos = articulos.length;
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
@@ -88,20 +147,51 @@ const articulos = (await getCollection("blog"))
     set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
   ></script>
 
-  {/* Sección oscura que cubre toda la página. El padding lo aporta
-     `Container` para mantener coherencia con el resto del sitio. */}
-  <section
-    aria-labelledby="blog-list-title"
-    class="bg-secondary text-light"
+  {/* Hero visual compacto. Alturas responsive cortas (claramente por
+     debajo del hero del home, que va de 560 a 920px): aprovechan el
+     ancho completo con `object-cover` sin convertir la página en un
+     portafolio. El `bg-secondary` cubre el primer paint mientras la
+     imagen termina de cargar y previene flash claro. */}
+  <header
+    data-hero
+    class="relative isolate w-full min-h-[320px] overflow-hidden bg-secondary sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]"
   >
-    <Container>
-      <header class="max-w-3xl">
-        <p
-          class="paragraph-xs uppercase tracking-[0.18em] text-accent"
-          data-reveal
-        >
-          Recursos
-        </p>
+    {/* Imagen de fondo (decorativa). `priority` activa la optimización
+       para above-the-fold: Astro fija `loading="eager"`,
+       `decoding="sync"` y `fetchpriority="high"` en el `<img>`
+       resultante. `sizes="100vw"` declara el ancho de layout al
+       navegador para que reserve el espacio correcto y haga la
+       petición con la prioridad adecuada. */}
+    <Image
+      src={internetEnlacesPlaya}
+      alt=""
+      aria-hidden="true"
+      priority
+      sizes="100vw"
+      data-hero-background
+      class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
+    />
+
+    {/* Overlay oscuro uniforme y centrado: SOLO plano, sin gradiente
+       direccional, porque el texto del hero del blog va centrado (a
+       diferencia del home, cuyo texto va a la izquierda y usa un
+       gradiente `from-secondary/80 via-secondary/40 to-transparent`
+       para empujar la sombra hacia el texto). `bg-secondary/65` sobre
+       el `brightness-75` de la imagen deja un fondo casi negro y
+       simétrico que mantiene contraste con `text-light`. */}
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 -z-10 bg-secondary/65"
+    >
+    </div>
+
+    <div
+      class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-20 sm:py-24 md:py-28 lg:py-32"
+    >
+      {/* `mt-16 sm:mt-20` compensa la altura del navbar fijo
+         (`py-3` + logo `h-10 md:h-16` ≈ 64–88px) para que el kicker
+         nunca quede tapado. El contenido va centrado en ambos ejes. */}
+      <div class="mt-16 w-full text-center sm:mt-20">
         <h1
           id="blog-list-title"
           class="heading-1 mt-3 text-balance text-light"
@@ -112,74 +202,390 @@ const articulos = (await getCollection("blog"))
         </h1>
         <hr
           aria-hidden="true"
-          class="mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
+          class="mx-auto mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
           data-reveal
         />
         <p
-          class="paragraph-md mt-5 max-w-3xl text-pretty text-light/90"
+          class="paragraph-md mx-auto mt-5 max-w-3xl text-pretty text-light/90"
           data-reveal
         >
           {description}
         </p>
-      </header>
+      </div>
+    </div>
+  </header>
 
-      <section
-        aria-labelledby="blog-list-articles-title"
-        class="mt-12 lg:mt-16"
+  {/* Sección oscura de artículos. Se separa del hero para que el
+     `revealOnEnter` por scroll solo afecte a este bloque (el hero ya
+     animó con `revealImmediately`). Conserva el lenguaje del sitio:
+     `bg-secondary` para dialogar con navbar y footer. */}
+  <section
+    aria-labelledby="blog-list-articles-title"
+    class="bg-secondary text-light"
+  >
+    <Container>
+      <h2
+        id="blog-list-articles-title"
+        class="heading-5 text-light"
+        data-reveal
       >
-        <h2
-          id="blog-list-articles-title"
-          class="heading-5 text-light"
-          data-reveal
-        >
-          Artículos
-        </h2>
+        Artículos
+      </h2>
 
-        <ul
-          role="list"
-          class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8"
+      {/* Controles de filtrado: búsqueda + chips de categoría +
+         contador de resultados. Se renderizan fuera del reveal para
+         que estén disponibles desde el primer paint (el usuario
+         puede empezar a filtrar aunque la cuadrícula aún no haya
+         animado al entrar al viewport). */}
+      <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <label for="blog-search" class="sr-only">
+          Buscar artículos del blog
+        </label>
+        <div class="relative w-full sm:max-w-sm">
+          <span
+            aria-hidden="true"
+            class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-light/50"
+          >
+            <Icon name="search" class="h-5 w-5" />
+          </span>
+          <input
+            id="blog-search"
+            type="search"
+            placeholder="Buscar por título, palabra o tema..."
+            autocomplete="off"
+            class="block w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-10 pr-4 paragraph-sm text-light placeholder:text-light/40 outline-none transition focus:border-accent focus:bg-white/10"
+          />
+        </div>
+        <p
+          id="blog-results-count"
+          class="paragraph-xs text-light/70"
+          role="status"
+          aria-live="polite"
         >
-          {
-            articulos.map((art) => (
-              <li class="h-full">
-                <BlogCard
-                  href={art.href}
-                  title={art.titulo}
-                  summary={art.resumen}
-                  category={art.category}
-                  dateLabel={art.dateLabel}
-                  dateTime={art.dateTime}
-                  reveal
-                />
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+          Mostrando {totalArticulos} de {totalArticulos} artículos
+        </p>
+      </div>
+
+      {/* Chips de categoría. El botón "Todas" usa `data-category-filter="all"`
+         para representar el estado sin filtro; las demás categorías
+         filtran la cuadrícula. `aria-pressed` se actualiza desde el
+         script. `role="group"` con `aria-label` describe el grupo
+         para tecnologías asistivas. */}
+      <div
+        class="mt-4 flex flex-wrap gap-2"
+        role="group"
+        aria-label="Filtrar artículos por categoría"
+        data-reveal
+      >
+        <button
+          type="button"
+          class="blog-chip paragraph-xs font-semibold uppercase tracking-[0.18em]"
+          data-category-filter="all"
+          aria-pressed="true"
+        >
+          Todas
+        </button>
+        {
+          categorias.map((cat) => (
+            <button
+              type="button"
+              class="blog-chip paragraph-xs font-semibold uppercase tracking-[0.18em]"
+              data-category-filter={cat}
+              aria-pressed="false"
+            >
+              {cat}
+            </button>
+          ))
+        }
+      </div>
+
+      <ul
+        id="blog-posts"
+        role="list"
+        class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8"
+      >
+        {
+          articulos.map((art) => (
+            <li
+              class="h-full"
+              data-category={art.category}
+              data-search={art.searchText}
+            >
+              <BlogCard
+                href={art.href}
+                title={art.titulo}
+                summary={art.resumen}
+                category={art.category}
+                dateLabel={art.dateLabel}
+                dateTime={art.dateTime}
+                reveal
+              />
+            </li>
+          ))
+        }
+      </ul>
+
+      {/* Estado vacío: se muestra sólo cuando el filtro/búsqueda no
+         devuelve resultados. `aria-live="polite"` anuncia el cambio a
+         lectores de pantalla al mismo tiempo que el contador de
+         resultados se actualiza. La visibilidad se gestiona vía el
+         atributo `hidden` (lo alterna el script); evitamos la clase
+         `hidden` de Tailwind para que ambas formas de ocultarlo no
+         entren en conflicto y bloqueen el `toggleAttribute`. */}
+      <p
+        id="blog-empty-state"
+        class="mt-10 text-center text-light/70 paragraph-md"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+        No se encontraron artículos que coincidan con tu búsqueda.
+      </p>
+
+      {/* Paginación client-side. El `<nav>` se mantiene en el DOM y se
+         oculta vía el atributo `hidden` cuando cabe en una sola página,
+         así no hay reflow cuando el filtro reduce la colección. Se usa
+         el atributo (no la clase `hidden` de Tailwind) para evitar que
+         `toggleAttribute("hidden", false)` en el script no consiga
+         mostrarlo por seguir aplicando `display: none` desde la clase. */}
+      <nav
+        id="blog-pagination"
+        aria-label="Paginación del blog"
+        class="mt-8 flex flex-wrap items-center justify-center gap-3"
+        hidden
+      >
+        <button
+          id="blog-prev"
+          type="button"
+          class="blog-page-btn paragraph-sm font-semibold"
+          disabled
+        >
+          <Icon
+            name="arrow-right"
+            class="h-4 w-4 rotate-180"
+            aria-hidden="true"
+          />
+          Anterior
+        </button>
+        <span
+          id="blog-page-info"
+          class="paragraph-sm text-light/70"
+          aria-live="polite"
+        >
+          Página 1 de 1
+        </span>
+        <button
+          id="blog-next"
+          type="button"
+          class="blog-page-btn paragraph-sm font-semibold"
+          disabled
+        >
+          Siguiente
+          <Icon name="arrow-right" class="h-4 w-4" aria-hidden="true" />
+        </button>
+      </nav>
     </Container>
   </section>
 </Layout>
 
 <script>
-  import { revealOnEnter } from "../utils/reveal";
+  import { gsap } from "gsap";
+  import { revealOnEnter, revealImmediately } from "../utils/reveal";
 
-  // Encabezado (kicker, h1, hr, lede) entra primero; luego el título
-  // "Artículos" y, escalonadas, las tarjetas. ScrollTrigger `once: true`
+  // Tamaño de página fijo de la paginación client-side. Coincide con
+  // lo declarado en la plantilla (`blog-pagination`).
+  const POSTS_PER_PAGE = 12;
+
+  // Hero: entrada inmediata del kicker, h1, divisor y lede. Sin
+  // ScrollTrigger porque está en el primer viewport.
+  const initHeroReveal = () => {
+    const hero = document.querySelector("[data-hero]");
+    if (hero) {
+      revealImmediately({
+        selector: "[data-reveal]",
+        root: hero,
+        stagger: 0.08,
+        duration: 0.5,
+        y: 12,
+      });
+    }
+  };
+
+  // Artículos: entrada escalonada al hacer scroll. `once: true`
   // garantiza que la animación sólo se dispara la primera vez que la
   // sección entra al viewport.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='blog-list-title']",
+  const initArticlesReveal = () => {
+    const articlesSection = document.querySelector(
+      "section[aria-labelledby='blog-list-articles-title']",
     );
-    if (!section) return;
+    if (articlesSection) {
+      revealOnEnter({
+        selector: "[data-reveal]",
+        root: articlesSection,
+        stagger: 0.08,
+        duration: 0.55,
+        y: 18,
+      });
+    }
+  };
 
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.08,
-      duration: 0.55,
-      y: 18,
+  // Filtros + búsqueda + paginación. Lee cada `<li>` con
+  // `data-search` y `data-category` que el frontmatter renderizó,
+  // los compara contra el estado actual y aplica visibilidad. Se
+  // mantiene como una sola función para reusar la misma rutina en
+  // cada cambio de filtro.
+  const initBlogFilters = () => {
+    const list = document.getElementById("blog-posts");
+    const chips = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-category-filter]"),
+    );
+    const searchInput = document.getElementById(
+      "blog-search",
+    ) as HTMLInputElement | null;
+    const resultsCount = document.getElementById("blog-results-count");
+    const emptyState = document.getElementById("blog-empty-state");
+    const pagination = document.getElementById("blog-pagination");
+    const prevButton = document.getElementById(
+      "blog-prev",
+    ) as HTMLButtonElement | null;
+    const nextButton = document.getElementById(
+      "blog-next",
+    ) as HTMLButtonElement | null;
+    const pageInfo = document.getElementById("blog-page-info");
+
+    if (
+      !list ||
+      chips.length === 0 ||
+      !resultsCount ||
+      !emptyState ||
+      !pagination ||
+      !prevButton ||
+      !nextButton ||
+      !pageInfo
+    ) {
+      return;
+    }
+
+    const items = Array.from(
+      list.querySelectorAll<HTMLLIElement>("li[data-search]"),
+    );
+    if (items.length === 0) return;
+
+    // Estado único: fuente de verdad para los filtros. Se muta desde
+    // los handlers y se "aplica" en `applyFilters` para que la UI
+    // siempre refleje el estado actual.
+    const state = {
+      category: "all",
+      query: "",
+      page: 1,
+    };
+
+    const total = items.length;
+
+    const applyFilters = () => {
+      const q = state.query.trim();
+
+      // Calculamos el conjunto filtrado. La normalización ya vive en
+      // `data-search` (SSR); la consulta se normaliza aquí en cada
+      // tecleo para que el "includes" sea comparable 1:1.
+      const normalizedQuery = q
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+      const filtered = items.filter((el) => {
+        const matchesCategory =
+          state.category === "all" || el.dataset.category === state.category;
+        if (!matchesCategory) return false;
+        if (!normalizedQuery) return true;
+        return (el.dataset.search ?? "").includes(normalizedQuery);
+      });
+
+      const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
+      if (state.page > totalPages) state.page = totalPages;
+      const start = (state.page - 1) * POSTS_PER_PAGE;
+      const pageItems = new Set(filtered.slice(start, start + POSTS_PER_PAGE));
+
+      // Visibilidad + reset de estilos de reveal. Si el usuario
+      // filtró antes del primer avistamiento, `gsap.set(opacity:0,
+      // y:18)` quedó aplicado a la tarjeta; al volver a mostrarla
+      // forzamos el estado final para que no quede invisible.
+      items.forEach((el) => {
+        const isVisible = pageItems.has(el);
+        el.toggleAttribute("hidden", !isVisible);
+        if (isVisible) {
+          const revealTargets =
+            el.querySelectorAll<HTMLElement>("[data-reveal]");
+          revealTargets.forEach((target) => {
+            gsap.set(target, { opacity: 1, y: 0 });
+          });
+        }
+      });
+
+      // Contador y estado vacío. Ambos usan `aria-live="polite"`,
+      // así que cualquier cambio se anuncia al lector de pantalla.
+      resultsCount.textContent =
+        filtered.length === total
+          ? `Mostrando ${total} artículos`
+          : `Mostrando ${filtered.length} de ${total} artículos`;
+      emptyState.toggleAttribute("hidden", filtered.length > 0);
+
+      // Paginación. El `<nav>` se oculta cuando hay una sola página
+      // para no añadir ruido visual.
+      pagination.toggleAttribute("hidden", totalPages <= 1);
+      prevButton.disabled = state.page <= 1;
+      nextButton.disabled = state.page >= totalPages;
+      pageInfo.textContent = `Página ${state.page} de ${totalPages}`;
+    };
+
+    // Chips: clic cambia categoría, resetea a página 1 y refleja el
+    // nuevo estado en `aria-pressed` para AT.
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        state.category = chip.dataset.categoryFilter ?? "all";
+        state.page = 1;
+        chips.forEach((other) => {
+          other.setAttribute(
+            "aria-pressed",
+            other === chip ? "true" : "false",
+          );
+        });
+        applyFilters();
+      });
     });
+
+    // Búsqueda: `input` cubre tecleo, pegado y clear nativo del
+    // `type="search"`. Resetea a página 1 en cada cambio.
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        state.query = searchInput.value;
+        state.page = 1;
+        applyFilters();
+      });
+    }
+
+    prevButton.addEventListener("click", () => {
+      if (state.page > 1) {
+        state.page--;
+        applyFilters();
+      }
+    });
+
+    nextButton.addEventListener("click", () => {
+      state.page++;
+      applyFilters();
+    });
+
+    // Sincronizamos el contador inicial con el estado real (en SSR
+    // ya quedó en "Mostrando N de N", pero `applyFilters` lo deja
+    // consistente también con el resto de UI).
+    applyFilters();
+  };
+
+  const init = () => {
+    initHeroReveal();
+    initArticlesReveal();
+    initBlogFilters();
   };
 
   if (document.readyState === "loading") {
