@@ -1,6 +1,29 @@
 ---
+/**
+ * Container.astro
+ *
+ * Ancho máximo y padding lateral compartidos por las secciones del
+ * sitio. La prop `class` permite añadir utilidades puntuales sin
+ * duplicar las clases base en cada uso.
+ *
+ * Limitación: las clases extra se concatenan al final, pero eso no
+ * garantiza que ganen sobre las utilidades base de Tailwind cuando
+ * colisionan en la misma propiedad (p. ej. `py-0` no sobrescribe
+ * `py-10`, porque el orden en la hoja generada no depende del orden de
+ * la cadena). Para un override real hace falta una variante o cambiar
+ * la clase base.
+ */
+interface Props {
+  class?: string;
+}
 
+const { class: className = "" } = Astro.props;
+
+const classes = ["mx-auto w-full max-w-7xl px-6 py-10 lg:py-16", className]
+  .filter(Boolean)
+  .join(" ");
 ---
-<div class="mx-auto w-full max-w-7xl px-6 py-10 lg:py-16">
-    <slot / >
+
+<div class={classes}>
+  <slot />
 </div>

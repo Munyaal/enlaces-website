@@ -28,6 +28,13 @@ const DEFAULT_KEYWORDS =
 
 const { title, description = DEFAULT_DESCRIPTION, keywords = DEFAULT_KEYWORDS } =
   Astro.props;
+
+const SITE_URL = "https://enlacesplaya.com.mx";
+
+// Normaliza en un solo punto: quita la barra final que agrega el build
+// (`/nosotros/`), conserva la raíz exacta (`/`) y evita dobles slashes.
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const canonicalUrl = new URL(pathname, SITE_URL).href;
 ---
 
 <meta charset="UTF-8" />
@@ -43,10 +50,10 @@ const { title, description = DEFAULT_DESCRIPTION, keywords = DEFAULT_KEYWORDS } 
 
 <meta name="keywords" content={keywords} />
 
-<link rel="canonical" href="https://enlacesplaya.com.mx/" />
+<link rel="canonical" href={canonicalUrl} />
 
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://enlacesplaya.com.mx/" />
+<meta property="og:url" content={canonicalUrl} />
 <meta
   property="og:title"
   content="Enlaces Playa | Internet en Playa del Carmen y la Riviera Maya"
@@ -68,7 +75,7 @@ const { title, description = DEFAULT_DESCRIPTION, keywords = DEFAULT_KEYWORDS } 
 />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content="https://enlacesplaya.com.mx/" />
+<meta name="twitter:url" content={canonicalUrl} />
 <meta
   name="twitter:title"
   content="Enlaces Playa | Internet Rápido en la Riviera Maya"
