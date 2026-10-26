@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import bannerBackground from "../../assets/images/about/fondo-hogar-enlaces-playa.png";
+---
+
+{/* Deuda de accesibilidad: el texto blanco sobre la imagen naranja mide
+   ~2.0:1 (WCAG AA exige 4.5:1). Se decidió conscientemente no agregar
+   overlay para conservar el diseño; si se retoma, usar un scrim. */}
+<section
+  id="why-choose-banner"
+  aria-labelledby="why-choose-banner-title"
+  data-reveal-scope="why-choose-banner"
+  class="relative isolate overflow-hidden bg-primary"
+>
+  <h2 id="why-choose-banner-title" class="sr-only">Nuestros beneficios</h2>
+  <Image
+    src={bannerBackground}
+    alt=""
+    aria-hidden="true"
+    layout="full-width"
+    sizes="100vw"
+    loading="lazy"
+    decoding="async"
+    class="absolute inset-0 -z-20 h-full w-full object-cover"
+  />
+
+  <div
+    class="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-12 sm:py-14 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:py-16"
+  >
+    <div
+      class="flex items-center gap-5 text-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]"
+      data-reveal
+    >
+      <span
+        class="text-5xl font-bold leading-none tracking-tighter sm:text-6xl"
+      >
+        +11
+      </span>
+      <p class="paragraph-md max-w-[13rem] leading-snug">
+        Años conectando<br />hogares y empresas
+      </p>
+    </div>
+
+    <div
+      class="flex items-center gap-5 text-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]"
+      data-reveal
+    >
+      <Icon
+        name="tool"
+        class="h-14 w-14 shrink-0 sm:h-16 sm:w-16"
+        aria-hidden="true"
+      />
+      <p class="paragraph-md max-w-[13rem] leading-snug">
+        Soporte técnico<br />local
+      </p>
+    </div>
+
+    <div
+      class="flex items-center gap-5 text-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]"
+      data-reveal
+    >
+      <Icon
+        name="map-pin-check"
+        class="h-14 w-14 shrink-0 sm:h-16 sm:w-16"
+        aria-hidden="true"
+      />
+      <p class="paragraph-md max-w-[14rem] leading-snug">
+        Cobertura de Internet<br />en la Riviera Maya
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("why-choose-banner");
+</script>

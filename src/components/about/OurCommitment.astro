@@ -1,0 +1,58 @@
+---
+import { Image } from "astro:assets";
+import nuestroCompromiso from "../../assets/images/about/nuestro-compromiso-enlaces-playa.png";
+---
+
+<section
+  id="our-commitment"
+  aria-labelledby="our-commitment-title"
+  data-reveal-scope="our-commitment"
+  class="relative bg-surface-1"
+>
+  <div class="mx-auto w-full max-w-7xl px-6 pt-12 lg:pt-16">
+    <div class="grid items-start gap-10 md:gap-12 lg:grid-cols-12 xl:gap-16">
+      <div class="lg:col-span-7">
+        <h2
+          id="our-commitment-title"
+          class="heading-2 text-balance text-secondary"
+          data-reveal
+        >
+          <span class="text-primary-on-light">Nuestro</span> compromiso con la <span
+            class="text-primary-on-light">Riviera Maya</span
+          >
+        </h2>
+        <p class="paragraph-md mt-4 text-secondary/80">
+          En <span class="font-semibold">Enlaces Playa</span> creemos que la conectividad
+          es fundamental para el desarrollo de nuestra comunidad.
+        </p>
+
+        <p class="paragraph-md mt-4 text-secondary/80">
+          Por eso, trabajamos para acercar <span class="font-semibold"
+            >soluciones de internet a hogares, hoteles, inmobiliarias y empresas
+            de la Riviera Maya,</span
+          > acompañando el crecimiento de la región con atención cercana y
+          <span class="font-semibold">compromiso con nuestros clientes.</span>
+        </p>
+      </div>
+
+      <div class="relative z-10 flex justify-center lg:col-span-5" data-reveal>
+        <Image
+          src={nuestroCompromiso}
+          alt="Representante de Enlaces Playa con uniforme de la empresa"
+          layout="constrained"
+          widths={[320, 420, 540]}
+          sizes="(min-width: 1024px) 36vw, (min-width: 768px) 50vw, 90vw"
+          loading="lazy"
+          decoding="async"
+          class="h-auto w-full max-w-md object-contain lg:-mt-48 lg:max-w-lg"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("our-commitment");
+</script>

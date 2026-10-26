@@ -1,0 +1,79 @@
+---
+import { Icon } from "astro-icon/components";
+import Container from "../Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const differentiators = [
+  {
+    title: "Atención cercana",
+    icon: "heart-filled",
+    description:
+      "Te escuchamos y te orientamos para encontrar la solución que mejor se adapte a tus necesidades.",
+  },
+  {
+    title: "Soporte técnico local",
+    icon: "tool",
+    description:
+      "Contamos con atención técnica en la región para ayudarte cuando lo necesites.",
+  },
+  {
+    title: "Experiencia en la región",
+    icon: "map-pin-check",
+    description:
+      "Conocemos las necesidades de conectividad de Playa del Carmen, Tulum y Puerto Morelos.",
+  },
+] as const;
+---
+
+<section
+  id="what-sets-us-apart"
+  aria-labelledby="what-sets-us-apart-title"
+  data-reveal-scope="what-sets-us-apart"
+  class="bg-light pb-20"
+>
+  <Container>
+    <SectionHeading id="what-sets-us-apart-title">
+      ¿Qué nos <span class="text-primary-on-light">distingue?</span>
+      <Fragment slot="description">
+        En Enlaces Playa creemos que una buena conexión
+        va más allá del internet. Nos distinguimos por nuestra atención cercana, el
+        conocimiento de la región y el compromiso de ofrecer soluciones que respondan
+        a las necesidades de cada cliente.
+      </Fragment>
+    </SectionHeading>
+
+    <ul
+      role="list"
+      class="mt-12 grid items-stretch gap-6 md:grid-cols-3 lg:gap-8"
+    >
+      {
+        differentiators.map((item) => (
+          <li
+            class="flex flex-col items-center rounded-2xl bg-secondary/5 px-6 py-8 text-center sm:px-8 sm:py-10"
+            data-reveal
+          >
+            <Icon
+              name={item.icon}
+              class="h-16 w-16 text-primary sm:h-22 sm:w-22"
+              aria-hidden="true"
+            />
+            <h3 class="heading-5 mt-5 text-secondary">{item.title}</h3>
+            <hr
+              aria-hidden="true"
+              class="mt-3 h-0.5 w-28 border-0 bg-primary"
+            />
+            <p class="paragraph-sm mt-5 text-secondary/80">
+              {item.description}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("what-sets-us-apart");
+</script>

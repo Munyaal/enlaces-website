@@ -1,0 +1,52 @@
+---
+/**
+ * SectionHeading.astro
+ *
+ * Encabezado centrado de sección: `<h2>` + divisor + párrafo
+ * descriptivo. Extrae el patrón que compartían WhatSetsUsApart y
+ * WereHere para que ambos bloques mantengan el mismo ritmo visual sin
+ * duplicar clases.
+ *
+ * No envuelve el contenido en un contenedor extra: renderiza los tres
+ * elementos como hermanos, igual que el markup original. Los tres
+ * conservan `data-reveal` para que el script de la sección los anime.
+ *
+ * Props:
+ *   - id:      obligatorio, id del `<h2>` (también lo usa el
+ *              `aria-labelledby` de la `<section>`).
+ *   - class:   clases extra para el `<h2>`.
+ *   - divider: si es `false`, omite el divisor (default `true`).
+ *
+ * Slots:
+ *   - default:     contenido del título.
+ *   - description: contenido del párrafo descriptivo.
+ */
+import SectionDivider from "./SectionDivider.astro";
+
+interface Props {
+  id: string;
+  class?: string;
+  divider?: boolean;
+}
+
+const { id, class: className = "", divider = true } = Astro.props;
+
+const headingClasses = ["heading-2 text-center text-secondary", className]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<h2 id={id} class={headingClasses} data-reveal>
+  <slot />
+</h2>
+{divider && <SectionDivider class="mt-3 sm:w-36" />}
+{
+  Astro.slots.has("description") && (
+    <p
+      class="paragraph-md mx-auto mt-4 max-w-4xl text-center text-balance text-secondary"
+      data-reveal
+    >
+      <slot name="description" />
+    </p>
+  )
+}

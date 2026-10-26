@@ -1,0 +1,38 @@
+---
+/**
+ * SectionDivider.astro
+ *
+ * Divisor corto con el degradado de marca (`bg-accent-grad-radial`)
+ * que se repite bajo los encabezados de sección. Centraliza el
+ * `<hr aria-hidden="true">` para no duplicar clases en cada bloque.
+ *
+ * Emite `data-reveal` por defecto para integrarse con el reveal de la
+ * sección que lo contiene. Si se necesita un divisor estático, pasar
+ * `reveal={false}` en lugar de copiar el markup.
+ *
+ * Props:
+ *   - class: clases extra para ajustar el espaciado y el ancho
+ *            responsive (p. ej. `mt-4 sm:w-52`).
+ *   - reveal: si es `true` (default), añade `data-reveal` para que el
+ *             script de la sección lo anime.
+ */
+interface Props {
+  class?: string;
+  reveal?: boolean;
+}
+
+const { class: className = "", reveal = true } = Astro.props;
+
+const classes = [
+  "mx-auto h-1 w-32 border-0 bg-accent-grad-radial",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<hr
+  aria-hidden="true"
+  class={classes}
+  data-reveal={reveal ? "" : undefined}
+/>

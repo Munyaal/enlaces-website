@@ -1,0 +1,1 @@
+export const whatsappLink = 'https://wa.me/529841845726'

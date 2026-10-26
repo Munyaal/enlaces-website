@@ -1,0 +1,187 @@
+---
+import { Image } from "astro:assets";
+import porqueElegirEnlaces from "../../assets/images/about/porque-elegir-enlaces-playa.png";
+
+const tabs = [
+  {
+    id: "nosotros",
+    label: "Nosotros",
+    paragraphs: [
+      "En Enlaces Playa llevamos 11 años conectando hogares, hoteles, inmobiliarias y empresas en la Riviera Maya.",
+      "Como parte de Webtel, trabajamos para ofrecer soluciones de internet confiables, atención cercana y soporte técnico local en Playa del Carmen, Tulum y Puerto Morelos.",
+    ],
+  },
+  {
+    id: "mision",
+    label: "Misión",
+    paragraphs: [
+      "Conectar hogares, hoteles y empresas de la Riviera Maya con soluciones de internet confiables, atención cercana y soporte técnico local en Playa del Carmen, Tulum y Puerto Morelos.",
+    ],
+  },
+  {
+    id: "vision",
+    label: "Visión",
+    paragraphs: [
+      "Ser una empresa referente en servicios de internet en la Riviera Maya, reconocida por su conectividad confiable, atención al cliente y compromiso con el desarrollo de la región.",
+    ],
+  },
+] as const;
+---
+
+<section
+  id="why-choose"
+  aria-labelledby="why-choose-title"
+  data-reveal-scope="why-choose"
+  class="bg-light"
+>
+  <div class="mx-auto w-full max-w-7xl px-6 pt-12 lg:pt-16">
+    <div
+      class="grid items-start gap-10 md:gap-12 lg:grid-cols-12 lg:gap-12 xl:gap-16"
+    >
+      <div class="lg:col-span-7">
+        <h2
+          id="why-choose-title"
+          class="heading-2 text-balance text-secondary"
+          data-reveal
+        >
+          ¿Por qué elegir <span class="text-primary-on-light"
+            >Enlaces Playa?</span
+          >
+        </h2>
+
+        {/* El tablist es interactivo: no lleva `data-reveal` para que el
+           foco no caiga en tabs invisibles. El h2 de arriba conserva la
+           animación de entrada de la sección. */}
+        <div
+          role="tablist"
+          aria-label="Conoce Enlaces Playa"
+          class="mt-6 inline-flex w-full max-w-md flex-nowrap overflow-hidden rounded-full bg-secondary sm:max-w-none"
+        >
+          {
+            tabs.map((tab, index) => (
+              <button
+                id={`tab-${tab.id}`}
+                type="button"
+                role="tab"
+                aria-selected={index === 0 ? "true" : "false"}
+                aria-controls={`panel-${tab.id}`}
+                tabindex={index === 0 ? 0 : -1}
+                class="cursor-pointer min-h-11 flex-1 rounded-full bg-secondary px-4 py-2.5 text-lg font-semibold text-light transition-colors hover:bg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:ring-offset-0 aria-selected:focus-visible:ring-secondary aria-selected:bg-primary aria-selected:text-secondary aria-selected:shadow-md"
+              >
+                {tab.label}
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="mt-7 min-h-[18rem] md:min-h-[20rem] lg:min-h-[22rem]" data-reveal>
+          {
+            tabs.map((tab, index) => (
+              <div
+                id={`panel-${tab.id}`}
+                role="tabpanel"
+                aria-labelledby={`tab-${tab.id}`}
+                hidden={index !== 0}
+                tabindex={0}
+                class="max-w-2xl rounded-2xl px-2 sm:px-4 py-6"
+              >
+                <div class="paragraph-md mt-4 space-y-4 text-secondary/80">
+                  {tab.paragraphs.map((paragraph) => (
+                    <p class="text-pretty">{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="flex justify-center lg:col-span-5" data-reveal>
+        <Image
+          src={porqueElegirEnlaces}
+          alt="Representante de Enlaces Playa con una computadora, preparada para ofrecer atención y soporte técnico local"
+          layout="constrained"
+          widths={[320, 420, 540]}
+          sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 90vw"
+          loading="lazy"
+          decoding="async"
+          class="h-auto w-full max-w-md object-contain lg:max-w-lg"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealSection, whenReady } from "../../utils/reveal";
+
+  const init = () => {
+    revealSection("why-choose");
+
+    const section = document.getElementById("why-choose");
+    if (!section) return;
+
+    const tablists = section.querySelectorAll<HTMLElement>(
+      "[role='tablist']",
+    );
+
+    // Los paneles se resuelven una sola vez (`aria-controls` -> panel)
+    // para no consultar el DOM en cada activación.
+    const panels = new Map<string, HTMLElement>();
+    section
+      .querySelectorAll<HTMLElement>("[role='tabpanel']")
+      .forEach((panel) => panels.set(panel.id, panel));
+
+    tablists.forEach((tablist) => {
+      if (tablist.dataset.tabsReady === "true") return;
+      tablist.dataset.tabsReady = "true";
+
+      const tabs = Array.from(
+        tablist.querySelectorAll<HTMLButtonElement>("[role='tab']"),
+      );
+
+      const activateTab = (selectedTab: HTMLButtonElement, focus = false) => {
+        tabs.forEach((tab) => {
+          const isSelected = tab === selectedTab;
+          tab.setAttribute("aria-selected", String(isSelected));
+          tab.tabIndex = isSelected ? 0 : -1;
+
+          const panel = panels.get(tab.getAttribute("aria-controls") ?? "");
+          if (panel) panel.hidden = !isSelected;
+        });
+
+        if (focus) selectedTab.focus();
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => activateTab(tab));
+
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex: number;
+
+          switch (event.key) {
+            case "ArrowRight":
+              nextIndex = (index + 1) % tabs.length;
+              break;
+            case "ArrowLeft":
+              nextIndex = (index - 1 + tabs.length) % tabs.length;
+              break;
+            case "Home":
+              nextIndex = 0;
+              break;
+            case "End":
+              nextIndex = tabs.length - 1;
+              break;
+            default:
+              return;
+          }
+
+          event.preventDefault();
+          activateTab(tabs[nextIndex], true);
+        });
+      });
+    });
+  };
+
+  whenReady(init);
+</script>

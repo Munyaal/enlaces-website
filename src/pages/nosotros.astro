@@ -1,16 +1,65 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import AboutHeader from "../components/about/AboutHeader.astro";
-import WhyChoose from "../components/about/WhyChoose.astro";
+import WhyChooseContent from "../components/about/WhyChooseContent.astro";
+import WhyChooseBanner from "../components/about/WhyChooseBanner.astro";
+import WhatSetsUsApart from "../components/about/WhatSetsUsApart.astro";
+import OurCommitment from "../components/about/OurCommitment.astro";
+import WereHere from "../components/about/WereHere.astro";
 
 const title = "Enlaces Playa | Internet en la Riviera Maya | Conócenos";
 const description =
   "Conoce Enlaces Playa, proveedor de Internet en la Riviera Maya con soporte técnico local y soluciones de conectividad para hogares y empresas.";
 const keywords =
   "enlaces playa, proveedor de internet en la riviera maya, empresa de internet en playa del carmen, internet riviera maya";
+
+// JSON-LD: AboutPage + BreadcrumbList. Organization y WebSite se
+// referencian por @id porque ya se declaran completos en la home.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": "https://enlacesplaya.com.mx/nosotros#webpage",
+      url: "https://enlacesplaya.com.mx/nosotros",
+      name: title,
+      description,
+      inLanguage: "es-MX",
+      isPartOf: { "@id": "https://enlacesplaya.com.mx/#website" },
+      about: { "@id": "https://enlacesplaya.com.mx/#organization" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://enlacesplaya.com.mx/nosotros#breadcrumb",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Inicio",
+          item: "https://enlacesplaya.com.mx/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Nosotros",
+          item: "https://enlacesplaya.com.mx/nosotros",
+        },
+      ],
+    },
+  ],
+};
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  ></script>
   <AboutHeader />
-  <WhyChoose />
+  <WhyChooseContent />
+  <WhyChooseBanner />
+  <WhatSetsUsApart />
+  <OurCommitment />
+  <WereHere />
 </Layout>

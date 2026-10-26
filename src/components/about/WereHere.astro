@@ -1,0 +1,47 @@
+---
+import Container from "../Container.astro";
+import Button from "../ui/Button.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import { whatsappLink } from "../../utils/constains";
+---
+
+<section
+  id="were-here"
+  aria-labelledby="were-here-title"
+  data-reveal-scope="were-here"
+  class="relative bg-light"
+>
+  <Container>
+    <div class="text-center lg:pl-4 xl:pl-8">
+      <SectionHeading id="were-here-title">
+        Estamos aquí<br /> para <span class="text-primary-on-light"
+          >mantenerte conectado</span
+        >
+        <Fragment slot="description">
+          Ya sea para tu hogar o tu negocio, en Enlaces Playa te ayudamos a
+          encontrar una solución de internet para tus necesidades en la Riviera
+          Maya.
+        </Fragment>
+      </SectionHeading>
+
+      <div class="mt-7 flex flex-col items-center gap-5" data-reveal>
+        <Button
+          as="a"
+          href={whatsappLink}
+          size="lg"
+          icon="brand-whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Escríbenos por Whatsapp
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("were-here");
+</script>

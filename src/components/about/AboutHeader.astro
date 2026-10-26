@@ -1,10 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import internetEmpresas from "../../assets/images/about/internet-empresas-enlaces-playa.jpg";
+import SectionDivider from "../ui/SectionDivider.astro";
 ---
 
 <header
-  data-hero
+  data-reveal-scope="about-hero"
   class="relative isolate w-full min-h-[320px] overflow-hidden bg-secondary sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]"
 >
   <Image
@@ -13,7 +14,6 @@ import internetEmpresas from "../../assets/images/about/internet-empresas-enlace
     aria-hidden="true"
     priority
     sizes="100vw"
-    data-hero-background
     class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
   />
 
@@ -23,26 +23,27 @@ import internetEmpresas from "../../assets/images/about/internet-empresas-enlace
     class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-20 sm:py-24 md:py-28 lg:py-32"
   >
     <div class="mt-16 w-full text-center sm:mt-20">
-      <h1
-        id="blog-list-title"
-        class="heading-1 mt-3 text-balance text-light"
-        data-reveal
-      >
-        ¿Por qué elegir <span class="text-primary">Enlaces Playa?</span>
+      <h1 class="heading-1 mt-3 text-balance text-light" data-reveal>
+        Conectamos{" "}<span class="text-primary"
+          >la Riviera Maya con internet para
+        </span>{" "}hogares y empresas
       </h1>
-      <hr
-        aria-hidden="true"
-        class="mx-auto mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
-        data-reveal
-      />
+      <SectionDivider class="mt-4 sm:w-52" />
       <p
         class="paragraph-md mx-auto mt-5 max-w-5xl text-pretty text-light/90"
         data-reveal
       >
         En Enlaces Playa llevamos 11 años ofreciendo internet para hogares y
-        empresas en la Riviera Maya,con soporte técnico local y soluciones para
+        empresas en la Riviera Maya, con soporte técnico local y soluciones para
         cada necesidad en Playa del Carmen, Tulum y Puerto Morelos.
       </p>
     </div>
   </div>
 </header>
+
+<script>
+  import { revealHero } from "../../utils/reveal";
+
+  // Hero: entrada inmediata del título, divisor y párrafo.
+  revealHero("about-hero");
+</script>
