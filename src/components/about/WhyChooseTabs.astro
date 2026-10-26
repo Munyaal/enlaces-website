@@ -1,28 +1,35 @@
 ---
 import { Image } from "astro:assets";
 import porqueElegirEnlaces from "../../assets/images/about/porque-elegir-enlaces-playa.png";
+import { parseBoldSegments } from "../../utils/bold-text";
 
+/**
+ * Los párrafos se escriben como texto plano con marcadores `**...**` para
+ * indicar qué fragmentos van en negrita. `parseBoldSegments` los convierte
+ * en segmentos que se renderizan con `<strong>` (sin `set:html`, el texto
+ * se escapa siempre). Ver `src/utils/bold-text.ts`.
+ */
 const tabs = [
   {
     id: "nosotros",
     label: "Nosotros",
     paragraphs: [
-      "En Enlaces Playa llevamos 11 años conectando hogares, hoteles, inmobiliarias y empresas en la Riviera Maya.",
-      "Como parte de Webtel, trabajamos para ofrecer soluciones de internet confiables, atención cercana y soporte técnico local en Playa del Carmen, Tulum y Puerto Morelos.",
+      "En **Enlaces Playa llevamos 11 años** conectando hogares, hoteles, inmobiliarias y empresas en la Riviera Maya.",
+      "Como parte de Webtel, trabajamos para ofrecer soluciones de internet confiables, **atención cercana y soporte técnico local en Playa del Carmen, Tulum y Puerto Morelos.**",
     ],
   },
   {
     id: "mision",
     label: "Misión",
     paragraphs: [
-      "Conectar hogares, hoteles y empresas de la Riviera Maya con soluciones de internet confiables, atención cercana y soporte técnico local en Playa del Carmen, Tulum y Puerto Morelos.",
+      "**Conectar** hogares, hoteles y empresas de la Riviera Maya con **soluciones de internet** confiables, atención cercana y soporte técnico local en **Playa del Carmen, Tulum y Puerto Morelos.**",
     ],
   },
   {
     id: "vision",
     label: "Visión",
     paragraphs: [
-      "Ser una empresa referente en servicios de internet en la Riviera Maya, reconocida por su conectividad confiable, atención al cliente y compromiso con el desarrollo de la región.",
+      "Ser una empresa referente en **servicios de internet en la Riviera Maya**, reconocida por su **conectividad confiable, atención al cliente y compromiso** con el desarrollo de la región.",
     ],
   },
 ] as const;
@@ -87,7 +94,15 @@ const tabs = [
               >
                 <div class="paragraph-md mt-4 space-y-4 text-secondary/80">
                   {tab.paragraphs.map((paragraph) => (
-                    <p class="text-pretty">{paragraph}</p>
+                    <p class="text-pretty">
+                      {parseBoldSegments(paragraph).map((segment) =>
+                        segment.bold ? (
+                          <strong class="font-semibold">{segment.text}</strong>
+                        ) : (
+                          segment.text
+                        ),
+                      )}
+                    </p>
                   ))}
                 </div>
               </div>
