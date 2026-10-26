@@ -1,0 +1,41 @@
+---
+/**
+ * Sección de beneficios de la home.
+ *
+ * Las tarjetas se apoyan sobre el Hero con un margen negativo controlado
+ * en flujo normal: evita posicionamiento absoluto frágil y no cubre la
+ * sección siguiente. El `<h2>` es `sr-only` para no romper ese patrón
+ * visual, pero mantiene el nombre accesible de la sección.
+ */
+import Container from "../../ui/Container.astro";
+import BenefitCard from "../cards/BenefitCard.astro";
+import { BENEFITS } from "../../../data/home/benefits";
+---
+
+<section aria-labelledby="benefits-title" data-reveal-scope="benefits">
+  <h2 id="benefits-title" class="sr-only">
+    Beneficios del Internet en la Riviera Maya
+  </h2>
+
+  <Container>
+    <div class="relative z-10 sm:-mt-24 lg:-mt-44 xl:-mt-64 w-full">
+      <ul class="flex flex-col items-center gap-20 lg:flex-row lg:flex-nowrap lg:justify-between lg:items-stretch lg:gap-6" role="list">
+        {
+          BENEFITS.map((benefit) => (
+            <BenefitCard
+              titulo={benefit.titulo}
+              icon={benefit.icon}
+              descripcion={benefit.descripcion}
+            />
+          ))
+        }
+      </ul>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../../utils/reveal";
+
+  revealSection("benefits");
+</script>

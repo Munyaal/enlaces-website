@@ -5,6 +5,7 @@
  * Content Collection `blog`. Concentrar la lógica aquí evita duplicar
  * reglas en `src/pages/blog.astro` y `src/pages/blog/[slug].astro`.
  */
+import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
 // Sufijo SEO de marca que el frontmatter añade al final de `title` (p. ej.
@@ -30,14 +31,6 @@ export const resolveDisplayTitle = (post: CollectionEntry<"blog">): string => {
   if (override) return override;
   return post.data.title.replace(BRAND_SUFFIX_RE, "").trim();
 };
-
-/**
- * Cuenta de artículos con concordancia singular/plural. Se usa tanto en
- * SSR como en el filtrado client-side para que el contador nunca diga
- * "1 artículos".
- */
-export const formatArticleCount = (count: number): string =>
-  `${count} ${count === 1 ? "artículo" : "artículos"}`;
 
 /**
  * Elimina la sintaxis Markdown para dejar texto plano apto para
@@ -105,4 +98,77 @@ export const buildSearchText = (post: CollectionEntry<"blog">): string => {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 };
+
+// Formateo es-MX estable en SSR (sin sorpresas de locale del cliente).
+// `timeZone: "UTC"` evita el offset que mete `Intl.DateTimeFormat` cuando
+// el frontmatter trae fechas tipo `2026-08-28` (parseadas como medianoche
+// UTC por `z.coerce.date()`): sin fijar timezone, la fecha se mostraría
+// como el día anterior en zonas horarias al oeste de UTC. Mismo motivo
+// por el que `toIsoDate` usa `toISOString().slice(0, 10)` en JSON-LD.
+const blogDateFormatter = new Intl.DateTimeFormat("es-MX", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
+/** Fecha legible (`28 de agosto de 2026`) para tarjetas y artículos. */
+export const formatBlogDate = (date: Date): string =>
+  blogDateFormatter.format(date);
+
+// Mismo formato YYYY-MM-DD que ya se usa en el JSON-LD del detalle
+// (`src/pages/blog/[slug].astro`), para que el `datetime` del `<time>`
+// sea estable en SSR y consistente entre la tarjeta y el artículo.
+export const toIsoDate = (date: Date): string =>
+  date.toISOString().slice(0, 10);
+
+/** Artículo ya resuelto para el listado (copy y atributos de filtro). */
+export interface BlogListItem {
+  titulo: string;
+  resumen: string;
+  href: string;
+  category: string;
+  dateLabel: string;
+  dateTime: string;
+  searchText: string;
+}
+
+export const toBlogListItem = (
+  post: CollectionEntry<"blog">,
+): BlogListItem => ({
+  // Título visible: usa `displayTitle` si existe y, como fallback,
+  // elimina el sufijo SEO `| Enlaces Playa` del `title` del
+  // frontmatter. El SEO (`<title>` y JSON-LD) sigue usando `title`
+  // íntegro.
+  titulo: resolveDisplayTitle(post),
+  resumen: post.data.summary,
+  href: `/blog/${post.id}`,
+  category: post.data.category,
+  dateLabel: formatBlogDate(post.data.datePublished),
+  dateTime: toIsoDate(post.data.datePublished),
+  // Texto plano ya normalizado (lowercase + sin acentos) que el
+  // script de filtros compara con la consulta. Se calcula en SSR
+  // para no pagar el coste en cada tecleo del cliente.
+  searchText: buildSearchText(post),
+});
+
+/** Artículos publicados, del más reciente al más antiguo. */
+export const getBlogPosts = async (): Promise<BlogListItem[]> => {
+  const posts = await getCollection("blog");
+  return [...posts]
+    .sort(
+      (a, b) => b.data.datePublished.getTime() - a.data.datePublished.getTime(),
+    )
+    .map(toBlogListItem);
+};
+
+/**
+ * Categorías únicas ordenadas alfabéticamente para renderizar los chips
+ * en orden estable entre builds. "Todas" se añade como primera opción
+ * desde la plantilla; aquí sólo listamos las del contenido.
+ */
+export const getBlogCategories = (items: BlogListItem[]): string[] =>
+  Array.from(new Set(items.map((item) => item.category))).sort((a, b) =>
+    a.localeCompare(b, "es"),
+  );
 

@@ -1,0 +1,74 @@
+---
+/**
+ * BlogFilters.astro
+ *
+ * Controles del listado: búsqueda, contador de resultados y chips de
+ * categoría. No tiene estado: `BlogExplorer` los consulta por id y
+ * actualiza `aria-pressed`/contador desde su script.
+ */
+import { Icon } from "astro-icon/components";
+import { formatArticleCount } from "../../utils/blog-filter";
+
+interface Props {
+  categories: string[];
+  total: number;
+}
+
+const { categories, total } = Astro.props;
+---
+
+<div
+  class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+>
+  <label for="blog-search" class="sr-only">Buscar artículos del blog</label>
+  <div class="relative w-full sm:max-w-sm">
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-light/50"
+    >
+      <Icon name="search" class="h-5 w-5" />
+    </span>
+    <input
+      id="blog-search"
+      type="search"
+      placeholder="Buscar por título, palabra o tema..."
+      autocomplete="off"
+      class="block w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-10 pr-4 paragraph-sm text-light placeholder:text-light/40 outline-none transition-colors duration-200 focus:border-accent focus:bg-white/10"
+    />
+  </div>
+  <p
+    id="blog-results-count"
+    class="paragraph-xs text-light/70"
+    role="status"
+    aria-live="polite"
+  >
+    Mostrando {formatArticleCount(total)}
+  </p>
+</div>
+
+<div
+  class="mt-4 flex flex-wrap gap-2"
+  role="group"
+  aria-label="Filtrar artículos por categoría"
+>
+  <button
+    type="button"
+    class="blog-chip paragraph-xs font-semibold uppercase tracking-[0.18em]"
+    data-category-filter="all"
+    aria-pressed="true"
+  >
+    Todas
+  </button>
+  {
+    categories.map((category) => (
+      <button
+        type="button"
+        class="blog-chip paragraph-xs font-semibold uppercase tracking-[0.18em]"
+        data-category-filter={category}
+        aria-pressed="false"
+      >
+        {category}
+      </button>
+    ))
+  }
+</div>

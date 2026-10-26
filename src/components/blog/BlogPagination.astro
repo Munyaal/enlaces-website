@@ -1,0 +1,39 @@
+---
+/**
+ * BlogPagination.astro
+ *
+ * Controles de paginación client-side. Se ocultan con el atributo
+ * `hidden` (no con la clase `hidden`) para que el script pueda volver a
+ * mostrarlos con `toggleAttribute`.
+ */
+import { Icon } from "astro-icon/components";
+---
+
+<nav
+  id="blog-pagination"
+  aria-label="Paginación del blog"
+  class="mt-8 flex flex-wrap items-center justify-center gap-3"
+  hidden
+>
+  <button
+    id="blog-prev"
+    type="button"
+    class="blog-page-btn paragraph-sm font-semibold"
+    disabled
+  >
+    <Icon name="arrow-right" class="h-4 w-4 rotate-180" aria-hidden="true" />
+    Anterior
+  </button>
+  <span id="blog-page-info" class="paragraph-sm text-light/70" aria-live="polite">
+    Página 1 de 1
+  </span>
+  <button
+    id="blog-next"
+    type="button"
+    class="blog-page-btn paragraph-sm font-semibold"
+    disabled
+  >
+    Siguiente
+    <Icon name="arrow-right" class="h-4 w-4" aria-hidden="true" />
+  </button>
+</nav>

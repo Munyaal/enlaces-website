@@ -1,0 +1,185 @@
+---
+/**
+ * BlogExplorer.astro
+ *
+ * Sección de artículos del blog. Es dueña del estado de filtros y
+ * paginación: renderiza los controles en SSR y los conecta desde su
+ * script de cliente, sin framework islands.
+ */
+import Container from "../ui/Container.astro";
+import BlogFilters from "./BlogFilters.astro";
+import BlogGrid from "./BlogGrid.astro";
+import BlogPagination from "./BlogPagination.astro";
+import type { BlogListItem } from "../../utils/blog";
+
+interface Props {
+  posts: BlogListItem[];
+  categories: string[];
+  total: number;
+}
+
+const { posts, categories, total } = Astro.props;
+---
+
+<section
+  aria-labelledby="blog-list-articles-title"
+  data-reveal-scope="blog-articles"
+  class="bg-secondary text-light"
+>
+  <Container>
+    <h2 id="blog-list-articles-title" class="heading-5 text-light" data-reveal>
+      Artículos
+    </h2>
+
+    <BlogFilters categories={categories} total={total} />
+    <BlogGrid posts={posts} />
+    <BlogPagination />
+  </Container>
+</section>
+
+<script>
+  import {
+    formatArticleCount,
+    matchesFilters,
+    normalizeQuery,
+    paginate,
+  } from "../../utils/blog-filter";
+  import type { BlogFilterState } from "../../utils/blog-filter";
+  import { revealNow, revealSection, whenReady } from "../../utils/reveal";
+
+  const initBlogFilters = () => {
+    const list = document.getElementById("blog-posts");
+    const chips = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-category-filter]"),
+    );
+    const searchInput = document.getElementById(
+      "blog-search",
+    ) as HTMLInputElement | null;
+    const resultsCount = document.getElementById("blog-results-count");
+    const emptyState = document.getElementById("blog-empty-state");
+    const pagination = document.getElementById("blog-pagination");
+    const prevButton = document.getElementById(
+      "blog-prev",
+    ) as HTMLButtonElement | null;
+    const nextButton = document.getElementById(
+      "blog-next",
+    ) as HTMLButtonElement | null;
+    const pageInfo = document.getElementById("blog-page-info");
+
+    if (
+      !list ||
+      chips.length === 0 ||
+      !resultsCount ||
+      !emptyState ||
+      !pagination ||
+      !prevButton ||
+      !nextButton ||
+      !pageInfo
+    ) {
+      return;
+    }
+
+    const items = Array.from(
+      list.querySelectorAll<HTMLLIElement>("li[data-search]"),
+    );
+    if (items.length === 0) return;
+
+    const state: BlogFilterState = { category: "all", query: "", page: 1 };
+    const total = items.length;
+
+    const applyFilters = ({ resetReveal = false } = {}) => {
+      const normalizedQuery = normalizeQuery(state.query);
+      const filtered = items.filter((el) =>
+        matchesFilters(
+          {
+            category: el.dataset.category ?? "",
+            searchText: el.dataset.search ?? "",
+          },
+          { category: state.category, query: normalizedQuery },
+        ),
+      );
+
+      const page = paginate(filtered, state.page);
+      state.page = page.page;
+      const pageItems = new Set(page.items);
+
+      // Visibilidad + reset de estilos de reveal. Sólo al cambiar un
+      // filtro o de página: si el usuario filtró antes del primer
+      // avistamiento, `gsap.set(opacity:0, y:16)` quedó aplicado a la
+      // tarjeta y al volver a mostrarla forzamos el estado final para
+      // que no quede invisible. En el arranque no se toca, para que el
+      // reveal por scroll de la carga inicial sí se vea.
+      items.forEach((el) => {
+        const isVisible = pageItems.has(el);
+        el.toggleAttribute("hidden", !isVisible);
+        if (isVisible && resetReveal) {
+          const revealTargets = Array.from(
+            el.querySelectorAll<HTMLElement>("[data-reveal]"),
+          );
+          revealNow(revealTargets);
+        }
+      });
+
+      // Contador y estado vacío. Ambos usan `aria-live="polite"`, así
+      // que cualquier cambio se anuncia al lector de pantalla.
+      resultsCount.textContent =
+        filtered.length === total
+          ? `Mostrando ${formatArticleCount(total)}`
+          : `Mostrando ${filtered.length} de ${formatArticleCount(total)}`;
+      emptyState.toggleAttribute("hidden", filtered.length > 0);
+
+      pagination.toggleAttribute("hidden", page.totalPages <= 1);
+      prevButton.disabled = state.page <= 1;
+      nextButton.disabled = state.page >= page.totalPages;
+      pageInfo.textContent = `Página ${state.page} de ${page.totalPages}`;
+    };
+
+    // Chips: clic cambia categoría, resetea a página 1 y refleja el
+    // nuevo estado en `aria-pressed` para AT.
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        state.category = chip.dataset.categoryFilter ?? "all";
+        state.page = 1;
+        chips.forEach((other) => {
+          other.setAttribute(
+            "aria-pressed",
+            other === chip ? "true" : "false",
+          );
+        });
+        applyFilters({ resetReveal: true });
+      });
+    });
+
+    // Búsqueda: `input` cubre tecleo, pegado y clear nativo del
+    // `type="search"`. Resetea a página 1 en cada cambio.
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        state.query = searchInput.value;
+        state.page = 1;
+        applyFilters({ resetReveal: true });
+      });
+    }
+
+    prevButton.addEventListener("click", () => {
+      if (state.page > 1) {
+        state.page--;
+        applyFilters({ resetReveal: true });
+      }
+    });
+
+    nextButton.addEventListener("click", () => {
+      state.page++;
+      applyFilters({ resetReveal: true });
+    });
+
+    // Arranque: sincroniza contador y paginación con el estado real,
+    // pero sin tocar el reveal (lo hace ScrollTrigger al entrar al
+    // viewport).
+    applyFilters();
+  };
+
+  whenReady(() => {
+    revealSection("blog-articles", "list");
+    initBlogFilters();
+  });
+</script>

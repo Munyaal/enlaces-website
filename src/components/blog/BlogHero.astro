@@ -1,0 +1,28 @@
+---
+/**
+ * BlogHero.astro
+ *
+ * Hero de `/blog`. Fija el copy y la imagen del listado y delega el
+ * layout en `PageHero`; el `title` SEO vive en la página y no se pinta.
+ */
+import PageHero from "../ui/PageHero.astro";
+import internetEnlacesPlaya from "../../assets/images/blog/blog-de-internet.jpg";
+
+interface Props {
+  description: string;
+}
+
+const { description } = Astro.props;
+---
+
+<PageHero
+  scope="blog-hero"
+  image={internetEnlacesPlaya}
+  priority
+  titleId="blog-list-title"
+  descriptionClass="paragraph-md mx-auto mt-5 max-w-3xl text-pretty text-light/90"
+>
+  <span class="text-primary">Blog</span> de Internet en la Riviera Maya<Fragment
+    slot="description"
+  >{description}</Fragment>
+</PageHero>

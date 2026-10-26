@@ -1,49 +1,27 @@
 ---
-import { Image } from "astro:assets";
+/**
+ * Hero de /nosotros.
+ *
+ * Delega en `PageHero` el layout, el overlay, el divisor y el reveal para
+ * no duplicar el `<header>` que ya usan las demás páginas internas.
+ */
 import internetEmpresas from "../../assets/images/about/internet-empresas-enlaces-playa.jpg";
-import SectionDivider from "../ui/SectionDivider.astro";
+import PageHero from "../ui/PageHero.astro";
 ---
 
-<header
-  data-reveal-scope="about-hero"
-  class="relative isolate w-full min-h-[320px] overflow-hidden bg-secondary sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]"
+<PageHero
+  scope="about-hero"
+  image={internetEmpresas}
+  priority
+  overlayClass="bg-secondary/50"
+  descriptionClass="paragraph-md mx-auto mt-5 max-w-5xl text-pretty text-light/90"
 >
-  <Image
-    src={internetEmpresas}
-    alt=""
-    aria-hidden="true"
-    priority
-    sizes="100vw"
-    class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
-  />
-
-  <div aria-hidden="true" class="absolute inset-0 -z-10 bg-secondary/50"></div>
-
-  <div
-    class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-20 sm:py-24 md:py-28 lg:py-32"
-  >
-    <div class="mt-16 w-full text-center sm:mt-20">
-      <h1 class="heading-1 mt-3 text-balance text-light" data-reveal>
-        Conectamos{" "}<span class="text-primary"
-          >la Riviera Maya con internet para
-        </span>{" "}hogares y empresas
-      </h1>
-      <SectionDivider class="mt-4 sm:w-52" />
-      <p
-        class="paragraph-md mx-auto mt-5 max-w-5xl text-pretty text-light/90"
-        data-reveal
-      >
-        En Enlaces Playa llevamos 11 años ofreciendo internet para hogares y
-        empresas en la Riviera Maya, con soporte técnico local y soluciones para
-        cada necesidad en Playa del Carmen, Tulum y Puerto Morelos.
-      </p>
-    </div>
-  </div>
-</header>
-
-<script>
-  import { revealHero } from "../../utils/reveal";
-
-  // Hero: entrada inmediata del título, divisor y párrafo.
-  revealHero("about-hero");
-</script>
+  Conectamos <span class="text-primary"
+    >la Riviera Maya con internet para</span
+  > hogares y empresas
+  <Fragment slot="description">
+    En Enlaces Playa llevamos 11 años ofreciendo internet para hogares y
+    empresas en la Riviera Maya, con soporte técnico local y soluciones para
+    cada necesidad en Playa del Carmen, Tulum y Puerto Morelos.
+  </Fragment>
+</PageHero>

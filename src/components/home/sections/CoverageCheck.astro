@@ -1,0 +1,61 @@
+---
+/**
+ * Consulta de cobertura en la home.
+ *
+ * La imagen y el overlay son decorativos: oscurecen el fondo y quedan
+ * ocultos a tecnologías asistivas para no añadir ruido. El formulario se
+ * delega a `CoverageForm` porque es el único bloque interactivo.
+ */
+import { Image } from "astro:assets";
+import backgroundImage from "../../../assets/images/home/internet-playa-del-carmen-tulum-puerto-morelos.jpg";
+import Container from "../../ui/Container.astro";
+import CoverageForm from "../forms/CoverageForm.astro";
+---
+
+<section
+  aria-labelledby="coverage-check-title"
+  data-reveal-scope="coverage-check"
+  class="relative isolate overflow-hidden border-b-8 border-line"
+>
+  <Image
+    src={backgroundImage}
+    alt="Internet Enlaces Playa, Tulum y Puerto morelos"
+    aria-hidden="true"
+    loading="lazy"
+    decoding="async"
+    class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
+  />
+
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-gradient-to-r from-secondary/80 via-secondary/40 to-transparent"
+  >
+  </div>
+
+  <Container>
+    <div class="relative text-center">
+      <h2 id="coverage-check-title" class="heading-2 text-light" data-reveal>
+        ¿Buscas <span class="text-primary">Internet</span> con cobertura
+        <span class="block text-primary">en la Riviera Maya?</span>
+      </h2>
+      <p class="paragraph-md mt-6 text-light/85" data-reveal>
+        Consulta la disponibilidad de nuestro servicio en Playa del Carmen,
+        Puerto Morelos y Tulum y encuentra la opción de conexión ideal para tu
+        hogar o negocio.
+      </p>
+
+      <CoverageForm />
+
+      <p class="paragraph-xs mt-4 text-light/70" data-reveal>
+        Consulta la disponibilidad de nuestro servicio en Playa del Carmen,
+        Puerto Morelos y Tulum.
+      </p>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../../utils/reveal";
+
+  revealSection("coverage-check");
+</script>

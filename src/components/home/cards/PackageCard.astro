@@ -1,0 +1,102 @@
+---
+/**
+ * Tarjeta reutilizable de plan (Hogar / Empresas).
+ *
+ * La variante visual se deriva de `tipo` mediante `PlanKind`, el mismo
+ * contrato que usa `data/home/plans.ts`, para que no existan dos uniones
+ * equivalentes que puedan divergir. El markup replica las clases que
+ * antes vivían inline en la sección.
+ */
+import { Icon } from "astro-icon/components";
+import CTAButton from "../../ui/CTAButton.astro";
+import type { PlanKind } from "../../../data/home/plans";
+
+interface Props {
+  tipo: PlanKind;
+  icon: string;
+  titulo: string;
+  descripcion: string;
+  precio: string;
+  cta: {
+    label: string;
+    href: string;
+  };
+  reveal?: boolean;
+}
+
+const {
+  tipo,
+  icon,
+  titulo,
+  descripcion,
+  precio,
+  cta,
+  reveal = false,
+} = Astro.props;
+
+const isEmpresarial = tipo === "empresarial";
+
+const articleClasses = [
+  "flex w-full max-w-md flex-col rounded-2xl border p-6 text-center shadow-2xl sm:p-7 md:max-w-md md:p-8",
+  isEmpresarial
+    ? "border-secondary bg-secondary text-white"
+    : "border-secondary/10 bg-white text-secondary",
+];
+
+const titleClasses = [
+  "heading-6 mt-6 text-center",
+  isEmpresarial ? "text-white" : "text-dark",
+];
+
+const descriptionClasses = [
+  "paragraph-md mt-5 text-center leading-relaxed",
+  isEmpresarial ? "text-white" : "text-secondary",
+];
+
+const desdeClasses = [
+  "paragraph-xs mt-8 text-center font-semibold uppercase tracking-[0.18em]",
+  isEmpresarial ? "text-white" : "text-secondary",
+];
+
+const priceClasses = [
+  "heading-2 leading-none",
+  isEmpresarial ? "text-white" : "text-secondary",
+];
+
+const perMonthClasses = [
+  "paragraph-xs pb-1 text-center uppercase tracking-wide",
+  isEmpresarial ? "text-white/80" : "text-secondary/80",
+];
+---
+
+<article class:list={articleClasses} data-reveal={reveal ? "" : undefined}>
+  <div
+    class:list={[
+      "mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-accent bg-secondary text-accent",
+    ]}
+  >
+    <Icon class="h-14 w-14" name={icon} aria-hidden="true" />
+  </div>
+  <h3 class:list={titleClasses}>{titulo}</h3>
+
+  <hr
+    aria-hidden="true"
+    class="mx-auto mt-2 h-0.5 w-32 border-0 bg-accent-grad-radial"
+  />
+
+  <p class:list={descriptionClasses}>{descripcion}</p>
+  <p class:list={desdeClasses}>DESDE</p>
+
+  <p class="mt-2 mb-2 flex items-end justify-center gap-1">
+    <span class:list={priceClasses}>{precio}</span>
+    <span class:list={perMonthClasses}>/mes</span>
+  </p>
+  <div class="mt-6 md:mt-auto md:pt-6">
+    <CTAButton
+      variant={isEmpresarial ? "solid" : "navy"}
+      href={cta.href}
+    >
+      {cta.label}
+    </CTAButton>
+  </div>
+</article>

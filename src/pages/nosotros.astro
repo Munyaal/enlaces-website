@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import AboutHeader from "../components/about/AboutHeader.astro";
-import WhyChooseContent from "../components/about/WhyChooseContent.astro";
+import WhyChooseTabs from "../components/about/WhyChooseTabs.astro";
 import WhyChooseBanner from "../components/about/WhyChooseBanner.astro";
 import WhatSetsUsApart from "../components/about/WhatSetsUsApart.astro";
 import OurCommitment from "../components/about/OurCommitment.astro";
@@ -57,7 +57,7 @@ const jsonLd = {
     set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
   ></script>
   <AboutHeader />
-  <WhyChooseContent />
+  <WhyChooseTabs />
   <WhyChooseBanner />
   <WhatSetsUsApart />
   <OurCommitment />

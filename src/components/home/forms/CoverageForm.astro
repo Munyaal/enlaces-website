@@ -1,0 +1,49 @@
+---
+/**
+ * Formulario de consulta de cobertura por código postal.
+ *
+ * La navegación a `/cobertura` con `cp` como query es intencional: evita
+ * backend y mantiene el flujo actual. El formulario no lleva
+ * `data-reveal` para que ningún control quede invisible mientras la
+ * sección espera su entrada al viewport.
+ */
+import IconMapPin from "../../../icons/map-pin.svg";
+import Button from "../../ui/Button.astro";
+
+const COVERAGE_CTA = {
+  label: "Consultar cobertura",
+  href: "/cobertura",
+};
+---
+
+<form
+  action={COVERAGE_CTA.href}
+  method="get"
+  class="mx-auto mt-8 flex w-full max-w-2xl flex-col items-stretch gap-3 rounded-2xl bg-light p-3 shadow-md transition-transform motion-safe:hover:scale-[1.02] focus-within:ring-2 focus-within:ring-accent sm:mt-10 sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-1.5 md:gap-4"
+  aria-label="Consulta de cobertura por código postal"
+>
+  <span
+    aria-hidden="true"
+    class="hidden shrink-0 items-center justify-center pl-3 text-primary sm:flex sm:h-10 sm:w-10"
+  >
+    <IconMapPin class="h-9 w-9" />
+  </span>
+
+  <label for="postal-code" class="sr-only"> Código postal </label>
+  <input
+    id="postal-code"
+    name="cp"
+    type="text"
+    inputmode="numeric"
+    pattern="[0-9]{4,5}"
+    maxlength="5"
+    placeholder="Ingresa tu código postal"
+    required
+    autocomplete="postal-code"
+    class="block w-full bg-transparent px-4 py-3 paragraph-md text-secondary placeholder-gray-400 focus:outline-none sm:px-3 sm:py-2"
+  />
+
+  <Button as="button" type="submit" class="w-full sm:w-auto">
+    {COVERAGE_CTA.label}
+  </Button>
+</form>

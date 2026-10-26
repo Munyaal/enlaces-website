@@ -1,0 +1,60 @@
+---
+/**
+ * Sección de planes de Internet (Hogar y Empresas).
+ *
+ * El copy vive en `data/home/plans.ts` y la presentación en
+ * `PackageCard`: esta sección sólo compone el encabezado y la rejilla.
+ * Los precios son orientativos; el tarifario real está en las páginas de
+ * detalle.
+ */
+import Container from "../../ui/Container.astro";
+import PackageCard from "../cards/PackageCard.astro";
+import { PLANS } from "../../../data/home/plans";
+---
+
+<section aria-labelledby="plans-title" data-reveal-scope="plans">
+  <Container>
+    <h2
+      id="plans-title"
+      class="heading-2 text-center text-secondary"
+      data-reveal
+    >
+      <span class="text-primary-on-light">Internet</span> para Hogar y Empresas <br /> en la
+      {" "}
+      <span class="text-primary-on-light">Riviera Maya</span>
+    </h2>
+    <hr
+      aria-hidden="true"
+      class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
+      data-reveal
+    />
+    <p class="paragraph-md mt-6 text-center text-secondary" data-reveal>
+      Encuentra la solución de conectividad que necesitas, ya sea para tu hogar,
+      negocio o empresa.
+    </p>
+
+    <div
+      class="mt-10 flex flex-col items-stretch justify-center gap-6 md:mt-12 md:flex-row md:items-center md:gap-8 lg:gap-12 xl:gap-16"
+    >
+      {
+        PLANS.map((plan) => (
+          <PackageCard
+            tipo={plan.tipo}
+            icon={plan.icon}
+            titulo={plan.titulo}
+            descripcion={plan.descripcion}
+            precio={plan.precio}
+            cta={plan.cta}
+            reveal
+          />
+        ))
+      }
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../../utils/reveal";
+
+  revealSection("plans");
+</script>

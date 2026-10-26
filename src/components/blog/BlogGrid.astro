@@ -1,0 +1,58 @@
+---
+/**
+ * BlogGrid.astro
+ *
+ * Cuadrícula de tarjetas del listado y estado vacío. Cada `<li>` lleva
+ * `data-category` y `data-search` en SSR: son el contrato que lee el
+ * filtro client-side de `BlogExplorer`. Los `<li>` con índice ≥
+ * `POSTS_PER_PAGE` llevan `hidden` en SSR para evitar el flash de todas
+ * las tarjetas; sin JS solo se ve la primera página y la paginación
+ * queda oculta, porque el filtrado es client-side.
+ */
+import BlogCard from "./BlogCard.astro";
+import type { BlogListItem } from "../../utils/blog";
+import { POSTS_PER_PAGE } from "../../utils/blog-filter";
+
+interface Props {
+  posts: BlogListItem[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul
+  id="blog-posts"
+  role="list"
+  class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8"
+>
+  {
+    posts.map((post, index) => (
+      <li
+        class="h-full"
+        data-category={post.category}
+        data-search={post.searchText}
+        hidden={index >= POSTS_PER_PAGE}
+      >
+        <BlogCard
+          href={post.href}
+          title={post.titulo}
+          summary={post.resumen}
+          category={post.category}
+          dateLabel={post.dateLabel}
+          dateTime={post.dateTime}
+          reveal
+        />
+      </li>
+    ))
+  }
+</ul>
+
+<p
+  id="blog-empty-state"
+  class="mt-10 text-center text-light/70 paragraph-md"
+  role="status"
+  aria-live="polite"
+  hidden
+>
+  No se encontraron artículos que coincidan con tu búsqueda.
+</p>

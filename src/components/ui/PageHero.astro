@@ -1,0 +1,106 @@
+---
+/**
+ * PageHero.astro
+ *
+ * Hero centrado reutilizable para páginas internas: imagen decorativa a
+ * sangre, overlay plano y contenido centrado con la altura de navbar ya
+ * compensada. Existe para que blog (y luego otras páginas internas) no
+ * dupliquen el mismo `<header>`.
+ *
+ * Props:
+ *   - scope:            valor de `data-reveal-scope`/`data-page-hero`.
+ *   - image/alt/priority: imagen de fondo y su prioridad de carga.
+ *   - titleId:          id opcional del `<h1>`.
+ *   - overlayClass:     color del overlay (default `bg-secondary/65`).
+ *   - descriptionClass: tipografía/medidas del párrafo descriptivo.
+ *   - class:            clases extra para el `<header>`.
+ *
+ * Slots: default va dentro del `<h1>`; `description` es el párrafo.
+ */
+import { Image } from "astro:assets";
+
+interface Props {
+  scope: string;
+  image: ImageMetadata;
+  alt?: string;
+  priority?: boolean;
+  titleId?: string;
+  overlayClass?: string;
+  descriptionClass?: string;
+  class?: string;
+}
+
+const {
+  scope,
+  image,
+  alt = "",
+  priority = false,
+  titleId,
+  overlayClass = "bg-secondary/65",
+  descriptionClass = "mx-auto mt-5 max-w-3xl text-pretty text-light/90",
+  class: className = "",
+} = Astro.props;
+
+const headerClasses = [
+  "relative isolate w-full min-h-[320px] overflow-hidden bg-secondary sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<header
+  data-page-hero={scope}
+  data-reveal-scope={scope}
+  class={headerClasses}
+>
+  <Image
+    src={image}
+    alt={alt}
+    aria-hidden="true"
+    priority={priority}
+    widths={[480, 768, 1024, 1600]}
+    sizes="100vw"
+    class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
+  />
+
+  <div aria-hidden="true" class={"absolute inset-0 -z-10 " + overlayClass}>
+  </div>
+
+  <div
+    class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-20 sm:py-24 md:py-28 lg:py-32"
+  >
+    <div class="mt-16 w-full text-center sm:mt-20">
+      <h1
+        id={titleId}
+        class="heading-1 mt-3 text-balance text-light"
+        data-reveal
+      >
+        <slot />
+      </h1>
+      <hr
+        aria-hidden="true"
+        class="mx-auto mt-4 h-1 w-32 border-0 bg-accent-grad-radial sm:w-52"
+        data-reveal
+      />
+      {
+        Astro.slots.has("description") && (
+          <p class={descriptionClass} data-reveal>
+            <slot name="description" />
+          </p>
+        )
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  import { revealHero, whenReady } from "../../utils/reveal";
+
+  whenReady(() => {
+    document.querySelectorAll<HTMLElement>("[data-page-hero]").forEach((el) => {
+      const scope = el.dataset.pageHero;
+      if (scope) revealHero(scope);
+    });
+  });
+</script>
