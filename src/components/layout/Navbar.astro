@@ -3,6 +3,8 @@ import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import logoEnlaces from "../../assets/images/brand/logo-enlacesplaya.webp";
 
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
 const NAV_URLS = {
   homeInternet: "/internet-hogar",
   businessInternet: "/internet-empresas",
@@ -26,6 +28,15 @@ const CTA_LINK = {
   label: "Cotizar plan ahora",
   href: NAV_URLS.cta,
 };
+
+/**
+ * Un enlace del Navbar está activo cuando su slug coincide exactamente con
+ * la ruta actual. La comparación es exacta (no por prefijo) para que rutas
+ * hermanas como `/internet-hogar` y `/internet-empresas` no se confundan, y
+ * para que páginas sin entrada en el Navbar (p. ej. `/blog`) no enciendan
+ * ninguna sección por accidente.
+ */
+const isActive = (href: string): boolean => currentPath === href;
 ---
 
 <!-- py-10 lg:py-16 -->
@@ -85,7 +96,11 @@ const CTA_LINK = {
               <li>
                 <a
                   href={link.href}
-                  class="block rounded-md px-3 py-2 text-sm font-semibold text-light transition-colors hover:bg-light/10 hover:text-primary md:text-base"
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  class:list={[
+                    "block rounded-md px-3 py-2 text-sm font-semibold transition-colors hover:bg-light/10 hover:text-primary md:text-base",
+                    isActive(link.href) ? "text-primary" : "text-light",
+                  ]}
                 >
                   {link.label}
                 </a>
