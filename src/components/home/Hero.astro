@@ -5,7 +5,7 @@ import Button from "../ui/Button.astro";
 ---
 
 <header
-  data-hero
+  data-reveal-scope="hero"
   class="relative isolate w-full min-h-[560px] sm:min-h-[600px] md:min-h-[660px] lg:min-h-[820px] xl:min-h-[920px] overflow-hidden"
 >
   {/* Imagen de fondo (decorativa) */}
@@ -85,60 +85,7 @@ import Button from "../ui/Button.astro";
 </header>
 
 <script>
-  import { gsap } from "gsap";
-  import { revealImmediately } from "../../utils/reveal";
+  import { ambientZoom, revealHero, whenReady } from "../../utils/reveal";
 
-  // Zoom in/out muy leve en loop SOLO sobre la imagen de fondo del Hero.
-  // Respeta prefers-reduced-motion: si el usuario lo tiene activo, no anima.
-  const initHeroBackgroundZoom = () => {
-    const bg = document.querySelector<HTMLImageElement>(
-      "[data-hero-background]",
-    );
-    if (!bg) return;
-
-    const motionQuery = window.matchMedia(
-      "(prefers-reduced-motion: no-preference)",
-    );
-    if (!motionQuery.matches) return;
-
-    const ctx = gsap.context(() => {
-      gsap.to(bg, {
-        scale: 1.03,
-        duration: 8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        transformOrigin: "center",
-      });
-    });
-
-    // Si el usuario cambia la preferencia en tiempo real, matamos la animación.
-    motionQuery.addEventListener("change", (e) => {
-      if (!e.matches) ctx.revert();
-    });
-  };
-
-  const initHeroEntry = () => {
-    // Entrada sutil del título, divisor, párrafo y CTAs. Inmediata (sin
-    // ScrollTrigger) porque el Hero está en el primer viewport. El Ken
-    // Burns del background sigue corriendo de forma independiente.
-    revealImmediately({
-      selector: "[data-reveal]",
-      root: document.querySelector("[data-hero]"),
-      stagger: 0.08,
-      duration: 0.5,
-      y: 12,
-    });
-  };
-
-  const init = () => {
-    initHeroBackgroundZoom();
-    initHeroEntry();
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  whenReady(() => { revealHero("hero"); ambientZoom({ scope: "hero" }); });
 </script>

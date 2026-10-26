@@ -22,7 +22,11 @@ import Container from "../Container.astro";
 import TestimonioCard from "../testimonioCard.astro";
 ---
 
-<section aria-labelledby="testimonios-title" class="bg-amber-100">
+<section
+  aria-labelledby="testimonios-title"
+  data-reveal-scope="testimonios"
+  class="bg-surface-1"
+>
   <Container>
     <h2 id="testimonios-title" class="heading-2 text-center" data-reveal>
       <span class="text-primary-on-light">Opiniones</span>{" "}sobre nuestro <br /> servicio
@@ -68,31 +72,10 @@ import TestimonioCard from "../testimonioCard.astro";
 </section>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
-  // Sólo animamos el encabezado (h2 + hr + p). El wrapper, la
-  // configuración y los slides de Swiper permanecen intactos para no
-  // interferir con la inicialización del carrusel.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='testimonios-title']",
-    );
-    if (!section) return;
-
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.1,
-      duration: 0.55,
-      y: 14,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // Sólo animamos el encabezado (h2 + hr + p). El carrusel queda intacto.
+  revealSection("testimonios", "list");
 </script>
 
 <style>
@@ -175,6 +158,26 @@ import TestimonioCard from "../testimonioCard.astro";
     .testimonials-next {
       width: 32px;
       height: 32px;
+    }
+  }
+
+  /* Reduced motion: sin transición ni escala en hover. Conservamos el
+     centrado vertical de desktop y el anclaje inferior de mobile. */
+  @media (prefers-reduced-motion: reduce) {
+    .testimonials-prev,
+    .testimonials-next {
+      transition: none;
+    }
+    .testimonials-prev:hover,
+    .testimonials-next:hover {
+      transform: translateY(-50%);
+    }
+  }
+
+  @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+    .testimonials-prev:hover,
+    .testimonials-next:hover {
+      transform: none;
     }
   }
 </style>

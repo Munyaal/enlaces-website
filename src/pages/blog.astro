@@ -17,7 +17,7 @@
  *     `data-reveal` para entrar escalonados al cargar.
  *   - Sección de artículos: `bg-secondary` para que el texto blanco
  *     dialogue con el navbar (`bg-secondary/80`) y el footer
- *     (`bg-secondary`) ya existentes. Conserva su `revealOnEnter` por
+ *     (`bg-secondary`) ya existentes. Conserva su `revealSection` por
  *     scroll (respeta `prefers-reduced-motion`).
  *   - Tarjetas delegadas a `BlogCard.astro` para no duplicar el
  *     markup y mantener la jerarquía del listado en un único sitio.
@@ -37,20 +37,19 @@
  *     búsqueda para evitar quedarse en una página vacía.
  *
  * Animación:
- *   - El hero usa `revealImmediately` (sin ScrollTrigger) porque está
- *     en el primer viewport. La sección de artículos sigue usando
- *     `revealOnEnter`. Ambos helpers respetan `prefers-reduced-motion`
- *     vía `gsap.matchMedia` y centralizan la lógica en
- *     `src/utils/reveal.ts`. El hero es independiente del hero del
- *     home; ningún cambio al home.
- *   - Riesgo: `revealOnEnter` aplica `gsap.set(opacity:0, y:18)` a
- *     TODAS las tarjetas antes de que entren al viewport. Si el
- *     usuario filtra antes del primer avistamiento y luego muestra
- *     una tarjeta previamente oculta, podría heredar ese estado
- *     inicial. El script de filtros fuerza `opacity:1, y:0` sobre
- *     los descendientes `[data-reveal]` cada vez que una tarjeta se
- *     vuelve a mostrar, anulando ese riesgo sin tocar la lógica de
- *     reveal.
+ *   - El hero usa `revealHero("blog-hero")` (sin ScrollTrigger) porque
+ *     está en el primer viewport. La sección de artículos usa
+ *     `revealSection("blog-articles", "list")`. Ambos helpers respetan
+ *     `prefers-reduced-motion` vía `gsap.matchMedia` y centralizan la
+ *     lógica en `src/utils/reveal.ts`. El hero es independiente del
+ *     hero del home; ningún cambio al home.
+ *   - Riesgo: `revealSection` aplica `gsap.set(opacity:0, y:16)` a las
+ *     tarjetas antes de que entren al viewport. Si el usuario filtra
+ *     antes del primer avistamiento y luego muestra una tarjeta
+ *     previamente oculta, heredaría ese estado inicial. El script de
+ *     filtros fuerza el estado final con `revealNow(...)` sólo al
+ *     cambiar filtros o página después del arranque; en el arranque
+ *     no interviene, para que el reveal por scroll se vea.
  *
  * Offset de navbar:
  *   - El navbar es `fixed top-0`. El `mt-16 sm:mt-20` del contenido
@@ -64,7 +63,7 @@ import BlogCard from "../components/BlogCard.astro";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import { resolveDisplayTitle, buildSearchText } from "../utils/blog";
+import { resolveDisplayTitle, buildSearchText, formatArticleCount } from "../utils/blog";
 import internetEnlacesPlaya from "../assets/images/blog-de-internet.jpg";
 
 const title =
@@ -153,7 +152,7 @@ const totalArticulos = articulos.length;
      portafolio. El `bg-secondary` cubre el primer paint mientras la
      imagen termina de cargar y previene flash claro. */}
   <header
-    data-hero
+    data-reveal-scope="blog-hero"
     class="relative isolate w-full min-h-[320px] overflow-hidden bg-secondary sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]"
   >
     {/* Imagen de fondo (decorativa). `priority` activa la optimización
@@ -168,7 +167,6 @@ const totalArticulos = articulos.length;
       aria-hidden="true"
       priority
       sizes="100vw"
-      data-hero-background
       class="absolute inset-0 -z-20 h-full w-full object-cover brightness-75"
     />
 
@@ -216,11 +214,12 @@ const totalArticulos = articulos.length;
   </header>
 
   {/* Sección oscura de artículos. Se separa del hero para que el
-     `revealOnEnter` por scroll solo afecte a este bloque (el hero ya
-     animó con `revealImmediately`). Conserva el lenguaje del sitio:
+     `revealSection` por scroll solo afecte a este bloque (el hero ya
+     animó con `revealHero`). Conserva el lenguaje del sitio:
      `bg-secondary` para dialogar con navbar y footer. */}
   <section
     aria-labelledby="blog-list-articles-title"
+    data-reveal-scope="blog-articles"
     class="bg-secondary text-light"
   >
     <Container>
@@ -233,10 +232,12 @@ const totalArticulos = articulos.length;
       </h2>
 
       {/* Controles de filtrado: búsqueda + chips de categoría +
-         contador de resultados. Se renderizan fuera del reveal para
-         que estén disponibles desde el primer paint (el usuario
-         puede empezar a filtrar aunque la cuadrícula aún no haya
-         animado al entrar al viewport). */}
+         contador de resultados. Son interactivos, así que quedan fuera
+         del reveal: si heredaran `opacity: 0` hasta el scroll, el foco
+         podría caer en controles invisibles. Visibles desde el primer
+         paint, el usuario puede filtrar aunque la cuadrícula aún no
+         haya animado. El reveal de la sección cubre encabezado y
+         tarjetas, que no reciben foco. */}
       <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <label for="blog-search" class="sr-only">
           Buscar artículos del blog
@@ -253,7 +254,7 @@ const totalArticulos = articulos.length;
             type="search"
             placeholder="Buscar por título, palabra o tema..."
             autocomplete="off"
-            class="block w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-10 pr-4 paragraph-sm text-light placeholder:text-light/40 outline-none transition focus:border-accent focus:bg-white/10"
+            class="block w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-10 pr-4 paragraph-sm text-light placeholder:text-light/40 outline-none transition-colors duration-200 focus:border-accent focus:bg-white/10"
           />
         </div>
         <p
@@ -262,7 +263,7 @@ const totalArticulos = articulos.length;
           role="status"
           aria-live="polite"
         >
-          Mostrando {totalArticulos} de {totalArticulos} artículos
+          Mostrando {totalArticulos} de {formatArticleCount(totalArticulos)}
         </p>
       </div>
 
@@ -275,7 +276,6 @@ const totalArticulos = articulos.length;
         class="mt-4 flex flex-wrap gap-2"
         role="group"
         aria-label="Filtrar artículos por categoría"
-        data-reveal
       >
         <button
           type="button"
@@ -389,45 +389,17 @@ const totalArticulos = articulos.length;
 </Layout>
 
 <script>
-  import { gsap } from "gsap";
-  import { revealOnEnter, revealImmediately } from "../utils/reveal";
+  import { formatArticleCount } from "../utils/blog";
+  import {
+    revealHero,
+    revealNow,
+    revealSection,
+    whenReady,
+  } from "../utils/reveal";
 
   // Tamaño de página fijo de la paginación client-side. Coincide con
   // lo declarado en la plantilla (`blog-pagination`).
   const POSTS_PER_PAGE = 12;
-
-  // Hero: entrada inmediata del kicker, h1, divisor y lede. Sin
-  // ScrollTrigger porque está en el primer viewport.
-  const initHeroReveal = () => {
-    const hero = document.querySelector("[data-hero]");
-    if (hero) {
-      revealImmediately({
-        selector: "[data-reveal]",
-        root: hero,
-        stagger: 0.08,
-        duration: 0.5,
-        y: 12,
-      });
-    }
-  };
-
-  // Artículos: entrada escalonada al hacer scroll. `once: true`
-  // garantiza que la animación sólo se dispara la primera vez que la
-  // sección entra al viewport.
-  const initArticlesReveal = () => {
-    const articlesSection = document.querySelector(
-      "section[aria-labelledby='blog-list-articles-title']",
-    );
-    if (articlesSection) {
-      revealOnEnter({
-        selector: "[data-reveal]",
-        root: articlesSection,
-        stagger: 0.08,
-        duration: 0.55,
-        y: 18,
-      });
-    }
-  };
 
   // Filtros + búsqueda + paginación. Lee cada `<li>` con
   // `data-search` y `data-category` que el frontmatter renderizó,
@@ -482,7 +454,7 @@ const totalArticulos = articulos.length;
 
     const total = items.length;
 
-    const applyFilters = () => {
+    const applyFilters = ({ resetReveal = false } = {}) => {
       const q = state.query.trim();
 
       // Calculamos el conjunto filtrado. La normalización ya vive en
@@ -506,19 +478,20 @@ const totalArticulos = articulos.length;
       const start = (state.page - 1) * POSTS_PER_PAGE;
       const pageItems = new Set(filtered.slice(start, start + POSTS_PER_PAGE));
 
-      // Visibilidad + reset de estilos de reveal. Si el usuario
-      // filtró antes del primer avistamiento, `gsap.set(opacity:0,
-      // y:18)` quedó aplicado a la tarjeta; al volver a mostrarla
-      // forzamos el estado final para que no quede invisible.
+      // Visibilidad + reset de estilos de reveal. Sólo al cambiar un
+      // filtro o de página: si el usuario filtró antes del primer
+      // avistamiento, `gsap.set(opacity:0, y:16)` quedó aplicado a la
+      // tarjeta y al volver a mostrarla forzamos el estado final para
+      // que no quede invisible. En el arranque no se toca, para que el
+      // reveal por scroll de la carga inicial sí se vea.
       items.forEach((el) => {
         const isVisible = pageItems.has(el);
         el.toggleAttribute("hidden", !isVisible);
-        if (isVisible) {
-          const revealTargets =
-            el.querySelectorAll<HTMLElement>("[data-reveal]");
-          revealTargets.forEach((target) => {
-            gsap.set(target, { opacity: 1, y: 0 });
-          });
+        if (isVisible && resetReveal) {
+          const revealTargets = Array.from(
+            el.querySelectorAll<HTMLElement>("[data-reveal]"),
+          );
+          revealNow(revealTargets);
         }
       });
 
@@ -526,8 +499,8 @@ const totalArticulos = articulos.length;
       // así que cualquier cambio se anuncia al lector de pantalla.
       resultsCount.textContent =
         filtered.length === total
-          ? `Mostrando ${total} artículos`
-          : `Mostrando ${filtered.length} de ${total} artículos`;
+          ? `Mostrando ${formatArticleCount(total)}`
+          : `Mostrando ${filtered.length} de ${formatArticleCount(total)}`;
       emptyState.toggleAttribute("hidden", filtered.length > 0);
 
       // Paginación. El `<nav>` se oculta cuando hay una sola página
@@ -550,7 +523,7 @@ const totalArticulos = articulos.length;
             other === chip ? "true" : "false",
           );
         });
-        applyFilters();
+        applyFilters({ resetReveal: true });
       });
     });
 
@@ -560,37 +533,33 @@ const totalArticulos = articulos.length;
       searchInput.addEventListener("input", () => {
         state.query = searchInput.value;
         state.page = 1;
-        applyFilters();
+        applyFilters({ resetReveal: true });
       });
     }
 
     prevButton.addEventListener("click", () => {
       if (state.page > 1) {
         state.page--;
-        applyFilters();
+        applyFilters({ resetReveal: true });
       }
     });
 
     nextButton.addEventListener("click", () => {
       state.page++;
-      applyFilters();
+      applyFilters({ resetReveal: true });
     });
 
-    // Sincronizamos el contador inicial con el estado real (en SSR
-    // ya quedó en "Mostrando N de N", pero `applyFilters` lo deja
-    // consistente también con el resto de UI).
+    // Arranque: sincroniza contador y paginación con el estado real,
+    // pero sin tocar el reveal (lo hace ScrollTrigger al entrar al
+    // viewport).
     applyFilters();
   };
 
   const init = () => {
-    initHeroReveal();
-    initArticlesReveal();
+    revealHero("blog-hero");
+    revealSection("blog-articles", "list");
     initBlogFilters();
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  whenReady(init);
 </script>

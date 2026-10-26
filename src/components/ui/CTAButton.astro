@@ -5,6 +5,13 @@
 
 import { Icon } from "astro-icon/components";
 import IconArrowRight from "../../icons/arrow-right.svg";
+import {
+  BUTTON_BASE_CLASSES,
+  BUTTON_SCALE_CLASSES,
+  BUTTON_SHADOW_CLASSES,
+  BUTTON_STATE_CLASSES,
+  BUTTON_TRANSITION_CLASSES,
+} from "./button-styles";
 
 type Variant = "solid" | "navy";
 
@@ -49,16 +56,21 @@ const variantClasses: Record<Variant, { button: string; circle: string }> = {
   },
 };
 
-// Clases compartidas copiadas literalmente de Plans.astro para garantizar
-// fidelidad visual (incluye el w-full sm:w-auto propio de la card).
-const sharedClasses =
-  "inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 paragraph-md font-bold shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto";
+// Clases compartidas con el resto del sistema de botones. Se conserva el
+// `w-full sm:w-auto` propio de la card de planes.
+const sharedClasses = [
+  BUTTON_BASE_CLASSES,
+  BUTTON_TRANSITION_CLASSES,
+  BUTTON_SCALE_CLASSES,
+  BUTTON_SHADOW_CLASSES.elevated,
+  "w-full justify-center gap-2 px-6 py-3 paragraph-md sm:w-auto",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light",
+].join(" ");
 
 const circleClasses =
   "inline-flex h-8 w-8 items-center justify-center rounded-full border";
 
-const stateClasses =
-  "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 aria-[busy=true]:cursor-progress aria-[busy=true]:hover:scale-100";
+const stateClasses = BUTTON_STATE_CLASSES;
 
 const isDisabled = disabled || loading;
 const classes = variantClasses[variant];
@@ -88,7 +100,7 @@ const finalClass = [
       <slot />
       {loading ? (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
-          <Icon name="loader" class="h-6 w-6 animate-spin" />
+          <Icon name="loader" class="h-6 w-6 animate-spin motion-reduce:animate-none" />
         </span>
       ) : (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
@@ -108,7 +120,7 @@ const finalClass = [
       <slot />
       {loading ? (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
-          <Icon name="loader" class="h-6 w-6 animate-spin" />
+          <Icon name="loader" class="h-6 w-6 animate-spin motion-reduce:animate-none" />
         </span>
       ) : (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">

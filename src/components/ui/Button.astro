@@ -26,6 +26,13 @@
  */
 
 import { Icon } from "astro-icon/components";
+import {
+  BUTTON_BASE_CLASSES,
+  BUTTON_SCALE_CLASSES,
+  BUTTON_SHADOW_CLASSES,
+  BUTTON_STATE_CLASSES,
+  BUTTON_TRANSITION_CLASSES,
+} from "./button-styles";
 
 type Variant = "orange" | "navy";
 
@@ -66,12 +73,12 @@ const {
 }: Props = Astro.props;
 
 const baseVariantClasses: Record<Variant, string> = {
-  // Naranja de marca (#ffa61f → bg-primary). Texto dark para contraste.
+  // Naranja de marca (#ffa61f → bg-primary). Texto light para contraste.
   orange:
-    "border-2 border-primary bg-primary text-light hover:bg-light hover:text-primary hover:scale-[1.03]",
+    "border-2 border-primary bg-primary text-light hover:bg-light hover:text-primary",
 
   // Azul marino (#002741 → bg-secondary). Texto light.
-  navy: "border-2 border-light bg-secondary text-light hover:bg-primary hover:text-light hover:border-primary hover:scale-[1.03]",
+  navy: "border-2 border-light bg-secondary text-light hover:bg-primary hover:text-light hover:border-primary",
 };
 
 const sizeClasses: Record<Size, string> = {
@@ -80,12 +87,17 @@ const sizeClasses: Record<Size, string> = {
   lg: "px-7 py-3 paragraph-md",
 };
 
-// Clases comunes: píldora, layout flex, estados focus/active/disabled.
-const sharedClasses =
-  "inline-flex items-center justify-center gap-2 rounded-full font-bold transition-[transform,box-shadow,color,background] duration-200 ease-out select-none whitespace-nowrap outline-none focus-visible:shadow-[0_0_0_2px_var(--color-light),0_0_0_4px_var(--color-secondary)] active:scale-[0.98] shadow hover:shadow-md";
+// Clases comunes: píldora, layout flex, transición, escala y estados.
+const sharedClasses = [
+  BUTTON_BASE_CLASSES,
+  BUTTON_TRANSITION_CLASSES,
+  BUTTON_SCALE_CLASSES,
+  BUTTON_SHADOW_CLASSES.default,
+  "select-none justify-center gap-2 whitespace-nowrap hover:shadow-md",
+  "focus-visible:shadow-[0_0_0_2px_var(--color-light),0_0_0_4px_var(--color-secondary)]",
+].join(" ");
 
-const stateClasses =
-  "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 aria-[busy=true]:cursor-progress aria-[busy=true]:hover:scale-100";
+const stateClasses = BUTTON_STATE_CLASSES;
 
 const isDisabled = disabled || loading;
 const variantClasses = baseVariantClasses[variant];
@@ -116,7 +128,7 @@ const finalClass = [
       {loading ? (
         <Icon
           name={"loader"}
-          class="h-6 w-6 shrink-0 animate-spin"
+          class="h-6 w-6 shrink-0 animate-spin motion-reduce:animate-none"
           aria-hidden="true"
         />
       ) : icon ? (
@@ -139,7 +151,7 @@ const finalClass = [
       {loading ? (
         <Icon
           name={"loader"}
-          class="h-6 w-6 shrink-0 animate-spin"
+          class="h-6 w-6 shrink-0 animate-spin motion-reduce:animate-none"
           aria-hidden="true"
         />
       ) : icon ? (

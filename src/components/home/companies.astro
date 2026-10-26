@@ -17,7 +17,7 @@
 import Container from "../Container.astro";
 ---
 
-<section aria-labelledby="companies-title">
+<section aria-labelledby="companies-title" data-reveal-scope="companies">
   <Container>
     <h2 id="companies-title" class="heading-2 text-center text-secondary" data-reveal>
       <span class="text-primary-on-light">Empresas</span>{' '}que confían en nuestro {' '}
@@ -95,28 +95,8 @@ import Container from "../Container.astro";
 </section>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
-  // Encabezado y logos entran escalonados; ScrollTrigger `once: true`
-  // garantiza que sólo se dispara la primera vez que la sección entra.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='companies-title']",
-    );
-    if (!section) return;
-
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.08,
-      duration: 0.5,
-      y: 14,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // Encabezado y logos comparten un stagger más marcado por ser una lista.
+  revealSection("companies", "list");
 </script>

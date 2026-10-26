@@ -5,13 +5,14 @@ import Container from "../Container.astro";
 import internetHogar from "../../assets/images/internet-hogar-riviera-maya.jpg";
 
 const TELEFONO = {
-  phone: "984 109 1111",
-  href: "tel:+529841091111",
+  phone: "984 184 5726",
+  href: "tel:+529841845726",
 };
 ---
 
 <section
   aria-labelledby="why-choose-title"
+  data-reveal-scope="why-choose-us"
   class="border-b-8 border-line bg-light"
 >
   {
@@ -64,29 +65,8 @@ const TELEFONO = {
 </section>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
-  // Entrada del copy (stagger corto) y de la imagen en paralelo. La
-  // imagen usa el mismo trigger con un offset implícito por aparecer
-  // después en el array de hermanos.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='why-choose-title']",
-    );
-    if (!section) return;
-
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.08,
-      duration: 0.55,
-      y: 18,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // Copy e imagen entran escalonados al primer avistamiento.
+  revealSection("why-choose-us");
 </script>

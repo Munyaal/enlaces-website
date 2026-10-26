@@ -17,6 +17,12 @@
  */
 
 import IconArrowRight from "../../icons/arrow-right.svg";
+import {
+  BUTTON_BASE_CLASSES,
+  BUTTON_SCALE_CLASSES,
+  BUTTON_SHADOW_CLASSES,
+  BUTTON_TRANSITION_CLASSES,
+} from "./button-styles";
 
 interface Props {
   label?: string;
@@ -28,8 +34,8 @@ interface Props {
 
 const {
   label = "Llámanos",
-  phone = "984 109 1111",
-  href = "tel:+529841091111",
+  phone = "984 184 5726",
+  href = "tel:+529841845726",
   ariaLabel,
   class: className = "",
 }: Props = Astro.props;
@@ -41,7 +47,11 @@ const computedAriaLabel = ariaLabel ?? `Llámanos al ${phone}`;
   href={href}
   aria-label={computedAriaLabel}
   class:list={[
-    "inline-flex w-full max-w-sm items-center justify-between gap-4 rounded-full border-2 border-primary px-5 py-2 shadow-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto sm:gap-6 sm:px-6",
+    BUTTON_BASE_CLASSES,
+    BUTTON_TRANSITION_CLASSES,
+    BUTTON_SCALE_CLASSES,
+    BUTTON_SHADOW_CLASSES.elevated,
+    "w-full max-w-sm justify-between gap-4 border-2 border-primary px-5 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light sm:w-auto sm:gap-6 sm:px-6",
     className,
   ]}
 >

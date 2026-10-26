@@ -11,7 +11,7 @@ const PRIMARY_CTA = {
 };
 ---
 
-<section aria-labelledby="final-cta-title">
+<section aria-labelledby="final-cta-title" data-reveal-scope="final-cta">
   <Container>
     <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
       {/* Columna izquierda: copy + CTA */}
@@ -45,27 +45,8 @@ const PRIMARY_CTA = {
 </section>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
   // Copy e imagen entran escalonados al primer avistamiento.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='final-cta-title']",
-    );
-    if (!section) return;
-
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.1,
-      duration: 0.55,
-      y: 18,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  revealSection("final-cta");
 </script>

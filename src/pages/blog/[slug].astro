@@ -21,7 +21,7 @@
  *     fondo, dejando el contenido invisible sobre el body blanco).
  *   - `heading-1` con acento `text-primary` en el título, divisor
  *     `bg-accent-grad-radial` y `paragraph-md` para el lede.
- *   - Entrada escalonada con `revealOnEnter` para el encabezado.
+ *   - Entrada escalonada con `revealSection` para el encabezado.
  *   - CTA del pie delegado al componente `Button` (variant="orange")
  *     para mantener la jerarquía visual con el resto del sitio.
  */
@@ -99,6 +99,7 @@ const formatDate = (date: Date) =>
 
   <section
     aria-labelledby="blog-article-title"
+    data-reveal-scope="blog-article"
     class="bg-secondary text-light"
   >
     <Container>
@@ -152,29 +153,7 @@ const formatDate = (date: Date) =>
 </Layout>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
-  // Encabezado y cuerpo del artículo entran escalonados al primer
-  // avistamiento. ScrollTrigger `once: true` evita re-animar al hacer
-  // scroll de vuelta.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='blog-article-title']",
-    );
-    if (!section) return;
-
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.1,
-      duration: 0.55,
-      y: 18,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  revealSection("blog-article");
 </script>

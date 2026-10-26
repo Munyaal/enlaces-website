@@ -33,7 +33,7 @@ const BENEFITS = [
 ];
 ---
 
-<section aria-labelledby="benefits-title">
+<section aria-labelledby="benefits-title" data-reveal-scope="benefits">
   {
     /* Título accesible pero visualmente oculto para no romper el patrón
       de tarjetas que se apoyan en el Hero. */
@@ -87,24 +87,8 @@ const BENEFITS = [
 </section>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
-  // Las tarjetas entran escalonadas cuando la sección entra al viewport.
-  // El título vive en `<h2 class="sr-only">`, así que sólo animamos las
-  // tarjetas, que es el contenido visible.
-  const init = () => {
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: document.querySelector("section[aria-labelledby='benefits-title']"),
-      stagger: 0.12,
-      duration: 0.55,
-      y: 18,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // El `<h2>` es `sr-only`; el scope sólo contiene las tres tarjetas visibles.
+  revealSection("benefits");
 </script>

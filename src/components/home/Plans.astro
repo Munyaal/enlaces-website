@@ -66,7 +66,7 @@ const PLANS: Plan[] = [
 ];
 ---
 
-<section aria-labelledby="plans-title">
+<section aria-labelledby="plans-title" data-reveal-scope="plans">
   <Container>
     <h2
       id="plans-title"
@@ -108,28 +108,8 @@ const PLANS: Plan[] = [
 </section>
 
 <script>
-  import { revealOnEnter } from "../../utils/reveal";
+  import { revealSection } from "../../utils/reveal";
 
-  // Título + divisor + intro entran primero, luego las dos tarjetas con
-  // un stagger corto. ScrollTrigger `once: true` evita re-animar.
-  const init = () => {
-    const section = document.querySelector(
-      "section[aria-labelledby='plans-title']",
-    );
-    if (!section) return;
-
-    revealOnEnter({
-      selector: "[data-reveal]",
-      root: section,
-      stagger: 0.1,
-      duration: 0.55,
-      y: 18,
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // Título, divisor, intro y tarjetas entran escalonados al primer avistamiento.
+  revealSection("plans");
 </script>

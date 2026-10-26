@@ -32,6 +32,14 @@ export const resolveDisplayTitle = (post: CollectionEntry<"blog">): string => {
 };
 
 /**
+ * Cuenta de artículos con concordancia singular/plural. Se usa tanto en
+ * SSR como en el filtrado client-side para que el contador nunca diga
+ * "1 artículos".
+ */
+export const formatArticleCount = (count: number): string =>
+  `${count} ${count === 1 ? "artículo" : "artículos"}`;
+
+/**
  * Elimina la sintaxis Markdown para dejar texto plano apto para
  * búsquedas. Es una normalización deliberadamente laxa: lo que
  * necesitamos es que una coincidencia en el cuerpo sea localizable,
