@@ -7,17 +7,32 @@ const atencion = {
   intro: "¿Necesitas ayuda? Estamos para atenderte",
 };
 
-// Un único número para todos los canales telefónicos del footer.
 const atencionTelefonica = {
   label: "Atención telefónica",
+  value: "984 109 1111",
+  href: "tel:+529841091111",
+};
+
+const atencionAClientes = {
+  label: "Atención a Clientes y Ventas Residenciales",
+  value: "984 144 0714",
+  href: "tel:+529841440714",
+};
+
+const ventasEmpresariales = {
+  label: "Ventas Empresariales y PYME",
   value: "984 184 5726",
   href: "tel:+529841845726",
 };
 
-const correo = buildContact("comercial@webtelsistemas.com", "comercial@webtelsistemas.com", "mailto");
+const correo = buildContact(
+  "comercial@webtelsistemas.com",
+  "comercial@webtelsistemas.com",
+  "mailto",
+);
 ---
 
-<nav class="space-y-1" aria-label={"user"}>
+<nav class="space-y-1" aria-label={atencion.title}>
   <div class="flex items-baseline gap-2">
     <Icon name="user" class="w-5 h-5 text-primary" />
     <h3 class="paragraph-sm font-bold text-accent">{atencion.title}</h3>
@@ -37,6 +52,32 @@ const correo = buildContact("comercial@webtelsistemas.com", "comercial@webtelsis
       class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
     >
       {atencionTelefonica.value}
+    </a>
+  </div>
+
+  <div>
+    <p class="paragraph-xs text-light/70">
+      {atencionAClientes.label}
+    </p>
+    <a
+      href={atencionAClientes.href}
+      aria-label={`Llamar a ${atencionAClientes.label}: ${atencionAClientes.value}`}
+      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+    >
+      {atencionAClientes.value}
+    </a>
+  </div>
+
+  <div>
+    <p class="paragraph-xs text-light/70">
+      {ventasEmpresariales.label}
+    </p>
+    <a
+      href={ventasEmpresariales.href}
+      aria-label={`Llamar a ${ventasEmpresariales.label}: ${ventasEmpresariales.value}`}
+      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+    >
+      {ventasEmpresariales.value}
     </a>
   </div>
 
