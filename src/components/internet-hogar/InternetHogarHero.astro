@@ -1,0 +1,28 @@
+---
+/**
+ * Hero de /nosotros.
+ *
+ * Delega en `PageHero` el layout, el overlay, el divisor y el reveal para
+ * no duplicar el `<header>` que ya usan las demás páginas internas.
+ */
+import internetHogar from "../../assets/images/internet-hogar/internet-hogar-enlaces-playa.jpg";
+import PageHero from "../ui/PageHero.astro";
+---
+
+<PageHero
+  scope="internet-hogar-hero"
+  image={internetHogar}
+  priority
+  overlayClass="bg-secondary/50"
+  descriptionClass="paragraph-md mx-auto mt-5 max-w-5xl text-pretty text-light/90"
+>
+  <span class="text-primary">Internet</span>{" "}para {" "}
+  <span class="text-primary">hogar en la Riviera Maya</span>
+  {" "} para toda tu familia
+
+  <Fragment slot="description">
+    Internet para hogar rápido y estable en la Riviera Maya, diseñado para
+    trabajar, estudiar, disfrutar tus contenidos favoritos y conectar todos tus
+    dispositivos.
+  </Fragment>
+</PageHero>

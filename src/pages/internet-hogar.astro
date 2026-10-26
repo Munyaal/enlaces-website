@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Container from "../components/ui/Container.astro";
+import InternetHogarHero from "../components/internet-hogar/InternetHogarHero.astro";
 
 const title =
   "Internet para Hogar | Fibra Óptica e Internet Inalámbrico | Enlaces Playa";
@@ -35,68 +35,5 @@ const jsonLd = {
     is:inline
     set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
   ></script>
-  <Container>
-    <header class="max-w-3xl">
-      <h1 class="text-3xl font-bold text-light md:text-5xl">
-        Internet para Hogar
-      </h1>
-      <p class="mt-4 text-lg text-light/90 md:text-xl">
-        {description}
-      </p>
-    </header>
-
-    <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
-        Opciones de conexión para tu casa
-      </h2>
-      <p class="mt-3 text-light/85">
-        Ofrecemos dos modalidades para llevar Internet a tu hogar, según la
-        cobertura disponible en tu domicilio.
-      </p>
-      <ul class="mt-6 space-y-4 text-light/85">
-        <li>
-          <h3 class="text-lg font-semibold text-light">Fibra óptica</h3>
-          <p>
-            Conexión por cable de fibra hasta el interior del domicilio. Ofrece
-            mayor estabilidad y velocidad simétrica, ideal para streaming,
-            videollamadas y gaming.
-          </p>
-        </li>
-        <li>
-          <h3 class="text-lg font-semibold text-light">Internet inalámbrico</h3>
-          <p>
-            Conexión por antena receptora en zonas donde la fibra aún no está
-            disponible. Permite navegar sin cableado y con instalación rápida.
-          </p>
-        </li>
-      </ul>
-    </section>
-
-    <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
-        ¿Cómo contratar Internet para Hogar?
-      </h2>
-      <ol class="mt-4 list-decimal space-y-2 pl-6 text-light/85">
-        <li>Consulta la cobertura en tu domicilio.</li>
-        <li>Selecciona el plan que mejor se ajuste a tu uso.</li>
-        <li>Agenda la instalación con nuestro equipo técnico local.</li>
-      </ol>
-    </section>
-
-    <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
-        Consulta la cobertura
-      </h2>
-      <p class="mt-3 text-light/85">
-        Verifica la disponibilidad de fibra óptica o Internet inalámbrico en
-        tu zona.
-      </p>
-      <a
-        href="/cobertura"
-        class="mt-4 inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform motion-safe:hover:scale-[1.03]"
-      >
-        Ver cobertura
-      </a>
-    </section>
-  </Container>
+  <InternetHogarHero />
 </Layout>
