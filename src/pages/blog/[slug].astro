@@ -29,7 +29,7 @@ import Layout from "../../layouts/Layout.astro";
 import Container from "../../components/ui/Container.astro";
 import Button from "../../components/ui/Button.astro";
 import { getCollection, render } from "astro:content";
-import { resolveDisplayTitle } from "../../utils/blog";
+import { formatBlogDate, toIsoDate, resolveDisplayTitle } from "../../utils/blog";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -42,10 +42,9 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
-// Formato YYYY-MM-DD para el JSON-LD: conserva el formato exacto de la
-// implementación anterior (string, no Date serializado por Astro).
-const toIsoDate = (d: Date) => d.toISOString().slice(0, 10);
-
+// `formatBlogDate`/`toIsoDate` fijan `timeZone: "UTC"` para que una fecha
+// `YYYY-MM-DD` (medianoche UTC) no se muestre como el día anterior en zonas
+// horarias al oeste de UTC.
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -72,18 +71,6 @@ const jsonLd = {
   datePublished: toIsoDate(post.data.datePublished),
   dateModified: toIsoDate(post.data.dateModified),
 };
-
-// Fecha formateada para mostrar en el kicker junto a la categoría.
-// Misma utilidad que en `blog.astro` para mantener coherencia.
-// `timeZone: "UTC"` evita que una fecha `YYYY-MM-DD` (medianoche UTC)
-// se muestre como el día anterior en zonas horarias al oeste de UTC.
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat("es-MX", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(date);
 ---
 
 <Layout
@@ -115,7 +102,7 @@ const formatDate = (date: Date) =>
               datetime={toIsoDate(post.data.datePublished)}
               class="font-medium text-light/70 normal-case tracking-normal"
             >
-              {formatDate(post.data.datePublished)}
+              {formatBlogDate(post.data.datePublished)}
             </time>
           </p>
           <h1
