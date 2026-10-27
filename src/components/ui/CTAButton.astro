@@ -2,7 +2,6 @@
 /**
  * CTAButton.astro
  */
-
 import { Icon } from "astro-icon/components";
 import IconArrowRight from "../../icons/arrow-right.svg";
 import {
@@ -13,11 +12,14 @@ import {
   BUTTON_TRANSITION_CLASSES,
 } from "./button-styles";
 
-type Variant = "solid" | "navy";
+type Variant = "solid" | "navy" | "orange";
+
+type Size = "sm" | "md";
 
 interface Props {
   as?: "a" | "button";
   variant?: Variant;
+  size?: Size;
   href?: string;
   type?: "button" | "submit" | "reset";
   loading?: boolean;
@@ -32,6 +34,7 @@ interface Props {
 const {
   as = "a",
   variant = "solid",
+  size = "md",
   href,
   type = "button",
   loading = false,
@@ -54,21 +57,39 @@ const variantClasses: Record<Variant, { button: string; circle: string }> = {
     button: "bg-secondary text-light border border-accent",
     circle: "border-white/30 bg-accent text-secondary",
   },
+  orange: {
+    button:
+      "bg-primary text-light border border-primary hover:bg-light hover:text-primary",
+    circle:
+      "border-primary/25 bg-light text-primary transition-colors duration-200 group-hover:border-primary group-hover:bg-primary group-hover:text-light",
+  },
 };
 
-// Clases compartidas con el resto del sistema de botones. Se conserva el
-// `w-full sm:w-auto` propio de la card de planes.
 const sharedClasses = [
   BUTTON_BASE_CLASSES,
   BUTTON_TRANSITION_CLASSES,
   BUTTON_SCALE_CLASSES,
   BUTTON_SHADOW_CLASSES.elevated,
-  "w-full justify-center gap-2 px-6 py-3 paragraph-md sm:w-auto",
+  "group w-full justify-center gap-2 sm:w-auto",
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light",
 ].join(" ");
 
-const circleClasses =
-  "inline-flex h-8 w-8 items-center justify-center rounded-full border";
+const sizeClasses: Record<Size, string> = {
+  md: "px-6 py-3 paragraph-md",
+  sm: "px-5 py-2.5 paragraph-sm",
+};
+
+const circleSizes: Record<Size, { circle: string; icon: string }> = {
+  md: { circle: "h-8 w-8", icon: "h-6 w-6" },
+  sm: { circle: "h-7 w-7", icon: "h-5 w-5" },
+};
+
+const circleClasses = [
+  "inline-flex items-center justify-center rounded-full border",
+  circleSizes[size].circle,
+].join(" ");
+
+const arrowIconClasses = circleSizes[size].icon;
 
 const stateClasses = BUTTON_STATE_CLASSES;
 
@@ -76,6 +97,7 @@ const isDisabled = disabled || loading;
 const classes = variantClasses[variant];
 const finalClass = [
   sharedClasses,
+  sizeClasses[size],
   classes.button,
   stateClasses,
   isDisabled ? "pointer-events-none" : "",
@@ -100,11 +122,14 @@ const finalClass = [
       <slot />
       {loading ? (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
-          <Icon name="loader" class="h-6 w-6 animate-spin motion-reduce:animate-none" />
+          <Icon
+            name="loader"
+            class={`${arrowIconClasses} animate-spin motion-reduce:animate-none`}
+          />
         </span>
       ) : (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
-          <IconArrowRight class="h-6 w-6" />
+          <IconArrowRight class={arrowIconClasses} />
         </span>
       )}
     </a>
@@ -120,11 +145,14 @@ const finalClass = [
       <slot />
       {loading ? (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
-          <Icon name="loader" class="h-6 w-6 animate-spin motion-reduce:animate-none" />
+          <Icon
+            name="loader"
+            class={`${arrowIconClasses} animate-spin motion-reduce:animate-none`}
+          />
         </span>
       ) : (
         <span class={`${circleClasses} ${classes.circle}`} aria-hidden="true">
-          <IconArrowRight class="h-6 w-6" />
+          <IconArrowRight class={arrowIconClasses} />
         </span>
       )}
     </button>
