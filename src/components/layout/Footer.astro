@@ -5,48 +5,16 @@ import Container from "../ui/Container.astro";
 import Button from "../ui/Button.astro";
 import { Image } from "astro:assets";
 import CustomerServiceHyperlinks from "./CustomerServiceHyperlinks.astro";
-
-// Tagline aprobada: posicionamiento del sitio.
-const TAGLINE =
-  "Internet rápido y estable para hogares y empresas en la Riviera Maya, con cobertura local y soporte técnico cercano.";
-
-// Columna Internet — cuatro enlaces principales de producto.
-const internet = [
-  { href: "/internet-hogar", text: "Internet para Hogar" },
-  { href: "/internet-empresas", text: "Planes de Internet" },
-  { href: "#", text: "Fibra Óptica" },
-  { href: "#", text: "Internet Inalámbrico" },
-];
-
-// Columna Cobertura — tres enlaces de zona.
-const cobertura = [
-  { href: "#", text: "Cobertura en Playa del Carmen" },
-  { href: "#", text: "Cobertura en Puerto Morelos" },
-  { href: "#", text: "Cobertura en Tulum" },
-];
-
-// Sub-bloque Recursos — tres enlaces de soporte y contenido.
-const recursos = [
-  { href: "/blog", text: "Blog" },
-  { href: "#", text: "Preguntas frecuentes" },
-  { href: "#", text: "Soporte técnico" },
-];
-
-// Franja Portal de Cliente — copy y CTA outline.
-const portalCliente = {
-  copy: "¿YA ERES CLIENTE? Consulta y paga tu servicio desde tu Portal de Cliente.",
-  href: "https://portal.enlacesplaya.com.mx/cliente/login",
-  label: "Iniciar sesión",
-};
-
-// Franja legal — enlaces a documentos y domicilio corporativo.
-const legalLinks = [
-  { href: "#", text: "Términos y Condiciones" },
-  { href: "#", text: "Aviso de Privacidad" },
-];
-
-const direccion =
-  "Enlaces Playa, una empresa de Grupo Webtel, Calle 72 entre Av. Sian Ka'an y Carr. Federal, Mza. 026, Lote 0, Col. Ejidal, C.P. 77714, Playa del Carmen, Q. Roo.";
+import { SITE } from "../../data/site";
+import { NAV_URLS } from "../../data/navigation";
+import {
+  COBERTURA_LINKS,
+  INTERNET_LINKS,
+  LEGAL_LINKS,
+  PORTAL_CLIENTE,
+  RECURSOS_LINKS,
+  TAGLINE,
+} from "../../data/footer";
 
 // Copyright dinámico: se evalúa en build, así queda congelado al año de
 // generación del sitio sin perder la convención dinámica del proyecto.
@@ -63,7 +31,7 @@ const year = new Date().getFullYear();
       <!-- Columna 1 — Marca -->
       <div class="space-y-6">
         <a
-          href="#"
+          href={NAV_URLS.home}
           aria-label="Ir al inicio de Enlaces Playa"
           class="block mx-auto"
         >
@@ -79,7 +47,7 @@ const year = new Date().getFullYear();
           {TAGLINE}
         </p>
         <div>
-          <Button as="a" href="#" variant="navy" size="sm">
+          <Button as="a" href={NAV_URLS.aboutUs} variant="navy" size="sm">
             Conoce Enlaces Playa
           </Button>
         </div>
@@ -90,7 +58,7 @@ const year = new Date().getFullYear();
         <HyperlinksSection
           sectionName="Internet"
           sectionIcon="wifi"
-          links={internet}
+          links={INTERNET_LINKS}
         />
       </nav>
 
@@ -99,12 +67,12 @@ const year = new Date().getFullYear();
         <HyperlinksSection
           sectionName="Cobertura"
           sectionIcon="broadcast-tower"
-          links={cobertura}
+          links={COBERTURA_LINKS}
         />
         <HyperlinksSection
           sectionName="Recursos"
           sectionIcon="chart-pie"
-          links={recursos}
+          links={RECURSOS_LINKS}
         />
       </div>
 
@@ -122,17 +90,17 @@ const year = new Date().getFullYear();
       class="flex flex-col justify-center items-center text-center gap-3 md:flex-row md:gap-6 py-5"
     >
       <p class="paragraph-xs text-light/90">
-        {portalCliente.copy}
+        {PORTAL_CLIENTE.copy}
       </p>
       <Button
         as="a"
-        href={portalCliente.href}
+        href={PORTAL_CLIENTE.href}
         variant="navy"
         target="_blank"
         icon="user"
         size="sm"
       >
-        {portalCliente.label}
+        {PORTAL_CLIENTE.label}
       </Button>
     </div>
     <hr class="mb-5 text-light/20" />
@@ -144,7 +112,7 @@ const year = new Date().getFullYear();
       <p class="text-xs text-accent">
         © {year} Enlaces Playa · Todos los derechos reservados.{" "}
         {
-          legalLinks.map((link, idx) => (
+          LEGAL_LINKS.map((link, idx) => (
             <Fragment>
               <a
                 href={link.href}
@@ -152,7 +120,7 @@ const year = new Date().getFullYear();
               >
                 {link.text}
               </a>
-              {idx < legalLinks.length - 1 && (
+              {idx < LEGAL_LINKS.length - 1 && (
                 <span aria-hidden="true"> · </span>
               )}
             </Fragment>
@@ -160,7 +128,7 @@ const year = new Date().getFullYear();
         }
       </p>
       <address class="text-xs text-accent">
-        {direccion}
+        {SITE.direccion}
       </address>
     </div>
   </Container>

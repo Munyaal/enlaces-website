@@ -4,11 +4,7 @@ import PhoneCTAButton from "../../ui/PhoneCTAButton.astro";
 import Container from "../../ui/Container.astro";
 import SectionDivider from "../../ui/SectionDivider.astro";
 import internetHogar from "../../../assets/images/home/internet-hogar-riviera-maya.jpg";
-
-const TELEFONO = {
-  phone: "984 109 1111",
-  href: "tel:+529841091111",
-};
+import { CANAL_ATENCION } from "../../../data/site";
 ---
 
 <section
@@ -44,7 +40,7 @@ const TELEFONO = {
         </header>
 
         <div class="mt-4 md:mt-6">
-          <PhoneCTAButton phone={TELEFONO.phone} href={TELEFONO.href} />
+          <PhoneCTAButton phone={CANAL_ATENCION.value} href={CANAL_ATENCION.href} />
         </div>
       </div>
 

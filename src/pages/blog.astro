@@ -8,6 +8,7 @@ import Layout from "../layouts/Layout.astro";
 import BlogHero from "../components/blog/BlogHero.astro";
 import BlogExplorer from "../components/blog/BlogExplorer.astro";
 import { getBlogCategories, getBlogPosts } from "../utils/blog";
+import { ORGANIZACION, SITE_URL } from "../data/seo";
 
 const title =
   "Blog de Internet | Fibra Óptica, Conectividad y Consejos | Enlaces Playa";
@@ -21,13 +22,9 @@ const jsonLd = {
   "@type": "Blog",
   name: title,
   description: description,
-  url: "https://enlacesplaya.com.mx/blog",
+  url: `${SITE_URL}/blog`,
   inLanguage: "es-MX",
-  publisher: {
-    "@type": "Organization",
-    name: "Enlaces Playa",
-    url: "https://enlacesplaya.com.mx/",
-  },
+  publisher: ORGANIZACION,
 };
 
 const posts = await getBlogPosts();

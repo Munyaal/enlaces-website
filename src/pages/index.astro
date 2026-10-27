@@ -8,6 +8,13 @@ import CoverageCheck from "../components/home/sections/CoverageCheck.astro";
 import Companies from "../components/home/sections/Companies.astro";
 import Testimonials from "../components/home/sections/Testimonials.astro";
 import FinalCTA from "../components/home/sections/FinalCTA.astro";
+import {
+  ORGANIZACION_ID,
+  SITE_URL,
+  WEBSITE_ID,
+  organizacionCompleta,
+} from "../data/seo";
+import { SITE } from "../data/site";
 
 const title =
   "Internet en la Riviera Maya | Internet Rápido y Estable | Enlaces Playa";
@@ -20,35 +27,15 @@ const keywords =
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://enlacesplaya.com.mx/#organization",
-      "name": "Enlaces Playa",
-      "url": "https://enlacesplaya.com.mx/",
-      "logo": "https://enlacesplaya.com.mx/images/logos/logo-enlacesplaya.webp",
-      "description": description,
-      "email": "hola@enlacesplaya.com.mx",
-      "telephone": "+52-984-184-5726",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Playa del Carmen",
-        "addressRegion": "Quintana Roo",
-        "addressCountry": "MX",
-      },
-      "areaServed": [
-        { "@type": "City", "name": "Cancún" },
-        { "@type": "City", "name": "Playa del Carmen" },
-        { "@type": "City", "name": "Tulum" },
-      ],
-    },
+    organizacionCompleta(description),
     {
       "@type": "WebSite",
-      "@id": "https://enlacesplaya.com.mx/#website",
-      "url": "https://enlacesplaya.com.mx/",
-      "name": "Enlaces Playa",
+      "@id": WEBSITE_ID,
+      "url": `${SITE_URL}/`,
+      "name": SITE.nombre,
       "description": description,
       "inLanguage": "es-MX",
-      "publisher": { "@id": "https://enlacesplaya.com.mx/#organization" },
+      "publisher": { "@id": ORGANIZACION_ID },
     },
   ],
 };

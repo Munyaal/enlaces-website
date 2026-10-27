@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import { SITE, TELEFONO_PRINCIPAL } from "../data/site";
 
 const title = "Contacto Enlaces Playa | Internet para Hogar y Empresas";
 const description =
@@ -26,21 +27,20 @@ const keywords =
         <li>
           <strong class="text-light">Correo:</strong>
           <a
-            href="mailto:hola@enlacesplaya.com.mx"
-            class="ml-2 underline hover:text-accent"
-            >hola@enlacesplaya.com.mx</a
+            href={`mailto:${SITE.email}`}
+            class="ml-2 underline hover:text-accent">{SITE.email}</a
           >
         </li>
         <li>
           <strong class="text-light">Teléfono:</strong>
-          <a href="tel:+529841845726" class="ml-2 underline hover:text-accent"
-            >984 184 5726</a
+          <a href={TELEFONO_PRINCIPAL.href} class="ml-2 underline hover:text-accent"
+            >{TELEFONO_PRINCIPAL.value}</a
           >
         </li>
         <li>
           <strong class="text-light">Oficinas:</strong>
           <a
-            href="https://maps.app.goo.gl/g1xk8DjxTot7QoTr5"
+            href={SITE.mapaOficinas}
             target="_blank"
             rel="noopener noreferrer"
             class="ml-2 underline hover:text-accent">Playa del Carmen, Quintana Roo</a
@@ -57,7 +57,9 @@ const keywords =
         Consulta y gestiona tu servicio desde el Portal de Cliente.
       </p>
       <a
-        href="/iniciar-sesion"
+        href={SITE.portalCliente}
+        target="_blank"
+        rel="noopener noreferrer"
         class="mt-4 inline-flex items-center justify-center rounded-full bg-accent bg-accent-grad-t px-6 py-3 text-base font-bold text-dark shadow-md transition-transform motion-safe:hover:scale-[1.03]"
       >
         Iniciar sesión

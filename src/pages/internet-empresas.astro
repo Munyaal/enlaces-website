@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import { AREA_SERVED, ORGANIZACION, SITE_URL } from "../data/seo";
 
 const title =
   "Internet para Empresas | Soluciones de Conectividad | Enlaces Playa";
@@ -15,17 +16,9 @@ const jsonLd = {
   "serviceType": "Internet para Empresas",
   "name": title,
   "description": description,
-  "provider": {
-    "@type": "Organization",
-    "name": "Enlaces Playa",
-    "url": "https://enlacesplaya.com.mx/",
-  },
-  "areaServed": [
-    { "@type": "City", "name": "Cancún" },
-    { "@type": "City", "name": "Playa del Carmen" },
-    { "@type": "City", "name": "Tulum" },
-  ],
-  "url": "https://enlacesplaya.com.mx/internet-empresas",
+  "provider": ORGANIZACION,
+  "areaServed": AREA_SERVED,
+  "url": `${SITE_URL}/internet-empresas`,
 };
 ---
 

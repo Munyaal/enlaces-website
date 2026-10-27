@@ -39,12 +39,16 @@ codegen step and no pre-build task to run first.
   - `about/`, `blog/`, `internet-hogar/` — one folder per page area.
 - **`src/layouts/Layout.astro`** is the only page shell (Navbar + `<main>` +
   Footer + GTM). Props: `title` (required), `description`, `keywords`.
-  `BaseHead.astro` pins `SITE_URL = "https://enlacesplaya.com.mx"` and builds
-  the canonical URL from the request path; **OG/Twitter image + type are
-  hardcoded site-wide**, so per-page SEO work happens in JSON-LD, not meta tags.
+  `BaseHead.astro` reads `SITE_URL` from `data/seo.ts` and builds the canonical
+  URL from the request path; **OG/Twitter copy, image + type are hardcoded
+  site-wide** (also in `data/seo.ts`), so per-page SEO work happens in JSON-LD,
+  not meta tags.
 - **`src/data/`** holds hardcoded content, nested by area:
   `data/home/{benefits,companies,plans}.ts`,
   `data/internet-hogar/{plans,faqs}.ts`, `data/testimonials.ts`.
+  Cross-cutting data lives at the root: `site.ts` (marca, contacto, canales),
+  `seo.ts` (URLs, defaults, nodos JSON-LD), `navigation.ts` (`NAV_URLS` /
+  `NAV_LINKS` / CTA) and `footer.ts` (columnas, portal, legal).
   Content changes belong here, not inline in `.astro`.
 
 ### Two `plans.ts` files, two different contracts
@@ -72,8 +76,8 @@ imported by a client `<script>` (e.g. `BlogExplorer.astro`) must come from
 `src/utils/blog-filter.ts` instead. This split is deliberate — keep it.
 
 Other `src/utils/` modules: `reveal.ts` (animation), `bold-text.ts`
-(`parseBoldSegments`), `helpers.ts` (`sanitizePhone`/`buildContact`),
-`constants.ts` (only the WhatsApp link).
+(`parseBoldSegments`), `helpers.ts` (`sanitizePhone`, used by `data/site.ts` to
+derive `tel:` hrefs).
 
 ## Content Collections (blog)
 
@@ -184,14 +188,9 @@ Several internal links point at routes that do not exist. This is known state,
 not a task list; the instruction is to fix `href`s when you touch that file, and
 not to invent pages to satisfy them.
 
-- `Footer.astro`: most product/legal links are still `href="#"` even though
-  `/internet-hogar`, `/internet-empresas`, `/preguntas-frecuentes`,
-  `/terminos-y-condiciones` and `/aviso-de-privacidad` exist.
 - `src/pages/cobertura.astro`: `zonas` links to
   `/cobertura/playa-del-carmen`, `/cobertura/tulum`, `/cobertura/puerto-morelos`
   — none of these files exist.
-- `src/pages/contacto.astro`: links to `/iniciar-sesion`, which has no route
-  (the real client portal is external, `portal.enlacesplaya.com.mx`).
 - `public/llms.txt` advertises `/soporte-tecnico`, `/pagos-facturacion`,
   `/iniciar-sesion` and two blog posts that don't exist. Treat it as
   hand-maintained copy, **not** a route inventory.
@@ -221,12 +220,13 @@ in namespace `enlaces`.
 
 - `README.md` is still the upstream Astro starter-kit boilerplate and is
   inaccurate for this project; ignore it.
-- Phone numbers are **not** centralized (only the WhatsApp link is, in
-  `src/utils/constants.ts` → `984 184 5726`). Others are hardcoded where used:
-  `984 109 1111` (atención telefónica), `984 144 0714` (atención a clientes),
-  `984 116 3005` (soporte, in `data/internet-hogar/faqs.ts`). Don't "normalize"
-  them to a single number.
-- Nav URL map lives in `Navbar.astro` (`NAV_URLS`), not in `constants.ts`.
+- Los teléfonos son **distintos por canal** y viven en `src/data/site.ts`
+  (`CANALES`, cada uno con su `label`): `984 184 5726` (`TELEFONO_PRINCIPAL`,
+  CTAs comerciales y JSON-LD), `984 109 1111` (atención telefónica),
+  `984 144 0714` (atención a clientes) y `984 116 3005` (soporte, local a
+  `data/internet-hogar/faqs.ts`). **No** normalizarlos a un solo número.
+- El mapa de rutas del navbar vive en `data/navigation.ts` (`NAV_URLS`,
+  `NAV_LINKS`, `NAV_CTA`); `Navbar.astro` solo conserva `isActive()`.
 - `dist/` and `.astro/` are gitignored build artifacts; never edit them.
 - `opencode.jsonc` is present but only sets `$schema` — project instructions
   live in this file.

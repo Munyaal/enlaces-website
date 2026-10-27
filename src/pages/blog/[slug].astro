@@ -30,6 +30,7 @@ import Container from "../../components/ui/Container.astro";
 import Button from "../../components/ui/Button.astro";
 import { getCollection, render } from "astro:content";
 import { formatBlogDate, toIsoDate, resolveDisplayTitle } from "../../utils/blog";
+import { ORGANIZACION, ORGANIZACION_LOGO, SITE_URL } from "../../data/seo";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -51,22 +52,17 @@ const jsonLd = {
   headline: post.data.title,
   description: post.data.description,
   inLanguage: "es-MX",
-  author: {
-    "@type": "Organization",
-    name: "Enlaces Playa",
-    url: "https://enlacesplaya.com.mx/",
-  },
+  author: ORGANIZACION,
   publisher: {
-    "@type": "Organization",
-    name: "Enlaces Playa",
+    ...ORGANIZACION,
     logo: {
       "@type": "ImageObject",
-      url: "https://enlacesplaya.com.mx/images/logos/logo-enlacesplaya.webp",
+      url: ORGANIZACION_LOGO,
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": `https://enlacesplaya.com.mx/blog/${post.id}`,
+    "@id": `${SITE_URL}/blog/${post.id}`,
   },
   datePublished: toIsoDate(post.data.datePublished),
   dateModified: toIsoDate(post.data.dateModified),

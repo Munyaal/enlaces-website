@@ -9,6 +9,7 @@ import {
   FAQ_ITEMS,
   faqRespuestaTexto,
 } from "../data/internet-hogar/faqs";
+import { AREA_SERVED, ORGANIZACION, SITE_URL } from "../data/seo";
 
 const title =
   "Internet para Hogar | Fibra Óptica e Internet Inalámbrico | Enlaces Playa";
@@ -23,17 +24,9 @@ const jsonLd = {
   "serviceType": "Internet para Hogar",
   "name": title,
   "description": description,
-  "provider": {
-    "@type": "Organization",
-    "name": "Enlaces Playa",
-    "url": "https://enlacesplaya.com.mx/",
-  },
-  "areaServed": [
-    { "@type": "City", "name": "Cancún" },
-    { "@type": "City", "name": "Playa del Carmen" },
-    { "@type": "City", "name": "Tulum" },
-  ],
-  "url": "https://enlacesplaya.com.mx/internet-hogar",
+  "provider": ORGANIZACION,
+  "areaServed": AREA_SERVED,
+  "url": `${SITE_URL}/internet-hogar`,
 };
 
 const faqJsonLd = {

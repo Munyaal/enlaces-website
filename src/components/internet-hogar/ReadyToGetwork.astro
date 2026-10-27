@@ -3,7 +3,7 @@ import SectionDivider from "../ui/SectionDivider.astro";
 import internetHogar from "../../assets/images/internet-hogar/internet-hogar-enlaces-playa-contrata.png";
 import Container from "../ui/Container.astro";
 import Button from "../ui/Button.astro";
-import { whatsappLink } from "../../utils/constants";
+import { SITE } from "../../data/site";
 import { Image } from "astro:assets";
 
 ---
@@ -36,7 +36,7 @@ import { Image } from "astro:assets";
 
         <Button
           as="a"
-          href={whatsappLink}
+          href={SITE.whatsapp}
           size="lg"
           icon="brand-whatsapp"
           target="_blank"

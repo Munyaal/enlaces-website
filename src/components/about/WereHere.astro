@@ -2,7 +2,7 @@
 import Container from "../ui/Container.astro";
 import Button from "../ui/Button.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
-import { whatsappLink } from "../../utils/constants";
+import { SITE } from "../../data/site";
 ---
 
 <section
@@ -27,7 +27,7 @@ import { whatsappLink } from "../../utils/constants";
       <div class="mt-7 flex flex-col items-center gap-5" data-reveal>
         <Button
           as="a"
-          href={whatsappLink}
+          href={SITE.whatsapp}
           size="lg"
           icon="brand-whatsapp"
           target="_blank"

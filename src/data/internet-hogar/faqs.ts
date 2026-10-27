@@ -12,13 +12,14 @@
  * `src/utils/bold-text.ts`): así el texto se escapa solo, no hay
  * superficie de inyección y los enlaces siguen siendo datos tipados.
  */
-import { whatsappLink } from "../../utils/constants";
+import { SITE } from "../site";
+import { sanitizePhone } from "../../utils/helpers";
 
 /** Número de soporte técnico que se muestra en la última pregunta. */
 const TELEFONO_SOPORTE = "984 116 3005";
 
 /** Destino `tel:` del número de soporte (formato internacional). */
-const TELEFONO_SOPORTE_HREF = "tel:+529841163005";
+const TELEFONO_SOPORTE_HREF = `tel:+52${sanitizePhone(TELEFONO_SOPORTE)}`;
 
 /**
  * Fragmento de una respuesta. Sin `href` es texto normal; con `href` se
@@ -52,7 +53,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     pregunta: "¿Cómo sé si hay cobertura de internet en mi domicilio?",
     respuesta: [
       { texto: "La cobertura depende de tu ubicación. Escríbenos por " },
-      { texto: "WhatsApp", href: whatsappLink, externo: true },
+      { texto: "WhatsApp", href: SITE.whatsapp, externo: true },
       {
         texto:
           " y nuestro equipo te ayudará a verificar la disponibilidad del servicio en tu domicilio.",
@@ -67,7 +68,7 @@ export const FAQ_ITEMS: FaqItem[] = [
         texto:
           "El costo de instalación puede variar según la promoción vigente y las condiciones del servicio. Contáctanos para conocer las opciones disponibles para tu domicilio o negocio: ",
       },
-      { texto: "984 184 5726", href: whatsappLink, externo: true },
+      { texto: "984 184 5726", href: SITE.whatsapp, externo: true },
       { texto: "." },
     ],
   },

@@ -2,32 +2,10 @@
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import logoEnlaces from "../../assets/images/brand/logo-enlacesplaya.webp";
+import { NAV_CTA, NAV_LINKS, NAV_URLS } from "../../data/navigation";
+import { TELEFONO_PRINCIPAL } from "../../data/site";
 
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
-
-const NAV_URLS = {
-  homeInternet: "/internet-hogar",
-  businessInternet: "/internet-empresas",
-  coverage: "/cobertura",
-  aboutUs: "/nosotros",
-  help: "/ayuda",
-  contact: "/contacto",
-  cta: "tel:+529841845726",
-};
-
-const NAV_LINKS = [
-  { label: "Internet para Hogar", href: NAV_URLS.homeInternet },
-  { label: "Internet para Empresas", href: NAV_URLS.businessInternet },
-  { label: "Cobertura", href: NAV_URLS.coverage },
-  { label: "Nosotros", href: NAV_URLS.aboutUs },
-  { label: "Ayuda", href: NAV_URLS.help },
-  { label: "Contacto", href: NAV_URLS.contact },
-];
-
-const CTA_LINK = {
-  label: "Cotizar plan ahora",
-  href: NAV_URLS.cta,
-};
 
 /**
  * Un enlace del Navbar está activo cuando su slug coincide exactamente con
@@ -49,7 +27,11 @@ const isActive = (href: string): boolean => currentPath === href;
       aria-label="Navegación principal"
     >
       {/* Logo */}
-      <a href={"/"} class="flex shrink-0 items-center" aria-label={"/"}>
+      <a
+        href={NAV_URLS.home}
+        class="flex shrink-0 items-center"
+        aria-label="Ir al inicio de Enlaces Playa"
+      >
         <Image
           src={logoEnlaces}
           alt="Enlaces Playa"
@@ -110,8 +92,8 @@ const isActive = (href: string): boolean => currentPath === href;
         </ul>
 
         <a
-          href={CTA_LINK.href}
-          aria-label="Llamar a Enlaces Playa al 984 184 5726"
+          href={NAV_CTA.href}
+          aria-label={`Llamar a Enlaces Playa al ${TELEFONO_PRINCIPAL.value}`}
           class="inline-flex items-center justify-center rounded-full bg-primary p-2 text-sm font-bold text-dark shadow-md transition-transform motion-safe:hover:scale-[1.03] md:ml-2"
         >
           <Icon name="phone" class="w-6 h-5 text-light" />

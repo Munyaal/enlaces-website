@@ -1,35 +1,28 @@
 ---
+/**
+ * Canales de atención de la columna 4 del footer.
+ *
+ * El contenido vive en `src/data/site.ts` (`CANALES`) porque los mismos
+ * teléfonos se usan en otras partes del sitio y no deben divergir. Aquí solo
+ * se decide la presentación: un rótulo opcional encima del valor y el enlace
+ * accesible.
+ *
+ * El correo se renderiza con `label: null` porque el propio valor hace de
+ * etiqueta, igual que en el diseño original.
+ */
 import { Icon } from "astro-icon/components";
-import { buildContact } from "../../utils/helpers";
+import { CANALES, type CanalContacto } from "../../data/site";
 
 const atencion = {
   title: "Atención a clientes",
   intro: "¿Necesitas ayuda? Estamos para atenderte",
 };
 
-const atencionTelefonica = {
-  label: "Atención telefónica",
-  value: "984 109 1111",
-  href: "tel:+529841091111",
-};
-
-const atencionAClientes = {
-  label: "Atención a Clientes y Ventas Residenciales",
-  value: "984 144 0714",
-  href: "tel:+529841440714",
-};
-
-const ventasEmpresariales = {
-  label: "Ventas Empresariales y PYME",
-  value: "984 184 5726",
-  href: "tel:+529841845726",
-};
-
-const correo = buildContact(
-  "comercial@webtelsistemas.com",
-  "comercial@webtelsistemas.com",
-  "mailto",
-);
+/** Etiqueta accesible: la acción cambia según el esquema del enlace. */
+const ariaLabel = (canal: CanalContacto): string =>
+  canal.kind === "tel"
+    ? `Llamar a ${canal.label ?? canal.value}: ${canal.value}`
+    : `Enviar correo a ${canal.value}`;
 ---
 
 <nav class="space-y-1" aria-label={atencion.title}>
@@ -42,52 +35,20 @@ const correo = buildContact(
     {atencion.intro}
   </p>
 
-  <div>
-    <p class="paragraph-xs text-light/70">
-      {atencionTelefonica.label}
-    </p>
-    <a
-      href={atencionTelefonica.href}
-      aria-label={`Llamar a ${atencionTelefonica.label}: ${atencionTelefonica.value}`}
-      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
-    >
-      {atencionTelefonica.value}
-    </a>
-  </div>
-
-  <div>
-    <p class="paragraph-xs text-light/70">
-      {atencionAClientes.label}
-    </p>
-    <a
-      href={atencionAClientes.href}
-      aria-label={`Llamar a ${atencionAClientes.label}: ${atencionAClientes.value}`}
-      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
-    >
-      {atencionAClientes.value}
-    </a>
-  </div>
-
-  <div>
-    <p class="paragraph-xs text-light/70">
-      {ventasEmpresariales.label}
-    </p>
-    <a
-      href={ventasEmpresariales.href}
-      aria-label={`Llamar a ${ventasEmpresariales.label}: ${ventasEmpresariales.value}`}
-      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
-    >
-      {ventasEmpresariales.value}
-    </a>
-  </div>
-
-  <div>
-    <a
-      href={correo.href}
-      aria-label={`Enviar correo a ${correo.label}: ${correo.value}`}
-      class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
-    >
-      {correo.label}
-    </a>
-  </div>
+  {
+    CANALES.map((canal) => (
+      <div>
+        {canal.label && (
+          <p class="paragraph-xs text-light/70">{canal.label}</p>
+        )}
+        <a
+          href={canal.href}
+          aria-label={ariaLabel(canal)}
+          class="paragraph-xs font-semibold text-accent/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:underline"
+        >
+          {canal.value}
+        </a>
+      </div>
+    ))
+  }
 </nav>

@@ -23,6 +23,7 @@ import {
   BUTTON_SHADOW_CLASSES,
   BUTTON_TRANSITION_CLASSES,
 } from "./button-styles";
+import { TELEFONO_PRINCIPAL } from "../../data/site";
 
 interface Props {
   label?: string;
@@ -34,8 +35,8 @@ interface Props {
 
 const {
   label = "Llámanos",
-  phone = "984 184 5726",
-  href = "tel:+529841845726",
+  phone = TELEFONO_PRINCIPAL.value,
+  href = TELEFONO_PRINCIPAL.href,
   ariaLabel,
   class: className = "",
 }: Props = Astro.props;
