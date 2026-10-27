@@ -1,0 +1,102 @@
+---
+/**
+ * InternetHogarFaq.astro
+ *
+ * Sección de preguntas frecuentes de `/internet-hogar`: una píldora por
+ * pregunta, con el enunciado a la izquierda y el control `+` / `−` a la
+ * derecha; al abrir, la respuesta aparece debajo del enunciado.
+ *
+ * Decisiones de estructura:
+ *
+ *   1. El acordeón es `<details>`/`<summary>` nativo, no `button` +
+ *      `aria-expanded`.
+ *        - Funciona sin JS y con teclado/lectores de pantalla por
+ *          defecto; el estado abierto/cerrado lo anuncia el propio
+ *          navegador.
+ *        - `name="faq-hogar"` activa el modo exclusivo nativo: abrir una
+ *          respuesta cierra la anterior, igual que en la referencia.
+ *        - Las respuestas viven en el DOM desde el SSR, así que los
+ *          buscadores las indexan aunque estén plegadas.
+ *   2. Ninguna apertura se anima. El contrato de animación del sitio
+ *      prohíbe animar propiedades de layout (`height`), y animar solo la
+ *      opacidad del contenido provocaría un salto raro al abrir. El
+ *      único cambio animado es el hover del borde (color, 200 ms).
+ *   3. El icono es CSS puro: `plus` visible y `minus` oculto; con
+ *      `group-open:` se invierten cuando el `<details>` tiene `open`.
+ *      Así no hace falta JS ni se anima `transform` del icono.
+ *   4. La forma cambia de `rounded-full` (píldora cerrada) a
+ *      `rounded-3xl` al abrir: una respuesta larga dentro de una cápsula
+ *      completa recortaría el texto contra el borde curvo.
+ *   5. Las respuestas son fragmentos de datos (texto o enlace), nunca
+ *      HTML: ver `src/data/internet-hogar/faqs.ts`.
+ */
+import { Icon } from "astro-icon/components";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import { FAQ_ITEMS } from "../../data/internet-hogar/faqs";
+---
+
+<section
+  id="internet-hogar-faq"
+  aria-labelledby="internet-hogar-faq-title"
+  data-reveal-scope="internet-hogar-faq"
+  class="scroll-mt-24 bg-light"
+>
+  <Container>
+    <SectionHeading id="internet-hogar-faq-title">
+      <span class="text-primary-on-light">Preguntas</span> frecuentes
+    </SectionHeading>
+
+    <div class="mx-auto mt-10 max-w-5xl space-y-4 md:mt-12 md:space-y-5">
+      {
+        FAQ_ITEMS.map((item) => (
+          <details
+            id={item.id}
+            name="faq-hogar"
+            class="group rounded-full border border-secondary/25 bg-light transition-colors duration-200 hover:border-secondary/50 open:rounded-3xl open:border-secondary/40"
+            data-reveal
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[inherit] px-6 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset md:px-8 md:py-6 [&::-webkit-details-marker]:hidden">
+              <h3 class="paragraph-md font-semibold text-balance text-secondary">
+                {item.pregunta}
+              </h3>
+
+              {/* Control decorativo: el estado accesible lo comunica
+                  `<summary>`, no el icono. A 28 px el trazo de 2 se ve
+                  con más peso, sin cambiar el grosor del set de iconos. */}
+              <span class="shrink-0 text-secondary" aria-hidden="true">
+                <Icon name="plus" class="h-7 w-7 group-open:hidden" />
+                <Icon name="minus" class="hidden h-7 w-7 group-open:block" />
+              </span>
+            </summary>
+
+            <div class="px-6 pb-5 md:px-8 md:pb-6">
+              <p class="paragraph-sm text-secondary/80">
+                {item.respuesta.map((fragmento) =>
+                  "href" in fragmento ? (
+                    <a
+                      href={fragmento.href}
+                      class="font-semibold whitespace-nowrap text-secondary underline decoration-primary decoration-2 underline-offset-4 transition-colors duration-150 hover:text-primary-on-light"
+                      target={fragmento.externo ? "_blank" : undefined}
+                      rel={fragmento.externo ? "noopener noreferrer" : undefined}
+                    >
+                      {fragmento.texto}
+                    </a>
+                  ) : (
+                    fragmento.texto
+                  ),
+                )}
+              </p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("internet-hogar-faq", "list");
+</script>

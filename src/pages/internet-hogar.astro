@@ -2,6 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import InternetHogarHero from "../components/internet-hogar/InternetHogarHero.astro";
 import InternetHogarPlans from "../components/internet-hogar/InternetHogarPlans.astro";
+import InternetHogarFaq from "../components/internet-hogar/InternetHogarFaq.astro";
+import ReadyToGetwork from "../components/internet-hogar/ReadyToGetwork.astro";
+import {
+  FAQ_ITEMS,
+  faqRespuestaTexto,
+} from "../data/internet-hogar/faqs";
 
 const title =
   "Internet para Hogar | Fibra Óptica e Internet Inalámbrico | Enlaces Playa";
@@ -28,6 +34,19 @@ const jsonLd = {
   ],
   "url": "https://enlacesplaya.com.mx/internet-hogar",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.pregunta,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faqRespuestaTexto(item),
+    },
+  })),
+};
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
@@ -36,6 +55,13 @@ const jsonLd = {
     is:inline
     set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
   ></script>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqJsonLd).replace(/</g, "\\u003c")}
+  ></script>
   <InternetHogarHero />
   <InternetHogarPlans />
+  <InternetHogarFaq />
+  <ReadyToGetwork />
 </Layout>
