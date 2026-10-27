@@ -7,6 +7,18 @@
  * compensada. Existe para que blog (y luego otras páginas internas) no
  * dupliquen el mismo `<header>`.
  *
+ * Contrato de altura (el alto es del componente, no del contenido):
+ *   - 600px en tablet (`sm`/`md`) y 560px en laptop/escritorio (`lg`),
+ *     medidos sobre el hero de blog, que es la referencia visual.
+ *   - `min-h` y no `height`: si un título futuro es más largo, la caja
+ *     crece en lugar de recortarse contra `overflow-hidden`.
+ *   - En móvil el contenido manda: el hero crece con títulos largos
+ *     (p. ej. /nosotros) para no partir el H1 ni taparlo con el navbar.
+ *   - El header es una columna flex y el contenedor interno usa `flex-1`
+ *     + `justify-center`; un `h-full` no resolvería contra un `min-h`.
+ *   - `pt-24` (96px) libra el navbar fijo (64px móvil / 88px desktop);
+ *     el `mt-16 sm:mt-20` anterior era el parche que inflaba el alto.
+ *
  * Props:
  *   - scope:            valor de `data-reveal-scope`/`data-page-hero`.
  *   - image/alt/priority: imagen de fondo y su prioridad de carga.
@@ -42,7 +54,7 @@ const {
 } = Astro.props;
 
 const headerClasses = [
-  "relative isolate w-full min-h-[320px] overflow-hidden bg-secondary sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]",
+  "relative isolate flex w-full flex-col min-h-[560px] overflow-hidden bg-secondary sm:min-h-[600px] lg:min-h-[560px]",
   className,
 ]
   .filter(Boolean)
@@ -68,9 +80,9 @@ const headerClasses = [
   </div>
 
   <div
-    class="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-6 py-20 sm:py-24 md:py-28 lg:py-32"
+    class="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-6 pt-24 pb-10"
   >
-    <div class="mt-16 w-full text-center sm:mt-20">
+    <div class="w-full text-center">
       <h1
         id={titleId}
         class="heading-1 mt-3 text-balance text-light"
