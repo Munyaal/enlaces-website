@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
 
 const title = "Ayuda de Internet | Enlaces Playa";
 const description =
@@ -32,7 +33,12 @@ const categorias = [
 ];
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  surface="dark"
+>
   <Container>
     <header class="max-w-3xl">
       <h1 class="text-3xl font-bold text-light md:text-5xl">Ayuda de Internet</h1>
@@ -42,9 +48,15 @@ const categorias = [
     </header>
 
     <section class="mt-12">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="categorias-de-ayuda"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Categorías de ayuda
-      </h2>
+      </SectionHeading>
       <ul class="mt-6 grid gap-6 sm:grid-cols-2">
         {
           categorias.map((cat) => (
@@ -58,9 +70,15 @@ const categorias = [
     </section>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="necesitas-mas-ayuda"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         ¿Necesitas más ayuda?
-      </h2>
+      </SectionHeading>
       <p class="mt-3 text-light/85">
         Consulta las preguntas frecuentes o contacta directamente a nuestro
         equipo de soporte.

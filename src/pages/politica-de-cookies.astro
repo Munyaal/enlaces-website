@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
 
 const title = "Política de Cookies | Enlaces Playa";
 const description =
@@ -8,7 +9,12 @@ const description =
 const keywords = "política de cookies enlaces playa";
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  surface="dark"
+>
   <Container>
     <article class="max-w-3xl">
       <header>
@@ -19,7 +25,15 @@ const keywords = "política de cookies enlaces playa";
       </header>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">¿Qué son las cookies?</h2>
+        <SectionHeading
+          id="que-son-las-cookies"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
+          ¿Qué son las cookies?
+        </SectionHeading>
         <p>
           Las cookies son pequeños archivos que el sitio web almacena en el
           navegador del usuario para recordar sus preferencias o analizar su
@@ -28,9 +42,15 @@ const keywords = "política de cookies enlaces playa";
       </section>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="tipos-de-cookies"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Tipos de cookies utilizadas
-        </h2>
+        </SectionHeading>
         <ul class="list-disc space-y-2 pl-6">
           <li>
             <strong class="text-light">Técnicas:</strong> necesarias para el
@@ -48,9 +68,15 @@ const keywords = "política de cookies enlaces playa";
       </section>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="gestion-de-cookies"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Gestión de cookies
-        </h2>
+        </SectionHeading>
         <p>
           El usuario puede configurar su navegador para bloquear o eliminar
           las cookies. Algunas funcionalidades del sitio pueden verse

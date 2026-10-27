@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import porqueElegirEnlaces from "../../assets/images/about/porque-elegir-enlaces-playa.png";
+import SectionHeading from "../ui/SectionHeading.astro";
 import { parseBoldSegments } from "../../utils/bold-text";
 
 /**
@@ -46,15 +47,10 @@ const tabs = [
       class="grid items-start gap-10 md:gap-12 lg:grid-cols-12 lg:gap-12 xl:gap-16"
     >
       <div class="lg:col-span-7">
-        <h2
-          id="why-choose-title"
-          class="heading-2 text-balance text-secondary"
-          data-reveal
-        >
-          ¿Por qué elegir <span class="text-primary-on-light"
-            >Enlaces Playa?</span
-          >
-        </h2>
+        <SectionHeading id="why-choose-title" align="left" divider={false}>
+          ¿Por qué elegir{" "}
+          <span class="text-primary-on-light">Enlaces Playa?</span>
+        </SectionHeading>
 
         {/* El tablist es interactivo: no lleva `data-reveal` para que el
            foco no caiga en tabs invisibles. El h2 de arriba conserva la

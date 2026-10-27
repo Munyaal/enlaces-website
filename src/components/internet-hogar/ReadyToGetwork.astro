@@ -1,5 +1,5 @@
 ---
-import SectionDivider from "../ui/SectionDivider.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
 import internetHogar from "../../assets/images/internet-hogar/internet-hogar-enlaces-playa-contrata.png";
 import Container from "../ui/Container.astro";
 import Button from "../ui/Button.astro";
@@ -17,22 +17,14 @@ import { Image } from "astro:assets";
   <Container>
     <div class="grid items-center gap-10 md:gap-12 lg:grid-cols-12 xl:gap-16">
       <div class="lg:col-span-7 space-y-6">
-        <h2
-          id="our-commitment-title"
-          class="heading-2 text-balance text-secondary"
-          data-reveal
-        >
-          ¿Listo para <span class="text-primary">contratar Internet</span> en la <span
-            class="text-primary">Riviera Maya?</span
-          >
-        </h2>
-
-        <SectionDivider class="mt-2 sm:w-36" />
-
-        <p class="paragraph-md text-secondary/80" data-reveal>
-          Encuentra el plan de Internet ideal para tu hogar y disfrutar una
-          conexión rápida y estable, con cobertura y soporte técnico local.
-        </p>
+        <SectionHeading id="our-commitment-title" align="left">
+          ¿Listo para <span class="text-primary-on-light">contratar Internet</span> en la
+          {" "}<span class="text-primary-on-light">Riviera Maya?</span>
+          <Fragment slot="description">
+            Encuentra el plan de Internet ideal para tu hogar y disfrutar una
+            conexión rápida y estable, con cobertura y soporte técnico local.
+          </Fragment>
+        </SectionHeading>
 
         <Button
           as="a"

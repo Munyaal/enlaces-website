@@ -38,7 +38,9 @@ codegen step and no pre-build task to run first.
   - `home/` is two levels deep: `sections/` (page blocks), `cards/`, `forms/`.
   - `about/`, `blog/`, `internet-hogar/` — one folder per page area.
 - **`src/layouts/Layout.astro`** is the only page shell (Navbar + `<main>` +
-  Footer + GTM). Props: `title` (required), `description`, `keywords`.
+  Footer + GTM). Props: `title` (required), `description`, `keywords`,
+  `surface` (`"light"` default \| `"dark"` = navy `<main>` + `pt-24` for
+  document pages that skip `PageHero`).
   `BaseHead.astro` reads `SITE_URL` from `data/seo.ts` and builds the canonical
   URL from the request path; **OG/Twitter copy, image + type are hardcoded
   site-wide** (also in `data/seo.ts`), so per-page SEO work happens in JSON-LD,
@@ -143,6 +145,14 @@ Single entry point for all scroll/entry animation. Rules that are easy to break:
 - Shared button classes are constants in `src/components/ui/button-styles.ts`,
   consumed by `Button`/`CTAButton`/`PhoneCTAButton`. Use the components rather
   than re-writing button utility strings inline.
+- **Section headings go through `SectionHeading`** (`heading-2`, divider and
+  optional description). It exposes `align`, `tone` (`secondary` \| `light` \|
+  `accent`), `size` (`section` \| `compact` for document pages) and
+  `descriptionWidth`. Do **not** try to override its color or max-width with
+  `class`: Tailwind emits `.text-secondary` after `.text-light` and
+  `.max-w-4xl` after `.max-w-2xl`, so the appended class loses. Only `sr-only`
+  section labels (accessibility names) and the blog listing label stay as raw
+  `<h2>`.
 - Duration scale used across the site: **150 ms** (text color/hover), **200 ms**
   (buttons/controls), **300 ms** (surfaces/shadows), **8 s** (hero Ken Burns).
 - `Container`'s extra `class` prop is appended, so it does **not** reliably

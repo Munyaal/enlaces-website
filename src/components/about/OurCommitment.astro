@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import SectionHeading from "../ui/SectionHeading.astro";
 import nuestroCompromiso from "../../assets/images/about/nuestro-compromiso-enlaces-playa.png";
 ---
 
@@ -12,15 +13,11 @@ import nuestroCompromiso from "../../assets/images/about/nuestro-compromiso-enla
   <div class="mx-auto w-full max-w-7xl px-6 pt-12 lg:pt-16">
     <div class="grid items-start gap-10 md:gap-12 lg:grid-cols-12 xl:gap-16">
       <div class="lg:col-span-7">
-        <h2
-          id="our-commitment-title"
-          class="heading-2 text-balance text-secondary"
-          data-reveal
-        >
+        <SectionHeading id="our-commitment-title" align="left" divider={false}>
           <span class="text-primary-on-light">Nuestro</span> compromiso con la <span
             class="text-primary-on-light">Riviera Maya</span
           >
-        </h2>
+        </SectionHeading>
         <p class="paragraph-md mt-4 text-secondary/80" data-reveal>
           En <span class="font-semibold">Enlaces Playa</span> creemos que la conectividad
           es fundamental para el desarrollo de nuestra comunidad.

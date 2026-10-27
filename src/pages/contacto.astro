@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
 import { SITE, TELEFONO_PRINCIPAL } from "../data/site";
 
 const title = "Contacto Enlaces Playa | Internet para Hogar y Empresas";
@@ -10,7 +11,12 @@ const keywords =
   "contacto enlaces playa, contactar proveedor de internet, atención a clientes internet";
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  surface="dark"
+>
   <Container>
     <header class="max-w-3xl">
       <h1 class="text-3xl font-bold text-light md:text-5xl">
@@ -20,9 +26,15 @@ const keywords =
     </header>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="canales-de-atencion"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Canales de atención
-      </h2>
+      </SectionHeading>
       <ul class="mt-4 space-y-3 text-light/85">
         <li>
           <strong class="text-light">Correo:</strong>
@@ -50,9 +62,15 @@ const keywords =
     </section>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="portal-de-cliente"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Portal de Cliente
-      </h2>
+      </SectionHeading>
       <p class="mt-3 text-light/85">
         Consulta y gestiona tu servicio desde el Portal de Cliente.
       </p>

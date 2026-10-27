@@ -13,14 +13,25 @@ import GoogleTagManagerNoScript from "../components/layout/GoogleTagManagerNoScr
  *   - title:       obligatorio, título de la pestaña.
  *   - description: opcional, sobrescribe la descripción SEO por página.
  *   - keywords:    opcional, sobrescribe las keywords SEO por página.
+ *   - surface:     superficie del contenido. "light" (default) deja el
+ *                  fondo del body; "dark" pinta `<main>` con el azul de
+ *                  marca y texto claro para páginas de documento
+ *                  (legales, ayuda) que no usan `PageHero`.
+ *
+ * `surface="dark"` añade `pt-24` porque el navbar es `fixed`: sin ese
+ * respiro el `<h1>` queda debajo del navbar. 96px libra los 64px de
+ * móvil y los 88px de desktop.
  */
 interface Props {
   title: string;
   description?: string;
   keywords?: string;
+  surface?: "light" | "dark";
 }
 
-const { title, description, keywords } = Astro.props;
+const { title, description, keywords, surface = "light" } = Astro.props;
+
+const mainClasses = surface === "dark" ? "bg-secondary text-light pt-24" : undefined;
 ---
 
 <!doctype html>
@@ -32,7 +43,7 @@ const { title, description, keywords } = Astro.props;
   <body class="text-dark font-sans">
     <GoogleTagManagerNoScript />
     <Navbar />
-    <main>
+    <main class={mainClasses}>
       <slot />
     </main>
     <Footer />

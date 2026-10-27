@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
 
 const title = "Términos y Condiciones | Enlaces Playa";
 const description =
@@ -8,7 +9,12 @@ const description =
 const keywords = "términos y condiciones enlaces playa";
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  surface="dark"
+>
   <Container>
     <article class="max-w-3xl">
       <header>
@@ -19,9 +25,15 @@ const keywords = "términos y condiciones enlaces playa";
       </header>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="aceptacion-de-los-terminos"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Aceptación de los términos
-        </h2>
+        </SectionHeading>
         <p>
           Al contratar y utilizar los servicios de Enlaces Playa, el cliente
           acepta los presentes términos y condiciones, los cuales regulan la
@@ -30,9 +42,15 @@ const keywords = "términos y condiciones enlaces playa";
       </section>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="objeto"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Objeto
-        </h2>
+        </SectionHeading>
         <p>
           Enlaces Playa presta servicios de conectividad a Internet para
           hogares y empresas en las zonas con cobertura disponible.
@@ -40,9 +58,15 @@ const keywords = "términos y condiciones enlaces playa";
       </section>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="obligaciones-del-cliente"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Obligaciones del cliente
-        </h2>
+        </SectionHeading>
         <ul class="list-disc space-y-2 pl-6">
           <li>Proporcionar información veraz al contratar el servicio.</li>
           <li>Realizar los pagos en las fechas acordadas.</li>
@@ -54,9 +78,15 @@ const keywords = "términos y condiciones enlaces playa";
       </section>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="suspension-y-cancelacion"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Suspensión y cancelación
-        </h2>
+        </SectionHeading>
         <p>
           El servicio podrá suspenderse o cancelarse en caso de incumplimiento
           de las obligaciones del cliente o por causas técnicas y operativas.
@@ -64,9 +94,15 @@ const keywords = "términos y condiciones enlaces playa";
       </section>
 
       <section class="mt-10 space-y-3 text-light/85">
-        <h2 class="text-2xl font-bold text-accent md:text-3xl">
+        <SectionHeading
+          id="modificaciones"
+          size="compact"
+          tone="accent"
+          align="left"
+          divider={false}
+        >
           Modificaciones
-        </h2>
+        </SectionHeading>
         <p>
           Enlaces Playa podrá modificar los presentes términos, informando al
           cliente con anticipación razonable.

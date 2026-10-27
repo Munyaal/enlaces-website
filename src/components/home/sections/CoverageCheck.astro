@@ -10,6 +10,7 @@ import { Image } from "astro:assets";
 import backgroundImage from "../../../assets/images/home/internet-playa-del-carmen-tulum-puerto-morelos.jpg";
 import Container from "../../ui/Container.astro";
 import CoverageForm from "../forms/CoverageForm.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
 ---
 
 <section
@@ -34,10 +35,14 @@ import CoverageForm from "../forms/CoverageForm.astro";
 
   <Container>
     <div class="relative text-center">
-      <h2 id="coverage-check-title" class="heading-2 text-light" data-reveal>
+      <SectionHeading
+        id="coverage-check-title"
+        tone="light"
+        divider={false}
+      >
         ¿Buscas <span class="text-primary">Internet</span> con cobertura
         <span class="block text-primary">en la Riviera Maya?</span>
-      </h2>
+      </SectionHeading>
       <p class="paragraph-md mt-6 text-light/85" data-reveal>
         Consulta la disponibilidad de nuestro servicio en Playa del Carmen,
         Puerto Morelos y Tulum y encuentra la opción de conexión ideal para tu

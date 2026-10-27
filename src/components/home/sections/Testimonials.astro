@@ -9,6 +9,7 @@
  */
 import Container from "../../ui/Container.astro";
 import TestimonialCard from "../cards/TestimonialCard.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
 import { TESTIMONIALS } from "../../../data/testimonials";
 ---
 
@@ -18,19 +19,14 @@ import { TESTIMONIALS } from "../../../data/testimonials";
   class="bg-surface-1"
 >
   <Container>
-    <h2 id="testimonios-title" class="heading-2 text-center" data-reveal>
+    <SectionHeading id="testimonios-title" descriptionWidth="2xl">
       <span class="text-primary-on-light">Opiniones</span>{" "}sobre nuestro <br /> servicio
       de <span class="text-primary-on-light">Internet</span>
-    </h2>
-    <hr
-      aria-hidden="true"
-      class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
-      data-reveal
-    />
-    <p class="paragraph-md mx-auto mt-4 max-w-2xl text-center" data-reveal>
-      Conoce la experiencia de clientes que ya disfrutan de Internet rápido,
-      estable y con soporte técnico local de Enlaces Playa.
-    </p>
+      <Fragment slot="description">
+        Conoce la experiencia de clientes que ya disfrutan de Internet rápido,
+        estable y con soporte técnico local de Enlaces Playa.
+      </Fragment>
+    </SectionHeading>
 
     <div class="testimonials-carousel relative mt-8 sm:mt-10">
       <div class="swiper testimonials-swiper mx-auto w-full">

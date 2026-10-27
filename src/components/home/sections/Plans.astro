@@ -9,29 +9,21 @@
  */
 import Container from "../../ui/Container.astro";
 import PackageCard from "../cards/PackageCard.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
 import { PLANS } from "../../../data/home/plans";
 ---
 
 <section aria-labelledby="plans-title" data-reveal-scope="plans">
   <Container>
-    <h2
-      id="plans-title"
-      class="heading-2 text-center text-secondary"
-      data-reveal
-    >
+    <SectionHeading id="plans-title">
       <span class="text-primary-on-light">Internet</span> para Hogar y Empresas <br /> en la
       {" "}
       <span class="text-primary-on-light">Riviera Maya</span>
-    </h2>
-    <hr
-      aria-hidden="true"
-      class="mx-auto mt-3 h-1 w-32 border-0 bg-accent-grad-radial sm:w-36"
-      data-reveal
-    />
-    <p class="paragraph-md mt-6 text-center text-secondary" data-reveal>
-      Encuentra la solución de conectividad que necesitas, ya sea para tu hogar,
-      negocio o empresa.
-    </p>
+      <Fragment slot="description">
+        Encuentra la solución de conectividad que necesitas, ya sea para tu
+        hogar, negocio o empresa.
+      </Fragment>
+    </SectionHeading>
 
     <div
       class="mt-10 flex flex-col items-stretch justify-center gap-6 md:mt-12 md:flex-row md:items-center md:gap-8 lg:gap-12 xl:gap-16"

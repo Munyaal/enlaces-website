@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
 
 const title =
   "Cobertura de Internet | Playa del Carmen, Tulum y Riviera Maya | Enlaces Playa";
@@ -31,7 +32,12 @@ const zonas = [
 ];
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  surface="dark"
+>
   <Container>
     <header class="max-w-3xl">
       <h1 class="text-3xl font-bold text-light md:text-5xl">
@@ -43,9 +49,15 @@ const zonas = [
     </header>
 
     <section class="mt-12">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="zonas-con-cobertura"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Zonas con cobertura
-      </h2>
+      </SectionHeading>
       <ul class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
           zonas.map((zona) => (
@@ -65,9 +77,15 @@ const zonas = [
     </section>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="no-ves-tu-zona"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         ¿No ves tu zona?
-      </h2>
+      </SectionHeading>
       <p class="mt-3 text-light/85">
         Escríbenos para consultar disponibilidad en tu domicilio. Ampliamos
         cobertura de manera continua.

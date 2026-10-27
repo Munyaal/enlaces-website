@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import PhoneCTAButton from "../../ui/PhoneCTAButton.astro";
 import Container from "../../ui/Container.astro";
 import SectionDivider from "../../ui/SectionDivider.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
 import internetHogar from "../../../assets/images/home/internet-hogar-riviera-maya.jpg";
 import { CANAL_ATENCION } from "../../../data/site";
 ---
@@ -22,22 +23,21 @@ import { CANAL_ATENCION } from "../../../data/site";
     <div class="grid gap-10 md:gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
       <div>
         <SectionDivider class="mt-2 sm:w-52 lg:ml-0" />
-        <header class="heading-2 text-left mt-5 sm:mt-6">
-          <h2
-            id="why-choose-title"
-            class="heading-2 mt-3 text-secondary"
-            data-reveal
-          >
-            <span class="text-primary-on-light">Internet</span>{" "}en la Riviera Maya:
-            ¿Por qué elegir{" "}
-            <span class="block text-primary-on-light">Enlaces Playa?</span>
-          </h2>
-          <p class="paragraph-md mt-4 text-secondary" data-reveal>
-            Disfruta de Internet para tu hogar o negocio, con cobertura,
-            tecnología y soporte técnico local en Playa del Carmen, Puerto Morelos
-            y Tulum.
-          </p>
-        </header>
+        <SectionHeading
+          id="why-choose-title"
+          align="left"
+          divider={false}
+          class="mt-5 sm:mt-6"
+        >
+          <span class="text-primary-on-light">Internet</span>{" "}en la Riviera Maya:
+          ¿Por qué elegir{" "}
+          <span class="block text-primary-on-light">Enlaces Playa?</span>
+        </SectionHeading>
+        <p class="paragraph-md mt-4 text-secondary" data-reveal>
+          Disfruta de Internet para tu hogar o negocio, con cobertura,
+          tecnología y soporte técnico local en Playa del Carmen, Puerto Morelos
+          y Tulum.
+        </p>
 
         <div class="mt-4 md:mt-6">
           <PhoneCTAButton phone={CANAL_ATENCION.value} href={CANAL_ATENCION.href} />

@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import internetHogarModem from "../../assets/images/internet-hogar/internet-hogar-enlaces-playa.png";
 import Container from "../ui/Container.astro";
-import SectionDivider from "../ui/SectionDivider.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
 import { parseBoldSegments } from "../../utils/bold-text";
 
 /**
@@ -52,14 +52,10 @@ const beneficios = [
   class="relative bg-surface-1"
 >
   <Container>
-    <h2
-      id="why-chose-hogar-title"
-      class="heading-2 text-balance text-secondary"
-      data-reveal
-    >
-      ¿Por qué elegir{" "}<span class="text-primary">Enlaces Playa?</span>
-    </h2>
-    <SectionDivider class="mt-2 sm:w-36 ml-0" />
+    <SectionHeading id="why-chose-hogar-title" align="left">
+      ¿Por qué elegir{" "}
+      <span class="text-primary-on-light">Enlaces Playa?</span>
+    </SectionHeading>
     <div class="mt-8 grid items-start gap-10 md:mt-10 md:gap-12 lg:grid-cols-2 xl:gap-16">
       <ul role="list" class="space-y-5 md:space-y-6">
         {

@@ -2,31 +2,37 @@
 /**
  * SectionHeading.astro
  *
- * Encabezado de sección: `<h2>` + divisor + párrafo descriptivo. Extrae
- * el patrón que compartían WhatSetsUsApart y WereHere para que ambos
- * bloques mantengan el mismo ritmo visual sin duplicar clases.
+ * Encabezado de sección: `<h2>` + divisor + párrafo descriptivo. Es la
+ * única fuente del ritmo visual de los encabezados de sección: tamaño,
+ * color, alineación, divisor y ancho de la descripción.
  *
- * No envuelve el contenido en un contenedor extra: renderiza los tres
- * elementos como hermanos, igual que el markup original. Los tres
- * conservan `data-reveal` para que el script de la sección los anime.
+ * No envuelve el contenido en un contenedor extra: renderiza los
+ * elementos como hermanos, igual que el markup que reemplaza. El `<h2>`,
+ * el divisor y el `<p>` conservan `data-reveal` para que el script de la
+ * sección los anime.
  *
- * Alineación (`align`): "left" | "center" | "right", default "center"
- * para no alterar los usos existentes. El texto y la caja se mueven
- * juntos: el `<h2>` y el `<p>` cambian `text-*`, y el divisor + párrafo
- * cambian su margen automático (`mr-auto` / `mx-auto` / `ml-auto`).
- * Esos márgenes son mutuamente excluyentes por construcción; si se
- * concatenaran dos, ganaría el que Tailwind emita al final, no el orden
- * de la cadena.
- *
- * Las clases de alineación viven en un mapa con strings literales
- * porque Tailwind no detecta nombres construidos (`text-${align}`).
+ * Por qué hay props en lugar de `class` para color y ancho: las clases
+ * extra se concatenan al final, pero Tailwind decide por el orden en que
+ * emite la hoja, no por el orden de la cadena. Medido sobre el build:
+ * `.text-secondary` se emite después de `.text-light`, así que
+ * `class="text-light"` no cambia el color; en cambio `.max-w-4xl` se
+ * emite después de `.max-w-2xl`, así que `class="max-w-2xl"` tampoco
+ * gana. `tone` y `descriptionWidth` construyen una sola clase final y
+ * eliminan esa dependencia.
  *
  * Props:
- *   - id:      obligatorio, id del `<h2>` (también lo usa el
- *              `aria-labelledby` de la `<section>`).
- *   - class:   clases extra para el `<h2>`.
- *   - divider: si es `false`, omite el divisor (default `true`).
- *   - align:   alineación del bloque (default `"center"`).
+ *   - id:               obligatorio, id del `<h2>` (también lo usa el
+ *                       `aria-labelledby` de la `<section>`).
+ *   - class:            clases extra para el `<h2>` que no colisionen
+ *                       con tamaño/color/alineación.
+ *   - divider:          si es `false`, omite el divisor (default `true`).
+ *   - align:            "left" | "center" | "right" (default `"center"`).
+ *   - tone:             color del bloque, según la superficie:
+ *                       `secondary` para fondos claros, `light` para
+ *                       fondos oscuros, `accent` para el cian de marca.
+ *   - size:             `section` = escala `heading-2`; `compact` =
+ *                       `text-2xl md:text-3xl` para documentos legales.
+ *   - descriptionWidth: ancho máximo del párrafo descriptivo.
  *
  * Slots:
  *   - default:     contenido del título.
@@ -35,12 +41,18 @@
 import SectionDivider from "./SectionDivider.astro";
 
 type Align = "left" | "center" | "right";
+type Tone = "secondary" | "light" | "accent";
+type Size = "section" | "compact";
+type DescriptionWidth = "2xl" | "3xl" | "4xl" | "5xl";
 
 interface Props {
   id: string;
   class?: string;
   divider?: boolean;
   align?: Align;
+  tone?: Tone;
+  size?: Size;
+  descriptionWidth?: DescriptionWidth;
 }
 
 const {
@@ -48,6 +60,9 @@ const {
   class: className = "",
   divider = true,
   align = "center",
+  tone = "secondary",
+  size = "section",
+  descriptionWidth = "4xl",
 } = Astro.props;
 
 /**
@@ -55,7 +70,8 @@ const {
  * `block`: margen automático que pega el bloque al lado elegido. El
  * divisor y el párrafo tienen ancho máximo propio, así que sin este
  * margen se quedarían pegados a la izquierda aunque el texto esté
- * centrado o a la derecha.
+ * centrado o a la derecha. Son mutuamente excluyentes por construcción:
+ * emitir dos haría que ganara el que Tailwind emita al final.
  */
 const ALIGN: Record<Align, { text: string; block: string }> = {
   left: { text: "text-left", block: "mr-auto" },
@@ -63,14 +79,42 @@ const ALIGN: Record<Align, { text: string; block: string }> = {
   right: { text: "text-right", block: "ml-auto" },
 };
 
-const alignment = ALIGN[align];
+/** Escala tipográfica: la del sitio o la de páginas de documento. */
+const SIZE: Record<Size, string> = {
+  section: "heading-2",
+  compact: "text-2xl font-bold md:text-3xl",
+};
 
-const headingClasses = ["heading-2 text-secondary", alignment.text, className]
+/** Color del título y de la descripción según la superficie de fondo. */
+const TONE: Record<Tone, { heading: string; description: string }> = {
+  secondary: { heading: "text-secondary", description: "text-secondary" },
+  light: { heading: "text-light", description: "text-light/85" },
+  accent: { heading: "text-accent", description: "text-accent/90" },
+};
+
+const DESCRIPTION_WIDTH: Record<DescriptionWidth, string> = {
+  "2xl": "max-w-2xl",
+  "3xl": "max-w-3xl",
+  "4xl": "max-w-4xl",
+  "5xl": "max-w-5xl",
+};
+
+const alignment = ALIGN[align];
+const colors = TONE[tone];
+
+const headingClasses = [
+  SIZE[size],
+  colors.heading,
+  alignment.text,
+  className,
+]
   .filter(Boolean)
   .join(" ");
 
 const descriptionClasses = [
-  "paragraph-md mt-4 max-w-4xl text-balance text-secondary",
+  "paragraph-md mt-4 text-balance",
+  colors.description,
+  DESCRIPTION_WIDTH[descriptionWidth],
   alignment.text,
   alignment.block,
 ]

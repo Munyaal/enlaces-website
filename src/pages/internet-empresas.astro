@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
 import { AREA_SERVED, ORGANIZACION, SITE_URL } from "../data/seo";
 
 const title =
@@ -22,7 +23,12 @@ const jsonLd = {
 };
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  surface="dark"
+>
   <script
     type="application/ld+json"
     is:inline
@@ -39,9 +45,15 @@ const jsonLd = {
     </header>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="conectividad-para-tu-negocio"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Conectividad para tu negocio
-      </h2>
+      </SectionHeading>
       <p class="mt-3 text-light/85">
         Diseñamos soluciones de Internet adaptadas a la operación de cada
         empresa, con opciones dedicadas y soporte técnico profesional.
@@ -76,9 +88,15 @@ const jsonLd = {
     </section>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="soporte-tecnico-local"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Soporte técnico local
-      </h2>
+      </SectionHeading>
       <p class="mt-3 text-light/85">
         Atendemos directamente en la Riviera Maya con tiempos de respuesta
         cortos y personal técnico propio.
@@ -86,9 +104,15 @@ const jsonLd = {
     </section>
 
     <section class="mt-12 max-w-3xl">
-      <h2 class="text-2xl font-bold text-accent md:text-3xl">
+      <SectionHeading
+        id="solicita-una-cotizacion"
+        size="compact"
+        tone="accent"
+        align="left"
+        divider={false}
+      >
         Solicita una cotización
-      </h2>
+      </SectionHeading>
       <p class="mt-3 text-light/85">
         Cuéntanos las necesidades de tu negocio y te enviaremos una propuesta
         a la medida.
