@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import InternetHogarHero from "../components/internet-hogar/InternetHogarHero.astro";
+import InternetHogarPlans from "../components/internet-hogar/InternetHogarPlans.astro";
 
 const title =
   "Internet para Hogar | Fibra Óptica e Internet Inalámbrico | Enlaces Playa";
@@ -36,4 +37,5 @@ const jsonLd = {
     set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
   ></script>
   <InternetHogarHero />
+  <InternetHogarPlans />
 </Layout>

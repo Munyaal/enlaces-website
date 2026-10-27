@@ -37,6 +37,11 @@
  *   - `list`: rejillas y listas (tarjetas, logos, testimonios) donde el
  *     stagger debe sentirse más marcado.
  *
+ * Contadores numéricos (`countUp`): no son un reveal, porque animan el
+ * *contenido* de un número y no su opacidad/posición. Aun así viven en
+ * este módulo para compartir el `gsap.matchMedia()` y respetar
+ * `prefers-reduced-motion` con las mismas reglas que el resto.
+ *
  * Escala de duraciones del sitio (CSS, sin tokens nuevos):
  *   - 150 ms: color / hover de texto.
  *   - 200 ms: botones y controles.
@@ -459,5 +464,78 @@ const revealImmediately = (options: RevealTargetsOptions): void => {
       toVars.stagger = options.stagger;
     }
     gsap.to(targets, toVars);
+  });
+};
+
+/** Opciones del contador numérico ascendente. */
+export interface CountUpOptions {
+  /** Duración del conteo en segundos. */
+  duration?: number;
+  /** Valor final exacto que se escribe al terminar el conteo. */
+  value?: number;
+  /**
+   * Se invoca al terminar el conteo. Sirve para encadenar el "pop" del
+   * número o el pulso de un ícono. No se invoca con `reduce`.
+   */
+  onComplete?: () => void;
+}
+
+/** Duración por defecto del conteo (segundos). */
+const COUNT_UP_DURATION = 1.6;
+
+/**
+ * Cuenta un número ascendente desde 0 hasta `value`.
+ *
+ * No es un reveal: anima el *contenido* de un elemento (su `textContent`)
+ * y no una propiedad de estilo, así que no encaja en el modelo
+ * `opacity`/`transform` de `REVEAL_PRESETS`. Aun así vive en este módulo
+ * porque comparte el `gsap.matchMedia()` global y, con ello, la misma
+ * política de `prefers-reduced-motion` que el resto del sitio.
+ *
+ * Contrato:
+ *   - El valor final **ya está en el HTML** (renderizado por SSR). Con
+ *     `prefers-reduced-motion: reduce` o sin JS, el número se queda
+ *     visible en su valor real: nunca queda un "0" congelado.
+ *   - El texto se sustituye por enteros redondeados durante el conteo.
+ *   - Al terminar se escribe el valor exacto y se dispara `onComplete`.
+ *
+ * El `onComplete` no se invoca cuando el usuario pidió reducir el
+ * movimiento: en ese caso la animación no llega a empezar y el pop
+ * correspondiente tampoco debe reproducirse.
+ *
+ * @param target Elemento cuyo `textContent` se anima.
+ * @param value  Valor final del contador.
+ * @param options Duración, valor exacto y callback de finalización.
+ */
+export const countUp = (
+  target: HTMLElement,
+  value: number,
+  options: CountUpOptions = {},
+): void => {
+  const { duration = COUNT_UP_DURATION, onComplete } = options;
+  const finalValue = options.value ?? value;
+
+  getAnimationMedia().add(NO_PREFERENCE, () => {
+    // Objeto proxy: GSAP anima sus propiedades y `onUpdate` refleja el
+    // valor redondeado en el DOM. Es el patrón estándar para contadores
+    // con GSAP (no existe un tween nativo sobre `textContent`).
+    const counter = { value: 0 };
+
+    gsap.to(counter, {
+      value: finalValue,
+      duration,
+      ease: "power2.out",
+      // Redondea a entero en cada frame: nunca se ve "47.3".
+      snap: { value: 1 },
+      onUpdate: () => {
+        target.textContent = String(Math.round(counter.value));
+      },
+      onComplete: () => {
+        // Se escribe el valor exacto (por ejemplo "150", no "150.00001")
+        // y se limpia cualquier transform residual del pop anterior.
+        target.textContent = String(finalValue);
+        onComplete?.();
+      },
+    });
   });
 };

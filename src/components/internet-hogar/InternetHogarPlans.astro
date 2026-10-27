@@ -1,0 +1,281 @@
+---
+/**
+ * InternetHogarPlans.astro
+ *
+ * Sección de planes de `/internet-hogar`: un tab pill **centrado** para
+ * alternar entre "Fibra óptica" e "Inalámbrico" y, bajo el tab, los tres
+ * planes de la tecnología activa.
+ *
+ * Réplica el patrón de interacción de `about/WhyChooseTabs.astro`
+ * (`role="tablist"` + `role="tab"` + `role="tabpanel"`, navegación con
+ * flechas, `hidden` en los paneles inactivos), con dos diferencias
+ * deliberadas:
+ *
+ *   1. El tablist es una píldora flotante centrada (`mx-auto inline-flex`),
+ *      no una barra que ocupa todo el ancho.
+ *   2. Los paneles se localizan por el scope de la sección, no por un id
+ *      global, para que el componente no dependa de ids únicos externos.
+ *
+ * Ambos paneles se renderizan en SSR: sin JS queda visible el de fibra
+ * óptica (el activo por defecto) y el de inalámbrico permanece oculto.
+ * El contenido sigue siendo indexable por los buscadores.
+ */
+import PlanPriceCard from "./PlanPriceCard.astro";
+import {
+  TECNOLOGIAS,
+  type PlanTechnology,
+} from "../../data/internet-hogar/plans";
+
+/** Icono que ilustra cada tecnología. */
+const ICONOS: Record<PlanTechnology, string> = {
+  fibra: "wifi",
+  inalambrico: "broadcast-tower",
+};
+---
+
+<section
+  id="internet-hogar-plans"
+  aria-label="Planes de Internet para hogar"
+  data-reveal-scope="internet-hogar-plans"
+>
+  <div class="mx-auto w-full max-w-5xl px-6 py-10 lg:py-16">
+    <div class="mt-10 flex justify-center">
+      <div
+        role="tablist"
+        aria-label="Tecnología de Internet para hogar"
+        class="inline-flex w-auto max-w-md flex-nowrap justify-center overflow-hidden rounded-full bg-secondary shadow-lg sm:max-w-lg"
+      >
+        {
+          TECNOLOGIAS.map((tecnologia, index) => (
+            <button
+              id={`tab-${tecnologia.id}`}
+              type="button"
+              role="tab"
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-controls={`panel-${tecnologia.id}`}
+              tabindex={index === 0 ? 0 : -1}
+              class="min-h-11 flex-1 cursor-pointer rounded-full bg-secondary px-5 py-2.5 text-lg font-semibold text-light transition-colors duration-200 hover:bg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:ring-offset-0 aria-selected:bg-primary aria-selected:shadow-md"
+            >
+              {tecnologia.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      TECNOLOGIAS.map((tecnologia, index) => (
+        <div
+          id={`panel-${tecnologia.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${tecnologia.id}`}
+          hidden={index !== 0}
+          tabindex={0}
+          class="mt-14 md:mt-20"
+        >
+          <div class="mt-8 grid items-stretch gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+            {tecnologia.planes.map((plan) => (
+              <PlanPriceCard
+                plan={plan}
+                icon={ICONOS[tecnologia.id]}
+                destacado={plan.destacado ?? false}
+                reveal
+              />
+            ))}
+          </div>
+        </div>
+      ))
+    }
+
+    <div class="border-2 border-accent rounded-full p-4 mt-14 max-w-max mx-auto font-medium">
+      El precio pronto pago aplica para los primeros 5 días a partir de tu fecha
+      de contratación
+    </div>
+  </div>
+</section>
+
+<script>
+  import {
+    countUp,
+    revealNow,
+    revealSection,
+    whenReady,
+  } from "../../utils/reveal";
+  import { gsap } from "gsap";
+
+  /** Duración del conteo de megas (segundos). */
+  const COUNT_DURATION = 1.6;
+
+  /** Desfase entre tarjetas para que los megas suban en cascada. */
+  const COUNT_STAGGER = 0.15;
+
+  /**
+   * Pop del número al llegar al valor final.
+   *
+   * Se anima `scale` (transform), nunca `font-size`: el contrato del
+   * sitio sólo permite animar opacidad y transform, y así el número no
+   * reflowea la tarjeta.
+   */
+  const popNumber = (element: HTMLElement) => {
+    gsap.fromTo(
+      element,
+      { scale: 1 },
+      {
+        scale: 1.15,
+        duration: 0.22,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        clearProps: "transform",
+      },
+    );
+  };
+
+  /**
+   * Pulso del ícono de la tarjeta destacada.
+   *
+   * Sólo se aplica al plan destacado (`data-plan-icon`): es el acento
+   * visual que diferencia la tarjeta central de las laterales.
+   */
+  const pulseIcon = (element: HTMLElement) => {
+    gsap.fromTo(
+      element,
+      { scale: 1 },
+      {
+        scale: 1.25,
+        duration: 0.25,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        clearProps: "transform",
+      },
+    );
+  };
+
+  const init = () => {
+    revealSection("internet-hogar-plans", "list");
+
+    const section = document.getElementById("internet-hogar-plans");
+    if (!section) return;
+
+    const tablist = section.querySelector<HTMLElement>("[role='tablist']");
+    if (!tablist || tablist.dataset.tabsReady === "true") return;
+    tablist.dataset.tabsReady = "true";
+
+    const tabs = Array.from(
+      tablist.querySelectorAll<HTMLButtonElement>("[role='tab']"),
+    );
+
+    // Los paneles se resuelven una sola vez (`aria-controls` -> panel)
+    // para no consultar el DOM en cada activación.
+    const panels = new Map<string, HTMLElement>();
+    section
+      .querySelectorAll<HTMLElement>("[role='tabpanel']")
+      .forEach((panel) => panels.set(panel.id, panel));
+
+    /**
+     * Anima los contadores de megas de un panel.
+     *
+     * Sólo se ejecuta una vez por tarjeta (`data-counted`): al cambiar
+     * de pestaña el número no vuelve a contar, para que el usuario no
+     * vea el bloque "parpadear" cada vez que alterna.
+     */
+    const animateCounters = (panel: HTMLElement) => {
+      const counters = Array.from(
+        panel.querySelectorAll<HTMLElement>("[data-megas-count]"),
+      );
+
+      counters.forEach((counter, index) => {
+        if (counter.dataset.counted === "true") return;
+        counter.dataset.counted = "true";
+
+        const value = Number(counter.dataset.megasValue ?? 0);
+        const card = counter.closest("article");
+        const icon = card?.querySelector<HTMLElement>("[data-plan-icon]");
+
+        // Escalonado: el plan de 80 megas empieza primero y el de 200
+        // al final, lo que refuerza la progresión de velocidad.
+        gsap.delayedCall(index * COUNT_STAGGER, () => {
+          countUp(counter, value, {
+            duration: COUNT_DURATION,
+            onComplete: () => {
+              popNumber(counter);
+              if (icon) pulseIcon(icon);
+            },
+          });
+        });
+      });
+    };
+
+    /**
+     * Al mostrar un panel hay que forzar su estado visible.
+     *
+     * Las tarjetas del panel que no está activo nacen con `hidden`, así
+     * que el reveal por scroll nunca las animó: si la sección ya se
+     * vió, el `gsap.set(opacity: 0)` quedó aplicado y las tarjetas
+     * quedarían invisibles al cambiar de pestaña. `revealNow` existe
+     * exactamente para este caso (contenido mostrado por lógica de
+     * cliente después de que el reveal aplicó su estado inicial).
+     */
+    const showPanel = (panel: HTMLElement) => {
+      const cards = Array.from(
+        panel.querySelectorAll<HTMLElement>("[data-reveal]"),
+      );
+      revealNow(cards);
+      animateCounters(panel);
+    };
+
+    const activateTab = (selectedTab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((tab) => {
+        const isSelected = tab === selectedTab;
+        tab.setAttribute("aria-selected", String(isSelected));
+        tab.tabIndex = isSelected ? 0 : -1;
+
+        const panel = panels.get(tab.getAttribute("aria-controls") ?? "");
+        if (!panel) return;
+
+        panel.hidden = !isSelected;
+        if (isSelected) showPanel(panel);
+      });
+
+      if (focus) selectedTab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activateTab(tab));
+
+      tab.addEventListener("keydown", (event) => {
+        let nextIndex: number;
+
+        switch (event.key) {
+          case "ArrowRight":
+            nextIndex = (index + 1) % tabs.length;
+            break;
+          case "ArrowLeft":
+            nextIndex = (index - 1 + tabs.length) % tabs.length;
+            break;
+          case "Home":
+            nextIndex = 0;
+            break;
+          case "End":
+            nextIndex = tabs.length - 1;
+            break;
+          default:
+            return;
+        }
+
+        event.preventDefault();
+        activateTab(tabs[nextIndex], true);
+      });
+    });
+
+    // El primer panel puede estar ya en el viewport al cargar (por
+    // ejemplo, si el usuario llega por un ancla): en ese caso el
+    // ScrollTrigger no dispararía, así que se inician los contadores
+    // de forma explícita.
+    const firstPanel = panels.get(tabs[0]?.getAttribute("aria-controls") ?? "");
+    if (firstPanel) animateCounters(firstPanel);
+  };
+
+  whenReady(init);
+</script>
