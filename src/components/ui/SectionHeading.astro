@@ -39,7 +39,7 @@ const headingClasses = ["heading-2 text-center text-secondary", className]
 <h2 id={id} class={headingClasses} data-reveal>
   <slot />
 </h2>
-{divider && <SectionDivider class="mt-3 sm:w-36 mx-auto" />}
+{divider && <SectionDivider class="mt-2 sm:w-36 mx-auto" />}
 {
   Astro.slots.has("description") && (
     <p

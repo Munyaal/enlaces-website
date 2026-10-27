@@ -1,9 +1,11 @@
 ---
-import { Image } from "astro:assets";
+import SectionDivider from "../ui/SectionDivider.astro";
 import internetHogar from "../../assets/images/internet-hogar/internet-hogar-enlaces-playa-contrata.png";
+import Container from "../ui/Container.astro";
 import Button from "../ui/Button.astro";
 import { whatsappLink } from "../../utils/constants";
-import SectionDivider from "../ui/SectionDivider.astro";
+import { Image } from "astro:assets";
+
 ---
 
 <section
@@ -12,7 +14,7 @@ import SectionDivider from "../ui/SectionDivider.astro";
   data-reveal-scope="our-commitment"
   class="relative bg-surface-1"
 >
-  <div class="mx-auto w-full max-w-7xl px-6 pt-12 lg:pt-16">
+  <Container>
     <div class="grid items-center gap-10 md:gap-12 lg:grid-cols-12 xl:gap-16">
       <div class="lg:col-span-7 space-y-6">
         <h2
@@ -25,7 +27,7 @@ import SectionDivider from "../ui/SectionDivider.astro";
           >
         </h2>
 
-        <SectionDivider class="mt-3 sm:w-36" />
+        <SectionDivider class="mt-2 sm:w-36" />
 
         <p class="paragraph-md text-secondary/80" data-reveal>
           Encuentra el plan de Internet ideal para tu hogar y disfrutar una
@@ -57,7 +59,7 @@ import SectionDivider from "../ui/SectionDivider.astro";
         />
       </div>
     </div>
-  </div>
+  </Container>
 </section>
 
 <script>
