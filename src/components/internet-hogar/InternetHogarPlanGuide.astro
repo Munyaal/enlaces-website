@@ -1,126 +1,170 @@
 ---
 import { Image } from "astro:assets";
-import { Icon } from "astro-icon/components";
 import guiaLaptop from "../../assets/images/internet-hogar/internet-paquetes-hogar-enlaces-playa.png";
 import Container from "../ui/Container.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
 import CTAButton from "../ui/CTAButton.astro";
-import { PLANES_GUIA, GUIA_CTA } from "../../data/internet-hogar/plan-guide";
+import PlanGuideCard from "./PlanGuideCard.astro";
+import { TECNOLOGIAS } from "../../data/internet-hogar/plans";
+import {
+  GUIA_CTA,
+  GUIA_POR_TECNOLOGIA,
+} from "../../data/internet-hogar/plan-guide";
+
+/** Un bloque por tecnología, en el mismo orden que los tabs. */
+const grupos = TECNOLOGIAS.map(
+  (tecnologia) => GUIA_POR_TECNOLOGIA[tecnologia.id],
+);
 ---
 
 <section
   id="internet-hogar-plan-guide"
-  aria-labelledby="internet-hogar-plan-guide-title"
+  aria-label="Guía para elegir un plan de Internet para hogar"
   data-reveal-scope="internet-hogar-plan-guide"
 >
   <Container>
-    <SectionHeading id="internet-hogar-plan-guide-title" align="center">
-      <span class="block text-primary-on-light">
-        ¿Qué plan de internet por antena
-      </span>
-      <span class="block">es ideal para ti?</span>
-    </SectionHeading>
-
-    <div
-      class="mt-10 grid items-center gap-10 md:mt-14 lg:grid-cols-12 lg:gap-8"
-    >
-      <div class="flex justify-center lg:col-span-4" data-reveal>
-        <Image
-          src={guiaLaptop}
-          alt="Mujer trabajando con una laptop sentada en un puff turquesa"
-          layout="constrained"
-          widths={[320, 420, 540]}
-          sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 80vw"
-          loading="lazy"
-          decoding="async"
-          class="h-auto w-full max-w-sm object-contain lg:max-w-lg"
-        />
-      </div>
-
-      <div class="lg:col-span-8">
-        <div class="grid gap-8 pt-4 sm:grid-cols-3 sm:gap-4 lg:gap-6">
-          {
-            PLANES_GUIA.map((plan) => (
-              <div
-                class:list={[
-                  "relative flex flex-col items-center px-4 pt-10 text-center",
-                  plan.recomendado ? "rounded-3xl bg-secondary/5 pb-8" : "",
-                ]}
-                data-reveal
-              >
-                {plan.recomendado && (
-                  <p class="paragraph-xs absolute -top-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-3 py-1 font-bold uppercase tracking-[0.14em] text-light">
-                    <Icon
-                      name="star-filled"
-                      class="h-3.5 w-3.5"
-                      aria-hidden="true"
-                    />
-                    Recomendado
-                  </p>
-                )}
-
-                <p class="font-display text-[4rem] leading-none font-bold text-secondary sm:text-[4.5rem] lg:text-[5rem]">
-                  {plan.megas}
-                </p>
-                <p class="paragraph-xs font-bold uppercase tracking-[0.3em] text-secondary/80">
-                  Megas
-                </p>
-
-                <p
-                  class:list={[
-                    "paragraph-xs mt-5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1 font-medium uppercase tracking-[0.18em] text-light",
-                    plan.recomendado ? "bg-primary" : "bg-secondary",
-                  ]}
-                >
-                  <span>{plan.etiqueta}</span>
-                  <span
-                    class:list={[
-                      "font-bold",
-                      plan.recomendado ? "" : "text-primary",
-                    ]}
-                  >
-                    {plan.nombre}
-                  </span>
-                </p>
-
-                <ul role="list" class="mt-5 w-full space-y-2 text-left">
-                  {plan.beneficios.map((beneficio) => (
-                    <li class="flex items-start gap-2">
-                      <Icon
-                        name="circle-check-filled"
-                        class="mt-0.5 h-5 w-5 shrink-0 text-accent"
-                        aria-hidden="true"
-                      />
-                      <span class="paragraph-sm text-secondary">
-                        {beneficio}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </div>
-
-        <div class="mt-10 flex justify-center lg:mt-12">
-          <CTAButton
-            as="a"
-            href={GUIA_CTA.href}
-            variant="orange"
-            size="md"
-            target="_blank"
-            rel="noopener noreferrer"
+    {
+      grupos.map((grupo, index) => (
+        <div data-guia-panel={grupo.id} hidden={index !== 0}>
+          <SectionHeading
+            id={`internet-hogar-plan-guide-title-${grupo.id}`}
+            align="center"
           >
-            {GUIA_CTA.label}
-          </CTAButton>
+            <span class="block text-primary-on-light">
+              {grupo.titulo.destacado}
+            </span>
+            <span class="block">{grupo.titulo.resto}</span>
+          </SectionHeading>
+
+          <div class="mt-10 grid items-center gap-10 md:mt-14 lg:grid-cols-12 lg:gap-8">
+            <div class="flex justify-center lg:col-span-4" data-reveal>
+              <Image
+                src={guiaLaptop}
+                alt="Mujer trabajando con una laptop sentada en un puff turquesa"
+                layout="constrained"
+                widths={[320, 420, 540]}
+                sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 80vw"
+                loading="lazy"
+                decoding="async"
+                class="h-auto w-full max-w-sm object-contain lg:max-w-lg"
+              />
+            </div>
+
+            <div class="lg:col-span-8">
+              <div class="grid gap-8 pt-4 sm:grid-cols-3 sm:gap-4 lg:gap-6">
+                {grupo.planes.map((plan) => (
+                  <PlanGuideCard plan={plan} />
+                ))}
+              </div>
+
+              <div class="mt-10 flex justify-center lg:mt-12">
+                <CTAButton
+                  as="a"
+                  href={GUIA_CTA.href}
+                  variant="orange"
+                  size="md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {GUIA_CTA.label}
+                </CTAButton>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ))
+    }
   </Container>
 </section>
 
 <script>
-  import { revealSection } from "../../utils/reveal";
+  import {
+    countMegasIn,
+    revealNow,
+    revealSection,
+    whenReady,
+  } from "../../utils/reveal";
+  import { alCambiarPlanTecnologia } from "../../utils/plan-technology";
+  import type { PlanTechnology } from "../../data/internet-hogar/plans";
 
-  revealSection("internet-hogar-plan-guide", "list");
+  /** Throttle del observer: el bloque es alto en móvil, 0.15 basta. */
+  const VISIBILITY_THRESHOLD = 0.15;
+
+  const init = () => {
+    revealSection("internet-hogar-plan-guide", "list");
+
+    const section = document.getElementById("internet-hogar-plan-guide");
+    if (!section) return;
+
+    const panels = new Map<PlanTechnology, HTMLElement>();
+    section
+      .querySelectorAll<HTMLElement>("[data-guia-panel]")
+      .forEach((panel) => {
+        panels.set(panel.dataset.guiaPanel as PlanTechnology, panel);
+      });
+
+    const firstId = panels.keys().next().value;
+    if (!firstId) return;
+
+    let activeId: PlanTechnology = firstId;
+
+    /**
+     * `false` hasta que la sección entra al viewport. Se usa como
+     * compuerta de los contadores, no del reveal (eso lo maneja
+     * `revealSection`).
+     */
+    let countersArmed = false;
+
+    /** Cuenta los números de un bloque, si la sección ya se vio. */
+    const countPanel = (panel: HTMLElement) => {
+      if (!countersArmed) return;
+      countMegasIn(panel);
+    };
+
+    const showPanel = (id: PlanTechnology) => {
+      const target = panels.get(id);
+      if (!target || id === activeId) return;
+
+      activeId = id;
+
+      panels.forEach((panel, panelId) => {
+        panel.hidden = panelId !== id;
+      });
+
+      revealNow(
+        Array.from(target.querySelectorAll<HTMLElement>("[data-reveal]")),
+      );
+      countPanel(target);
+    };
+
+    alCambiarPlanTecnologia(showPanel);
+
+    const armCounters = () => {
+      if (countersArmed) return;
+      countersArmed = true;
+
+      const panel = panels.get(activeId);
+      if (panel) countMegasIn(panel);
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      // Navegadores antiguos: se cuenta de inmediato, como el tarifario.
+      armCounters();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        observer.disconnect();
+        armCounters();
+      },
+      { threshold: VISIBILITY_THRESHOLD },
+    );
+
+    observer.observe(section);
+  };
+
+  whenReady(init);
 </script>

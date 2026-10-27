@@ -1,0 +1,66 @@
+---
+import { Icon } from "astro-icon/components";
+import type { PlanGuide } from "../../data/internet-hogar/plan-guide";
+
+interface Props {
+  plan: PlanGuide;
+}
+
+const { plan } = Astro.props;
+---
+
+<div
+  class:list={[
+    "relative flex flex-col items-center px-4 pt-10 text-center",
+    plan.recomendado ? "rounded-3xl bg-secondary/5 pb-8" : "",
+  ]}
+  data-reveal
+>
+  {
+    plan.recomendado && (
+      <p class="paragraph-xs absolute -top-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-3 py-1 font-bold uppercase tracking-[0.14em] text-light">
+        <Icon name="star-filled" class="h-3.5 w-3.5" aria-hidden="true" />
+        Recomendado
+      </p>
+    )
+  }
+
+  <p
+    class="font-display text-[4rem] leading-none font-bold text-secondary sm:text-[4.5rem] lg:text-[5rem]"
+  >
+    <span class="sr-only">{plan.megas} megas</span>
+    <span aria-hidden="true" data-megas-count data-megas-value={plan.megas}>
+      {plan.megas}
+    </span>
+  </p>
+  <p class="paragraph-xs font-bold uppercase tracking-[0.3em] text-secondary/80">
+    Megas
+  </p>
+
+  <p
+    class:list={[
+      "paragraph-xs mt-5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1 font-medium uppercase tracking-[0.18em] text-light",
+      plan.recomendado ? "bg-primary" : "bg-secondary",
+    ]}
+  >
+    <span>{plan.etiqueta}</span>
+    <span class:list={["font-bold", plan.recomendado ? "" : "text-primary"]}>
+      {plan.nombre}
+    </span>
+  </p>
+
+  <ul role="list" class="mt-5 w-full space-y-2 text-left">
+    {
+      plan.beneficios.map((beneficio) => (
+        <li class="flex items-start gap-2">
+          <Icon
+            name="circle-check-filled"
+            class="mt-0.5 h-5 w-5 shrink-0 text-accent"
+            aria-hidden="true"
+          />
+          <span class="paragraph-sm text-secondary">{beneficio}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

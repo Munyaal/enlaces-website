@@ -539,3 +539,88 @@ export const countUp = (
     });
   });
 };
+
+/** Opciones del conteo de un grupo de números de megas. */
+export interface MegasCountersOptions {
+  /**
+   * Se invoca después del conteo y del "pop" de cada número. Permite
+   * encadenar acentos propios de cada tarjeta (p. ej. el pulso del icono
+   * del plan destacado del tarifario) sin duplicar el conteo.
+   */
+  onCountComplete?: (counter: HTMLElement) => void;
+}
+
+/** Duración del conteo de megas (segundos). */
+const MEGAS_COUNT_DURATION = 1.6;
+
+/** Desfase entre números: refuerza la progresión de velocidad. */
+const MEGAS_COUNT_STAGGER = 0.15;
+
+/**
+ * "Pop" del número al llegar a su valor final.
+ *
+ * Se anima `scale` (transform), nunca `font-size`: el contrato del sitio
+ * sólo permite animar opacidad y transform, y así el número no reflowea la
+ * tarjeta.
+ */
+const popNumber = (element: HTMLElement): void => {
+  gsap.fromTo(
+    element,
+    { scale: 1 },
+    {
+      scale: 1.15,
+      duration: 0.22,
+      ease: "power2.out",
+      yoyo: true,
+      repeat: 1,
+      clearProps: "transform",
+    },
+  );
+};
+
+/**
+ * Anima todos los `[data-megas-count]` de un contenedor.
+ *
+ * Lo comparten el tarifario (`InternetHogarPlans`) y la guía de elección
+ * (`InternetHogarPlanGuide`): el requerimiento es que la animación sea la
+ * misma en ambos bloques, y tenerla aquí evita que una copia se quede
+ * atrás. El contenedor puede ser una sección, un panel de tabs o una
+ * tarjeta.
+ *
+ * Reglas:
+ *   - Cada número se cuenta **una sola vez** (`data-counted`): alternar
+ *     tabs no reinicia la animación ni hace "parpadear" el bloque.
+ *   - El valor final ya está en el HTML; con `prefers-reduced-motion` esta
+ *     función no altera nada (ver `countUp`).
+ *   - El número animado debe ir en un elemento `aria-hidden` con el valor
+ *     accesible duplicado (`sr-only`), porque durante el conteo el texto
+ *     pasa por valores intermedios.
+ *
+ * @param root    Contenedor donde buscar `[data-megas-count]`.
+ * @param options Callback opcional por número.
+ */
+export const countMegasIn = (
+  root: ParentNode,
+  options: MegasCountersOptions = {},
+): void => {
+  const counters = Array.from(
+    root.querySelectorAll<HTMLElement>("[data-megas-count]"),
+  );
+
+  counters.forEach((counter, index) => {
+    if (counter.dataset.counted === "true") return;
+    counter.dataset.counted = "true";
+
+    const value = Number(counter.dataset.megasValue ?? 0);
+
+    gsap.delayedCall(index * MEGAS_COUNT_STAGGER, () => {
+      countUp(counter, value, {
+        duration: MEGAS_COUNT_DURATION,
+        onComplete: () => {
+          popNumber(counter);
+          options.onCountComplete?.(counter);
+        },
+      });
+    });
+  });
+};

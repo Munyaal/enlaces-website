@@ -1,25 +1,4 @@
 ---
-/**
- * InternetHogarPlans.astro
- *
- * Sección de planes de `/internet-hogar`: un tab pill **centrado** para
- * alternar entre "Fibra óptica" e "Inalámbrico" y, bajo el tab, los tres
- * planes de la tecnología activa.
- *
- * Réplica el patrón de interacción de `about/WhyChooseTabs.astro`
- * (`role="tablist"` + `role="tab"` + `role="tabpanel"`, navegación con
- * flechas, `hidden` en los paneles inactivos), con dos diferencias
- * deliberadas:
- *
- *   1. El tablist es una píldora flotante centrada (`mx-auto inline-flex`),
- *      no una barra que ocupa todo el ancho.
- *   2. Los paneles se localizan por el scope de la sección, no por un id
- *      global, para que el componente no dependa de ids únicos externos.
- *
- * Ambos paneles se renderizan en SSR: sin JS queda visible el de fibra
- * óptica (el activo por defecto) y el de inalámbrico permanece oculto.
- * El contenido sigue siendo indexable por los buscadores.
- */
 import PlanPriceCard from "./PlanPriceCard.astro";
 import {
   TECNOLOGIAS,
@@ -53,6 +32,7 @@ const ICONOS: Record<PlanTechnology, string> = {
               role="tab"
               aria-selected={index === 0 ? "true" : "false"}
               aria-controls={`panel-${tecnologia.id}`}
+              data-tecnologia={tecnologia.id}
               tabindex={index === 0 ? 0 : -1}
               class="min-h-11 flex-1 cursor-pointer rounded-full bg-secondary px-5 py-2.5 text-lg font-semibold text-light transition-colors duration-200 hover:bg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:ring-offset-0 aria-selected:bg-primary aria-selected:shadow-md"
             >
@@ -96,47 +76,15 @@ const ICONOS: Record<PlanTechnology, string> = {
 
 <script>
   import {
-    countUp,
+    countMegasIn,
     revealNow,
     revealSection,
     whenReady,
   } from "../../utils/reveal";
+  import { emitirPlanTecnologia } from "../../utils/plan-technology";
+  import type { PlanTechnology } from "../../data/internet-hogar/plans";
   import { gsap } from "gsap";
 
-  /** Duración del conteo de megas (segundos). */
-  const COUNT_DURATION = 1.6;
-
-  /** Desfase entre tarjetas para que los megas suban en cascada. */
-  const COUNT_STAGGER = 0.15;
-
-  /**
-   * Pop del número al llegar al valor final.
-   *
-   * Se anima `scale` (transform), nunca `font-size`: el contrato del
-   * sitio sólo permite animar opacidad y transform, y así el número no
-   * reflowea la tarjeta.
-   */
-  const popNumber = (element: HTMLElement) => {
-    gsap.fromTo(
-      element,
-      { scale: 1 },
-      {
-        scale: 1.15,
-        duration: 0.22,
-        ease: "power2.out",
-        yoyo: true,
-        repeat: 1,
-        clearProps: "transform",
-      },
-    );
-  };
-
-  /**
-   * Pulso del ícono de la tarjeta destacada.
-   *
-   * Sólo se aplica al plan destacado (`data-plan-icon`): es el acento
-   * visual que diferencia la tarjeta central de las laterales.
-   */
   const pulseIcon = (element: HTMLElement) => {
     gsap.fromTo(
       element,
@@ -176,47 +124,23 @@ const ICONOS: Record<PlanTechnology, string> = {
     /**
      * Anima los contadores de megas de un panel.
      *
-     * Sólo se ejecuta una vez por tarjeta (`data-counted`): al cambiar
-     * de pestaña el número no vuelve a contar, para que el usuario no
-     * vea el bloque "parpadear" cada vez que alterna.
+     * El conteo (duración, stagger, guarda `data-counted` y pop del
+     * número) vive en `countMegasIn` porque la guía de elección
+     * (`InternetHogarPlanGuide`) usa la misma animación. Aquí sólo se
+     * añade el pulso del ícono al terminar cada número.
      */
     const animateCounters = (panel: HTMLElement) => {
-      const counters = Array.from(
-        panel.querySelectorAll<HTMLElement>("[data-megas-count]"),
-      );
+      countMegasIn(panel, {
+        onCountComplete: (counter) => {
+          const icon = counter
+            .closest("article")
+            ?.querySelector<HTMLElement>("[data-plan-icon]");
 
-      counters.forEach((counter, index) => {
-        if (counter.dataset.counted === "true") return;
-        counter.dataset.counted = "true";
-
-        const value = Number(counter.dataset.megasValue ?? 0);
-        const card = counter.closest("article");
-        const icon = card?.querySelector<HTMLElement>("[data-plan-icon]");
-
-        // Escalonado: el plan de 80 megas empieza primero y el de 200
-        // al final, lo que refuerza la progresión de velocidad.
-        gsap.delayedCall(index * COUNT_STAGGER, () => {
-          countUp(counter, value, {
-            duration: COUNT_DURATION,
-            onComplete: () => {
-              popNumber(counter);
-              if (icon) pulseIcon(icon);
-            },
-          });
-        });
+          if (icon) pulseIcon(icon);
+        },
       });
     };
 
-    /**
-     * Al mostrar un panel hay que forzar su estado visible.
-     *
-     * Las tarjetas del panel que no está activo nacen con `hidden`, así
-     * que el reveal por scroll nunca las animó: si la sección ya se
-     * vió, el `gsap.set(opacity: 0)` quedó aplicado y las tarjetas
-     * quedarían invisibles al cambiar de pestaña. `revealNow` existe
-     * exactamente para este caso (contenido mostrado por lógica de
-     * cliente después de que el reveal aplicó su estado inicial).
-     */
     const showPanel = (panel: HTMLElement) => {
       const cards = Array.from(
         panel.querySelectorAll<HTMLElement>("[data-reveal]"),
@@ -237,6 +161,11 @@ const ICONOS: Record<PlanTechnology, string> = {
         panel.hidden = !isSelected;
         if (isSelected) showPanel(panel);
       });
+
+      const tecnologia = selectedTab.dataset.tecnologia as
+        | PlanTechnology
+        | undefined;
+      if (tecnologia) emitirPlanTecnologia(tecnologia);
 
       if (focus) selectedTab.focus();
     };
@@ -269,10 +198,6 @@ const ICONOS: Record<PlanTechnology, string> = {
       });
     });
 
-    // El primer panel puede estar ya en el viewport al cargar (por
-    // ejemplo, si el usuario llega por un ancla): en ese caso el
-    // ScrollTrigger no dispararía, así que se inician los contadores
-    // de forma explícita.
     const firstPanel = panels.get(tabs[0]?.getAttribute("aria-controls") ?? "");
     if (firstPanel) animateCounters(firstPanel);
   };
