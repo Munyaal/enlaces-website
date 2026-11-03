@@ -14,7 +14,6 @@ export const NAV_URLS = {
   home: "/",
   homeInternet: "/internet-hogar",
   businessInternet: "/internet-empresas",
-  coverage: "/cobertura",
   aboutUs: "/nosotros",
   help: "/ayuda",
   contact: "/contacto",
@@ -29,7 +28,6 @@ export interface NavLink {
 export const NAV_LINKS: NavLink[] = [
   { label: "Internet para Hogar", href: NAV_URLS.homeInternet },
   { label: "Internet para Empresas", href: NAV_URLS.businessInternet },
-  { label: "Cobertura", href: NAV_URLS.coverage },
   { label: "Nosotros", href: NAV_URLS.aboutUs },
   { label: "Ayuda", href: NAV_URLS.help },
   { label: "Contacto", href: NAV_URLS.contact },
