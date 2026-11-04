@@ -23,6 +23,45 @@ import {
 /** Endpoint al que el formulario envía los datos. Placeholder por definir. */
 export const CONTACT_ENDPOINT = "https://api.example.com/contacto";
 
+/**
+ * API key de Google Maps Embed API
+ * (https://developers.google.com/maps/documentation/embed/get-api-key).
+ *
+ * El iframe clásico (`?q=…&output=embed`) funciona sin key, así que el
+ * mapa de `UbicacionSection` se renderiza igual aunque este valor esté
+ * vacío. Cuando se disponga de una key, `buildMapEmbedSrc()` cambia al
+ * endpoint oficial `/maps/embed/v1/place`, que requiere key y da más
+ * control (idioma, zoom, estilo). Basta pegar el valor aquí: el markup
+ * no cambia.
+ */
+export const GOOGLE_MAPS_API_KEY = "";
+
+/**
+ * Dirección usada como consulta del mapa.
+ *
+ * Es una versión "limpia" de `SITE.direccion` (sin el prefijo "Enlaces
+ * Playa, una empresa de Grupo Webtel…"), porque ese rótulo ensucia la
+ * geocodificación sin aportar al pin. Debe mantenerse alineada con la
+ * dirección real; `SITE.direccion` sigue siendo la fuente canónica.
+ */
+const MAP_QUERY =
+  "Calle 72 entre Av. Sian Ka'an y Carr. Federal, Mza. 026 Lote 03, Col. Ejidal, 77714 Playa del Carmen, Quintana Roo";
+
+/**
+ * Construye la URL del iframe de Google Maps según haya o no API key.
+ *
+ * Con key usa la Embed API oficial; sin ella cae al embed clásico sin
+ * key, de modo que la sección funciona desde el primer despliegue y no
+ * depende de un secreto que aún no existe en el proyecto.
+ */
+export const buildMapEmbedSrc = (): string => {
+  const query = encodeURIComponent(MAP_QUERY);
+
+  return GOOGLE_MAPS_API_KEY
+    ? `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${query}`
+    : `https://www.google.com/maps?q=${query}&output=embed`;
+};
+
 /** Forma de un campo del formulario de contacto. */
 export interface ContactField {
   /** Identificador estable (`id` / `name` / `for` del control). */

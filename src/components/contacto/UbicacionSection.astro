@@ -1,0 +1,54 @@
+---
+/**
+ * Sección de mapa de `/contacto`.
+ *
+ * Muestra la ubicación de las oficinas en un iframe de Google Maps. Se
+ * separa de `ContactSection` (que ya muestra una imagen estática del mapa
+ * enlazada a Google Maps) porque el iframe es un recurso de terceros
+ * pesado: va debajo del pliegue, carga diferido (`loading="lazy"`) y no
+ * compite con el formulario ni con la primera lectura de los canales de
+ * contacto.
+ *
+ * La URL del embed se construye en `buildMapEmbedSrc()` (data/contact) y
+ * no se escribe inline, de modo que la API key —cuando exista— nunca
+ * quede expuesta en el markup de cada página.
+ *
+ * La sección va a sangre: sin `Container` ni card, para que el mapa
+ * ocupe todo el ancho del viewport sin gutters. El encabezado sí conserva
+ * un padding horizontal propio (`px-6`) para no pegarse a los bordes; el
+ * mapa queda a sangre.
+ */
+import SectionHeading from "../ui/SectionHeading.astro";
+import { buildMapEmbedSrc } from "../../data/contact";
+
+const mapSrc = buildMapEmbedSrc();
+---
+
+<section
+  id="ubicacion"
+  aria-labelledby="ubicacion-title"
+  data-reveal-scope="contacto-mapa"
+  class="relative bg-surface-1"
+>
+  <div class="px-6 pb-10 lg:py-20 max-w-6xl mx-auto">
+    <SectionHeading id="ubicacion-title" align="center">
+      Nuestras ubicaciones en{" "}<span class="text-primary"
+        >Playa del Carmen, Tulum y Puerto Morelos</span
+      >
+    </SectionHeading>
+  </div>
+
+  <iframe
+    src={mapSrc}
+    title="Mapa de la ubicación de Enlaces Playa en Playa del Carmen"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"
+    class="block h-[28rem] w-full border-0 lg:h-[34rem]"></iframe>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("contacto-mapa");
+</script>
