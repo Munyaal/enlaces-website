@@ -1,0 +1,65 @@
+---
+/**
+ * EmpresasStats.astro
+ *
+ * Banda navy con tres datos de la empresa en `/internet-empresas`: los años
+ * de operación, el soporte técnico local y la cobertura regional.
+ *
+ * Decisiones:
+ *
+ *   1. El primer dato se muestra como número display ("+11") y los otros
+ *      dos como icono, por eso el array modela cada elemento con `valor` o
+ *      `icono`. Se renderizan en una sola pasada para no duplicar markup.
+ *   2. Es una lista `<ul role="list">` (Safari colapsa el `role` implícito
+ *      si hay `list-style` custom), no una pila de párrafos.
+ *   3. Los iconos son decorativos y van `aria-hidden`; el texto es el que
+ *      comunica.
+ */
+import { Icon } from "astro-icon/components";
+import Container from "../ui/Container.astro";
+
+/** Cada dato: o un valor numérico grande, o un icono + su etiqueta. */
+const stats = [
+  { valor: "+11", texto: "Años conectando hogares y empresas" },
+  { icono: "tool", texto: "Soporte técnico local" },
+  { icono: "map-pin", texto: "Cobertura de Internet en la Riviera Maya" },
+] as const;
+---
+
+<section
+  id="empresas-stats"
+  aria-label="Enlaces Playa en números"
+  data-reveal-scope="empresas-stats"
+  class="bg-secondary"
+>
+  <Container>
+    <ul role="list" class="grid gap-10 text-center sm:grid-cols-3 sm:gap-6">
+      {
+        stats.map((stat) => (
+          <li class="flex flex-col items-center gap-3" data-reveal>
+            {"valor" in stat ? (
+              <span class="font-display text-5xl font-bold text-primary md:text-6xl">
+                {stat.valor}
+              </span>
+            ) : (
+              <Icon
+                name={stat.icono}
+                class="h-10 w-10 text-light"
+                aria-hidden="true"
+              />
+            )}
+            <span class="paragraph-md max-w-xs text-balance text-light">
+              {stat.texto}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("empresas-stats", "list");
+</script>

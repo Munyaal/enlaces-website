@@ -1,0 +1,57 @@
+---
+/**
+ * ReadyToGetwork.astro
+ *
+ * CTA final de `/internet-empresas`: "Estamos aquí para mantenerte
+ * conectado". A diferencia de la versión de hogar (que lleva imagen a la
+ * derecha y encabezado a la izquierda), el mockup de empresa lo muestra
+ * centrado, sin imagen.
+ *
+ * Usa `SectionHeading` centrado con descripción y `Button` con
+ * `brand-whatsapp`, apuntando a `SITE.whatsapp` porque la acción real es
+ * "escribir a un asesor", no volver al formulario de contacto.
+ */
+import SectionHeading from "../ui/SectionHeading.astro";
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import { SITE } from "../../data/site";
+---
+
+<section
+  id="our-commitment"
+  aria-labelledby="our-commitment-title"
+  data-reveal-scope="our-commitment"
+  class="relative bg-surface-1"
+>
+  <Container>
+    <div class="mx-auto max-w-3xl text-center">
+      <SectionHeading id="our-commitment-title">
+        Estamos aquí{" "}
+        <span class="text-primary-on-light">para mantenerte conectado</span>
+        <Fragment slot="description">
+          En Enlaces Playa te ayudamos a encontrar una solución de internet
+          para las necesidades de tu empresa.
+        </Fragment>
+      </SectionHeading>
+
+      <div class="mt-8" data-reveal>
+        <Button
+          as="a"
+          href={SITE.whatsapp}
+          size="lg"
+          icon="brand-whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Escríbenos por Whatsapp
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("our-commitment");
+</script>

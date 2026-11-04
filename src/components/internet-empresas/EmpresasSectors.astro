@@ -1,0 +1,92 @@
+---
+/**
+ * EmpresasSectors.astro
+ *
+ * Sección "Sectores que conectamos en la Riviera Maya" de `/internet-empresas`:
+ * encabezado centrado con descripción, rejilla 2×2 de tarjetas por sector y
+ * un CTA de WhatsApp al pie.
+ *
+ * Decisiones:
+ *
+ *   1. Las tarjetas se alimentan de `SECTORES` (`src/data/internet-empresas/
+ *      sectores.ts`): el componente es sólo presentación y el copy + las
+ *      imágenes se editan en el dato.
+ *   2. La imagen va arriba con `aspect-[4/3]` + `object-cover` para que las
+ *      cuatro tarjetas conserven la misma altura sin recortar de forma
+ *      extraña; Astro emite width/height, así que el layout no salta.
+ *   3. El CTA repite el patrón de `EmpresasSolution`: `Button` con
+ *      `brand-whatsapp`, apuntando a `SITE.whatsapp`.
+ */
+import { Image } from "astro:assets";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import Button from "../ui/Button.astro";
+import { SITE } from "../../data/site";
+import { SECTORES } from "../../data/internet-empresas/sectores";
+---
+
+<section
+  id="empresas-sectors"
+  aria-labelledby="empresas-sectors-title"
+  data-reveal-scope="empresas-sectors"
+  class="bg-light"
+>
+  <Container>
+    <SectionHeading id="empresas-sectors-title">
+      Sectores que conectamos{" "}
+      <span class="text-primary-on-light">en la Riviera Maya</span>
+      <Fragment slot="description">
+        En Enlaces Playa ofrecemos soluciones de internet empresarial para
+        distintos sectores, conociendo las necesidades de conectividad de
+        hoteles, inmobiliarias, oficinas y negocios de la región.
+      </Fragment>
+    </SectionHeading>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 md:mt-12">
+      {
+        SECTORES.map((sector) => (
+          <article
+            class="group overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg"
+            data-reveal
+          >
+            <Image
+              src={sector.imagen}
+              alt={sector.alt}
+              layout="constrained"
+              widths={[320, 480, 640, 800]}
+              sizes="(min-width: 640px) 50vw, 100vw"
+              loading="lazy"
+              decoding="async"
+              class="aspect-[4/3] w-full object-cover"
+            />
+            <div class="p-6">
+              <h3 class="heading-6 text-secondary">{sector.titulo}</h3>
+              <p class="paragraph-sm mt-3 text-secondary/80">
+                {sector.descripcion}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 flex justify-center md:mt-12" data-reveal>
+      <Button
+        as="a"
+        href={SITE.whatsapp}
+        size="lg"
+        icon="brand-whatsapp"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Cotiza por Whatsapp
+      </Button>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("empresas-sectors", "list");
+</script>

@@ -1,0 +1,100 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import modem from "../../assets/images/internet-hogar/internet-hogar-enlaces-playa.png";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import { parseBoldSegments } from "../../utils/bold-text";
+
+/**
+ * Beneficios de `/internet-empresas`: a la izquierda el listado, a la
+ * derecha el módem.
+ *
+ * Es un clon de `WhyChoseHogar` con ids/scope propios. Se mantienen los
+ * mismos cuatro beneficios (el copy es idéntico en el mockup de empresa):
+ *
+ *   1. El copy se escribe como texto plano con marcadores `**...**` y se
+ *      parte con `parseBoldSegments` (`src/utils/bold-text.ts`), la misma
+ *      convención de `about/WhyChooseTabs.astro`.
+ *   2. El listado es un `<ul role="list">` real, no una pila de párrafos.
+ *   3. El icono va en un círculo decorativo naranja con `aria-hidden`.
+ *   4. El `id` es `why-chose-empresas` y no `our-commitment` porque esta
+ *      página también renderiza `ReadyToGetwork`, que ya usa ese id/scope.
+ */
+const beneficios = [
+  {
+    icon: "calendar-check",
+    copy: "**11 años conectando hogares y negocios** con internet en la Riviera Maya.",
+  },
+  {
+    icon: "tool",
+    copy: "**Instalación de internet** en 1 o 2 días hábiles, **con técnicos locales.**",
+  },
+  {
+    icon: "clock",
+    copy: "**Soporte técnico de internet** con respuesta en menos de 2 horas.",
+  },
+  {
+    icon: "file-text",
+    copy: "Internet con **contrato flexible**, garantía de **velocidad** y **soluciones a la medida**.",
+  },
+] as const;
+---
+
+<section
+  id="why-chose-empresas"
+  aria-labelledby="why-chose-empresas-title"
+  data-reveal-scope="why-chose-empresas"
+  class="relative bg-surface-1"
+>
+  <Container>
+    <SectionHeading id="why-chose-empresas-title" align="left">
+      ¿Por qué elegir{" "}
+      <span class="text-primary-on-light">Enlaces Playa?</span>
+    </SectionHeading>
+    <div class="mt-8 grid items-start gap-10 md:mt-10 md:gap-12 lg:grid-cols-2 xl:gap-16">
+      <ul role="list" class="space-y-5 md:space-y-6">
+        {
+          beneficios.map((beneficio) => (
+            <li class="flex items-start gap-4" data-reveal>
+              <span
+                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-light"
+                aria-hidden="true"
+              >
+                <Icon name={beneficio.icon} class="h-6 w-6" />
+              </span>
+              <p class="paragraph-md text-secondary">
+                {parseBoldSegments(beneficio.copy).map((segmento) =>
+                  segmento.bold ? (
+                    <strong class="font-bold">{segmento.text}</strong>
+                  ) : (
+                    segmento.text
+                  ),
+                )}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="flex justify-center" data-reveal>
+        <Image
+          src={modem}
+          alt="Módem con señal Wi-Fi y el logotipo de Enlaces Playa"
+          layout="constrained"
+          widths={[320, 420, 540]}
+          sizes="(min-width: 1024px) 36vw, (min-width: 768px) 50vw, 90vw"
+          loading="lazy"
+          decoding="async"
+          class="h-auto w-full max-w-md object-contain lg:max-w-lg"
+        />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("why-chose-empresas");
+</script>

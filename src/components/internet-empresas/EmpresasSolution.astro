@@ -1,0 +1,96 @@
+---
+/**
+ * EmpresasSolution.astro
+ *
+ * Sección "¿Qué solución necesita tu empresa?" de `/internet-empresas`:
+ * a la izquierda el encabezado, dos párrafos y el CTA de WhatsApp; a la
+ * derecha la imagen del ejecutivo.
+ *
+ * Decisiones:
+ *
+ *   1. El encabezado va por `SectionHeading` (h2 + divisor) para conservar
+ *      el ritmo visual del resto del sitio, con "necesita" en el naranja de
+ *      marca.
+ *   2. El CTA usa `Button` con icono `brand-whatsapp` (no `CTAButton`) para
+ *      reforzar la lectura del canal, igual que `ReadyToGetwork` de hogar.
+ *   3. La imagen es decorativa de contexto (un asesor/ejecutivo), así que
+ *      el `alt` describe la escena y no repite el titular.
+ */
+import { Image } from "astro:assets";
+import ejecutivo from "../../assets/images/internet-empresas/ejecutivo-empresa-enlaces-playa.png";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import Button from "../ui/Button.astro";
+import { SITE } from "../../data/site";
+---
+
+<section
+  id="empresas-solution"
+  aria-labelledby="empresas-solution-title"
+  data-reveal-scope="empresas-solution"
+  class="bg-light"
+>
+  <Container>
+    <div class="grid items-center gap-10 md:gap-12 lg:grid-cols-2 xl:gap-16">
+      <div>
+        <SectionHeading id="empresas-solution-title" align="left">
+          ¿Qué solución <span class="text-primary-on-light"
+            >necesita tu empresa?</span
+          >
+        </SectionHeading>
+
+        <div class="mt-6 space-y-4">
+          <p class="paragraph-md text-secondary" data-reveal>
+            Cada empresa tiene necesidades de conectividad diferentes. {
+              " "
+            }<span class="font-semibold"
+              >En Enlaces Playa ofrecemos soluciones de internet empresarial en
+              la Riviera Maya para hoteles, inmobiliarias, oficinas y negocios</span
+            >{" "}que necesitan mantener sus operaciones conectadas.
+          </p>
+          <p class="paragraph-md text-secondary" data-reveal>
+            Te ayudamos a {" "}
+            <span class="font-semibold">encontrar una opción adecuada</span>
+            {" "} según el número de usuarios, los dispositivos y las actividades
+            de tu empresa,{" "}
+            <span class="font-semibold"
+              >con atención cercana y soporte técnico local.</span
+            >
+          </p>
+        </div>
+
+        <div class="mt-8" data-reveal>
+          <Button
+            as="a"
+            href={SITE.whatsapp}
+            size="lg"
+            icon="brand-whatsapp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Cotiza por Whatsapp
+          </Button>
+        </div>
+      </div>
+
+      <div class="flex justify-center" data-reveal>
+        <Image
+          src={ejecutivo}
+          alt="Ejecutivo de Enlaces Playa con uniforme de la empresa"
+          layout="constrained"
+          widths={[320, 420, 540]}
+          sizes="(min-width: 1024px) 36vw, (min-width: 768px) 50vw, 90vw"
+          loading="lazy"
+          decoding="async"
+          class="h-auto w-full max-w-md object-contain lg:max-w-lg"
+        />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("empresas-solution");
+</script>
