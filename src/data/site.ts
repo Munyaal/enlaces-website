@@ -36,6 +36,14 @@ export const SITE = {
 const telHref = (numero: string): string => `tel:+52${sanitizePhone(numero)}`;
 
 /**
+ * Construye el destino `wa.me` a partir del número visible. Mismo principio
+ * que `telHref`: se deriva del valor que se muestra para que el enlace y el
+ * texto no puedan divergir.
+ */
+const waHref = (numero: string): string =>
+  `https://wa.me/52${sanitizePhone(numero)}`;
+
+/**
  * Teléfono comercial principal (`984 184 5726`).
  *
  * Lo usan el CTA del navbar, `PhoneCTAButton`, la página de contacto y el
@@ -53,11 +61,13 @@ export const TELEFONO_PRINCIPAL = {
  *
  * Antes vivía como constante local en `data/internet-hogar/faqs.ts`. Se
  * centraliza aquí junto al resto de los teléfonos por canal para que la
- * página de contacto y las FAQ no puedan divergir.
+ * página de contacto y las FAQ no puedan divergir. `whatsapp` es el enlace
+ * `wa.me` que usa el footer para el acceso directo a soporte.
  */
 export const TELEFONO_SOPORTE = {
   value: "984 116 3005",
   href: telHref("984 116 3005"),
+  whatsapp: waHref("984 116 3005"),
 } as const;
 
 /** Forma de un canal de contacto mostrado en el footer. */

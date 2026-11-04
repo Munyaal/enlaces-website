@@ -6,12 +6,12 @@
  * cambio de ruta obligaba a editar markup. El componente queda reducido a
  * composición.
  *
- * Rutas: los enlaces apuntan solo a páginas que existen. Las que no tienen
- * ruta propia (detalle por zona, soporte técnico dedicado) apuntan a la
- * página que hoy cubre ese contenido —`/cobertura` y `/ayuda`— en lugar de
- * dejar `href="#"`.
+ * Las columnas «Internet» y «Cobertura» son texto plano a propósito: la
+ * coordinadora de marketing las mantenía como enlaces solo por SEO, así que
+ * se modelan como `string[]` y se renderizan sin `<a>`. La columna
+ * «Recursos» sí conserva enlaces.
  */
-import { SITE } from "./site";
+import { SITE, TELEFONO_SOPORTE } from "./site";
 
 /** Tagline aprobada: posicionamiento del sitio. */
 export const TAGLINE =
@@ -21,33 +21,39 @@ export const TAGLINE =
 export interface FooterLink {
   href: string;
   text: string;
+  /** Abre en pestaña nueva (WhatsApp) con `rel` de seguridad. */
+  externo?: boolean;
 }
 
-/** Columna Internet — cuatro enlaces principales de producto. */
-export const INTERNET_LINKS: FooterLink[] = [
-  { href: "/internet-hogar", text: "Internet para Hogar" },
-  { href: "/internet-empresas", text: "Planes de Internet" },
-  { href: "/internet-hogar", text: "Fibra Óptica" },
-  { href: "/internet-hogar", text: "Internet Inalámbrico" },
+/** Columna Internet — texto plano, sin enlaces. */
+export const INTERNET_ITEMS: string[] = [
+  "Internet para Hogar",
+  "Planes de Internet",
+  "Fibra Óptica",
+  "Internet Inalámbrico",
 ];
 
 /**
- * Columna Cobertura — tres enlaces de zona.
+ * Columna Cobertura — texto plano, sin enlaces.
  *
  * No existen rutas por ciudad (`/cobertura/playa-del-carmen`, etc.), así que
- * las tres apuntan al listado de cobertura en lugar de a un `#`.
+ * antes apuntaban al listado de cobertura; hoy son solo texto.
  */
-export const COBERTURA_LINKS: FooterLink[] = [
-  { href: "/cobertura", text: "Cobertura en Playa del Carmen" },
-  { href: "/cobertura", text: "Cobertura en Puerto Morelos" },
-  { href: "/cobertura", text: "Cobertura en Tulum" },
+export const COBERTURA_ITEMS: string[] = [
+  "Cobertura en Playa del Carmen",
+  "Cobertura en Puerto Morelos",
+  "Cobertura en Tulum",
 ];
 
-/** Sub-bloque Recursos — tres enlaces de soporte y contenido. */
+/** Sub-bloque Recursos — enlaces de soporte y contenido. */
 export const RECURSOS_LINKS: FooterLink[] = [
   { href: "/blog", text: "Blog" },
-  { href: "/preguntas-frecuentes", text: "Preguntas frecuentes" },
-  { href: "/ayuda", text: "Soporte técnico" },
+  { href: "/ayuda", text: "Preguntas frecuentes" },
+  {
+    href: TELEFONO_SOPORTE.whatsapp,
+    text: "Soporte técnico",
+    externo: true,
+  },
 ];
 
 /** Franja Portal de Cliente — copy y CTA outline. */
@@ -57,8 +63,8 @@ export const PORTAL_CLIENTE = {
   label: "Iniciar sesión",
 } as const;
 
-/** Franja legal — enlaces a documentos. */
-export const LEGAL_LINKS: FooterLink[] = [
-  { href: "/terminos-y-condiciones", text: "Términos y Condiciones" },
-  { href: "/aviso-de-privacidad", text: "Aviso de Privacidad" },
+/** Franja legal — texto plano, sin enlaces (por ahora). */
+export const LEGAL_ITEMS: string[] = [
+  "Términos y Condiciones",
+  "Aviso de Privacidad",
 ];

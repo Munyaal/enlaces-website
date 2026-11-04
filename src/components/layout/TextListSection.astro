@@ -1,0 +1,39 @@
+---
+/**
+ * Sección de columna del footer con lista de texto plano (sin enlaces).
+ *
+ * Existe junto a `HyperlinksSection` porque las columnas «Internet» y
+ * «Cobertura» dejaron de ser enlaces: la coordinadora de marketing los
+ * mantenía solo por SEO. Comparte el encabezado (icono + título) con
+ * `HyperlinksSection`, pero renderiza `<li>` sin `<a>` y sin `<nav>` (ya no
+ * es navegación).
+ */
+import { Icon } from "astro-icon/components";
+
+type Props = {
+  sectionName: string;
+  sectionIcon: string;
+  items: Array<string>;
+};
+
+const { sectionName, sectionIcon, items } = Astro.props;
+---
+
+<div>
+  <div class="flex items-baseline gap-2">
+    <Icon name={sectionIcon} class="w-5 h-5 text-primary" />
+    <h3 class="paragraph-sm font-bold text-accent">
+      {sectionName}
+    </h3>
+  </div>
+
+  <ul class="mt-1 ml-3 space-y-0.5 paragraph-xs list-disc list-inside">
+    {
+      items.map((item) => (
+        <li class="text-light/80">
+          {item}
+        </li>
+      ))
+    }
+  </ul>
+</div>

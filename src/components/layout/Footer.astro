@@ -1,5 +1,6 @@
 ---
 import HyperlinksSection from "./HyperlinksSection.astro";
+import TextListSection from "./TextListSection.astro";
 import enlacesLogo from "../../assets/images/brand/enlaces-logo-letras-blancas.png";
 import Container from "../ui/Container.astro";
 import Button from "../ui/Button.astro";
@@ -8,9 +9,9 @@ import CustomerServiceHyperlinks from "./CustomerServiceHyperlinks.astro";
 import { SITE } from "../../data/site";
 import { NAV_URLS } from "../../data/navigation";
 import {
-  COBERTURA_LINKS,
-  INTERNET_LINKS,
-  LEGAL_LINKS,
+  COBERTURA_ITEMS,
+  INTERNET_ITEMS,
+  LEGAL_ITEMS,
   PORTAL_CLIENTE,
   RECURSOS_LINKS,
   TAGLINE,
@@ -54,20 +55,20 @@ const year = new Date().getFullYear();
       </div>
 
       <!-- Columna 2 — Internet -->
-      <nav class="space-y-4">
-        <HyperlinksSection
+      <div class="space-y-4">
+        <TextListSection
           sectionName="Internet"
           sectionIcon="wifi"
-          links={INTERNET_LINKS}
+          items={INTERNET_ITEMS}
         />
-      </nav>
+      </div>
 
       <!-- Columna 3 — Cobertura + Recursos -->
       <div class="space-y-4">
-        <HyperlinksSection
+        <TextListSection
           sectionName="Cobertura"
           sectionIcon="broadcast-tower"
-          links={COBERTURA_LINKS}
+          items={COBERTURA_ITEMS}
         />
         <HyperlinksSection
           sectionName="Recursos"
@@ -111,21 +112,7 @@ const year = new Date().getFullYear();
     <div class="flex flex-col justify-center items-center text-center gap-3">
       <p class="text-xs text-accent">
         © {year} Enlaces Playa · Todos los derechos reservados.{" "}
-        {
-          LEGAL_LINKS.map((link, idx) => (
-            <Fragment>
-              <a
-                href={link.href}
-                class="transition-colors hover:text-light focus-visible:outline-none focus-visible:underline"
-              >
-                {link.text}
-              </a>
-              {idx < LEGAL_LINKS.length - 1 && (
-                <span aria-hidden="true"> · </span>
-              )}
-            </Fragment>
-          ))
-        }
+        {LEGAL_ITEMS.join(" · ")}
       </p>
       <address class="text-xs text-accent">
         {SITE.direccion}
