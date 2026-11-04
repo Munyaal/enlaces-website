@@ -22,7 +22,7 @@ export const SITE = {
   url: "https://enlacesplaya.com.mx",
   email: "hola@enlacesplaya.com.mx",
   direccion:
-    "Enlaces Playa, una empresa de Grupo Webtel, Calle 72 entre Av. Sian Ka'an y Carr. Federal, Mza. 026, Lote 0, Col. Ejidal, C.P. 77714, Playa del Carmen, Q. Roo.",
+    "Enlaces Playa, una empresa de Grupo Webtel, Calle 72 entre Av. Sian Ka'an y Carr. Federal, Mza. 026, Lote 03, Col. Ejidal, C.P. 77714, Playa del Carmen, Q. Roo.",
   portalCliente: "https://portal.enlacesplaya.com.mx/cliente/login",
   whatsapp: "https://wa.me/529841845726",
   mapaOficinas: "https://maps.app.goo.gl/g1xk8DjxTot7QoTr5",
@@ -46,6 +46,18 @@ export const TELEFONO_PRINCIPAL = {
   value: "984 184 5726",
   href: telHref("984 184 5726"),
   jsonLd: "+52-984-184-5726",
+} as const;
+
+/**
+ * Número de soporte técnico (`984 116 3005`).
+ *
+ * Antes vivía como constante local en `data/internet-hogar/faqs.ts`. Se
+ * centraliza aquí junto al resto de los teléfonos por canal para que la
+ * página de contacto y las FAQ no puedan divergir.
+ */
+export const TELEFONO_SOPORTE = {
+  value: "984 116 3005",
+  href: telHref("984 116 3005"),
 } as const;
 
 /** Forma de un canal de contacto mostrado en el footer. */

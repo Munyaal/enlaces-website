@@ -1,0 +1,143 @@
+---
+/**
+ * Formulario de contacto de `/contacto`.
+ *
+ * El sitio es 100% estático: el formulario no tiene backend propio. Al
+ * enviarlo, un `<script>` de cliente hace `fetch` POST con JSON hacia
+ * `CONTACT_ENDPOINT` (definido en `src/data/contact.ts`, aún por crear).
+ * Las etiquetas, placeholders y copias de estado viven en el mismo data
+ * para que el contenido no se duplique en el markup.
+ *
+ * Se renderiza dentro del card de `ContactSection`, por eso los campos van
+ * en una sola columna y el formulario ocupa todo el ancho del card. No
+ * lleva `data-reveal`: igual que `CoverageForm`, ningún control debe
+ * quedar oculto mientras la sección espera su entrada al viewport.
+ */
+import Button from "../ui/Button.astro";
+import { CONTACT_FIELDS, CONTACT_FORM } from "../../data/contact";
+
+/**
+ * Clases base de los controles de texto. Comparten borde, tipografía y
+ * foco para que input y textarea no puedan divergir. `bg-light` sobre la
+ * superficie clara del card define los campos por su borde (`line`), no
+ * por contraste de fondo.
+ */
+const controlBase =
+  "w-full rounded-xl border border-line bg-light px-4 py-3 paragraph-md text-secondary placeholder-gray-400 transition-[border-color,box-shadow] duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40";
+---
+
+<form
+  id="contact-form"
+  class="mt-8 w-full space-y-5 text-left"
+  aria-describedby="contact-form-status"
+>
+  {
+    CONTACT_FIELDS.map((field) => (
+      <div>
+        {field.type === "textarea" ? (
+          <textarea
+            id={field.id}
+            name={field.id}
+            rows={4}
+            placeholder={field.placeholder}
+            required
+            class={`${controlBase} min-h-32 resize-y`}
+          ></textarea>
+        ) : (
+          <input
+            id={field.id}
+            name={field.id}
+            type={field.type}
+            placeholder={field.placeholder}
+            autocomplete={field.autocomplete}
+            required
+            class={controlBase}
+          />
+        )}
+      </div>
+    ))
+  }
+
+  <div
+    class="flex flex-col items-stretch gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <Button as="button" type="submit" id="contact-submit" class="w-full sm:w-auto sm:mx-auto">
+      {CONTACT_FORM.submitLabel}
+    </Button>
+
+    <p
+      id="contact-form-status"
+      role="status"
+      aria-live="polite"
+      class="paragraph-sm min-h-6 text-center sm:text-left"
+    >
+    </p>
+  </div>
+</form>
+
+<script>
+  import { CONTACT_ENDPOINT, CONTACT_FORM } from "../../data/contact";
+
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("contact-form-status");
+  const submit = document.getElementById("contact-submit");
+
+  if (
+    form instanceof HTMLFormElement &&
+    status instanceof HTMLElement &&
+    submit instanceof HTMLButtonElement
+  ) {
+    /** Refleja el resultado del envío en el texto de estado. */
+    const setStatus = (message: string, ok: boolean | null): void => {
+      status.textContent = message;
+      status.classList.remove("text-green-600", "text-red-600");
+      if (ok !== null) {
+        status.classList.add(ok ? "text-green-600" : "text-red-600");
+      }
+    };
+
+    /** Alterna el botón entre su etiqueta normal y el estado ocupado. */
+    const setBusy = (busy: boolean): void => {
+      submit.disabled = busy;
+      submit.setAttribute("aria-busy", String(busy));
+      submit.textContent = busy
+        ? CONTACT_FORM.loadingLabel
+        : CONTACT_FORM.submitLabel;
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus("", null);
+
+      // Se extrae con FormData (y no con `form.nombre`) para no depender
+      // del acceso por nombre del HTMLFormElement, que no tipa bien.
+      const data = new FormData(form);
+      const payload = {
+        nombre: String(data.get("nombre") ?? "").trim(),
+        correo: String(data.get("correo") ?? "").trim(),
+        telefono: String(data.get("telefono") ?? "").trim(),
+        mensaje: String(data.get("mensaje") ?? "").trim(),
+      };
+
+      setBusy(true);
+      try {
+        const response = await fetch(CONTACT_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        setStatus(CONTACT_FORM.success, true);
+        form.reset();
+      } catch {
+        setStatus(CONTACT_FORM.error, false);
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+</script>

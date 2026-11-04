@@ -1,0 +1,131 @@
+---
+/**
+ * Sección de contacto de `/contacto`.
+ *
+ * Dos columnas sobre superficie clara: a la izquierda la información de
+ * contacto (dirección, correo y teléfonos, todos clicables) con una imagen
+ * del mapa debajo; a la derecha un card con el formulario. La información
+ * vive en `src/data/contact.ts` (`CONTACT_INFO`) y el formulario se delega
+ * a `ContactForm`, de modo que aquí sólo se decide la presentación en dos
+ * columnas.
+ *
+ * El scope del reveal (`contacto-form`) anima los bloques `[data-reveal]`
+ * (ítems de contacto, imagen y card). El formulario en sí no lleva
+ * `data-reveal`: ningún control debe quedar oculto individualmente.
+ */
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import mapImage from "../../assets/images/contact/contacto-enlaces-playa.png";
+import { SITE } from "../../data/site";
+import { CONTACT_INFO, type ContactLine } from "../../data/contact";
+import Container from "../ui/Container.astro";
+import ContactForm from "./ContactForm.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+/** Etiqueta accesible de cada enlace de teléfono. */
+const phoneAriaLabel = (line: ContactLine): string =>
+  `Llamar a ${line.label}: ${line.value}`;
+---
+
+<section
+  id="contacto"
+  aria-labelledby="contacto-title"
+  data-reveal-scope="contacto-form"
+  class="relative bg-light"
+>
+  <Container>
+    <SectionHeading id="contacto-title" align="center">
+      Encuentra nuestros{" "}
+      <span class="text-primary-on-light"> medios de contacto </span>
+    </SectionHeading>
+
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16 mt-20">
+      <!-- Columna izquierda: información de contacto -->
+      <div class="space-y-8">
+        <div class="space-y-6">
+          {
+            CONTACT_INFO.map((item) => (
+              <div class="flex items-center gap-4" data-reveal>
+                <span
+                  class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent text-light"
+                  aria-hidden="true"
+                >
+                  <Icon name={item.icon} class="h-10 w-10" />
+                </span>
+
+                {item.lines ? (
+                  <div class="space-y-1.5">
+                    {item.lines.map((line) => (
+                      <p class="paragraph-md leading-relaxed text-secondary">
+                        <span>{line.label}:</span>{" "}
+                        <a
+                          href={line.href}
+                          aria-label={phoneAriaLabel(line)}
+                          class="font-semibold transition-colors hover:text-primary-on-light focus-visible:outline-none focus-visible:underline"
+                        >
+                          {line.value}
+                        </a>
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <a
+                    href={item.href}
+                    target={item.id === "direccion" ? "_blank" : undefined}
+                    rel={
+                      item.id === "direccion"
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    class="paragraph-md leading-relaxed text-secondary transition-colors hover:text-primary-on-light focus-visible:outline-none focus-visible:underline"
+                  >
+                    {item.value}
+                  </a>
+                )}
+              </div>
+            ))
+          }
+        </div>
+
+        <a
+          href={SITE.mapaOficinas}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver la ubicación de Enlaces Playa en Google Maps"
+          class="block overflow-hidden rounded-2xl border border-line shadow-sm transition-shadow duration-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          data-reveal
+        >
+          <Image
+            src={mapImage}
+            alt="Mapa con la ubicación de las oficinas de Enlaces Playa en Playa del Carmen"
+            layout="constrained"
+            widths={[420, 640, 820]}
+            sizes="(min-width: 1024px) 45vw, 90vw"
+            loading="lazy"
+            decoding="async"
+            class="h-auto w-full object-cover"
+          />
+        </a>
+      </div>
+
+      <!-- Columna derecha: card con el formulario -->
+      <div
+        class="rounded-4xl border border-line bg-secondary p-6 shadow-md sm:p-8"
+        data-reveal
+      >
+        <h2 id="contacto-title" class="heading-3 text-light text-center">
+          Déjanos tus datos <br />
+          <span class="text-primary">y te llamamos</span>
+        </h2>
+
+        <ContactForm />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { revealSection } from "../../utils/reveal";
+
+  revealSection("contacto-form");
+</script>

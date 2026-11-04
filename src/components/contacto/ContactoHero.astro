@@ -1,0 +1,22 @@
+---
+import contactoHeroBg from "../../assets/images/contact/contacto-enlaces-playa.jpg";
+import PageHero from "../ui/PageHero.astro";
+---
+
+<PageHero
+  scope="contacto-hero"
+  image={contactoHeroBg}
+  priority
+  overlayClass="bg-secondary/50"
+  descriptionClass="paragraph-md mx-auto mt-5 max-w-5xl text-pretty text-light/90"
+>
+  Estamos aquí para{" "}<span class="text-primary"
+    >ayudarte a estar conectado</span
+  >
+  <Fragment slot="description">
+    ¿Tienes dudas sobre nuestros planes de internet, necesitas soporte técnico o
+    quieres contratar un servicio? En Enlaces Playa estamos para ayudarte.
+    Contáctanos y recibe atención personalizada para tu hogar o empresa en la
+    Riviera Maya.
+  </Fragment>
+</PageHero>

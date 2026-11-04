@@ -28,7 +28,7 @@
  * de planes en móvil y el `overflow-hidden` del home lo recortaba.
  */
 export const BUTTON_BASE_CLASSES =
-  "inline-flex items-center rounded-full font-bold outline-none";
+  "inline-flex items-center rounded-full font-bold outline-none cursor-pointer";
 
 /**
  * Transición explícita a 200 ms. Se listan propiedades concretas en

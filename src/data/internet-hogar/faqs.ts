@@ -12,14 +12,7 @@
  * `src/utils/bold-text.ts`): así el texto se escapa solo, no hay
  * superficie de inyección y los enlaces siguen siendo datos tipados.
  */
-import { SITE } from "../site";
-import { sanitizePhone } from "../../utils/helpers";
-
-/** Número de soporte técnico que se muestra en la última pregunta. */
-const TELEFONO_SOPORTE = "984 116 3005";
-
-/** Destino `tel:` del número de soporte (formato internacional). */
-const TELEFONO_SOPORTE_HREF = `tel:+52${sanitizePhone(TELEFONO_SOPORTE)}`;
+import { SITE, TELEFONO_SOPORTE } from "../site";
 
 /**
  * Fragmento de una respuesta. Sin `href` es texto normal; con `href` se
@@ -101,7 +94,7 @@ export const FAQ_ITEMS: FaqItem[] = [
         texto:
           "Puedes comunicarte con nuestro equipo de atención para reportar cualquier inconveniente con tu servicio. Contamos con soporte técnico local para ayudarte a mantenerte conectado. Llámanos al ",
       },
-      { texto: TELEFONO_SOPORTE, href: TELEFONO_SOPORTE_HREF },
+      { texto: TELEFONO_SOPORTE.value, href: TELEFONO_SOPORTE.href },
       { texto: "." },
     ],
   },
