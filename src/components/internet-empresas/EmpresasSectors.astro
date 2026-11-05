@@ -36,13 +36,18 @@ import { SECTORES } from "../../data/internet-empresas/sectores";
       Sectores que conectamos{" "}
       <span class="text-primary-on-light">en la Riviera Maya</span>
       <Fragment slot="description">
-        En Enlaces Playa ofrecemos soluciones de internet empresarial para
-        distintos sectores, conociendo las necesidades de conectividad de
-        hoteles, inmobiliarias, oficinas y negocios de la región.
+        En {" "}<span class="font-bold">Enlaces Playa</span>{" "} ofrecemos soluciones
+        de {" "}<span class="font-bold"
+          >internet empresarial para distintos sectores,</span
+        >{" "} conociendo las necesidades de conectividad de{" "}<span
+          class="font-bold"
+        >
+          hoteles, inmobiliarias, oficinas y negocios de la región.
+        </span>
       </Fragment>
     </SectionHeading>
 
-    <div class="mt-10 grid gap-6 sm:grid-cols-2 md:mt-12">
+    <div class="mt-16 grid gap-6 sm:grid-cols-2 md:mt-24">
       {
         SECTORES.map((sector) => (
           <article
