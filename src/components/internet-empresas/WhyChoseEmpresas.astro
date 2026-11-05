@@ -58,10 +58,10 @@ const beneficios = [
           beneficios.map((beneficio) => (
             <li class="flex items-start gap-4" data-reveal>
               <span
-                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-light"
+                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-light"
                 aria-hidden="true"
               >
-                <Icon name={beneficio.icon} class="h-6 w-6" />
+                <Icon name={beneficio.icon} class="h-10 w-10" />
               </span>
               <p class="paragraph-md text-secondary">
                 {parseBoldSegments(beneficio.copy).map((segmento) =>
