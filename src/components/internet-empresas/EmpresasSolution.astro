@@ -30,7 +30,7 @@ import { SITE } from "../../data/site";
   data-reveal-scope="empresas-solution"
   class="bg-light"
 >
-  <Container>
+  <div class="mx-auto w-full max-w-7xl px-6 pt-12 lg:pt-16">
     <div class="grid items-center gap-10 md:gap-12 lg:grid-cols-2 xl:gap-16">
       <div>
         <SectionHeading id="empresas-solution-title" align="left">
@@ -59,7 +59,7 @@ import { SITE } from "../../data/site";
           </p>
         </div>
 
-        <div class="mt-8" data-reveal>
+        <div class="mt-8 mb-16" data-reveal>
           <Button
             as="a"
             href={SITE.whatsapp}
@@ -79,14 +79,14 @@ import { SITE } from "../../data/site";
           alt="Ejecutivo de Enlaces Playa con uniforme de la empresa"
           layout="constrained"
           widths={[320, 420, 540]}
-          sizes="(min-width: 1024px) 36vw, (min-width: 768px) 50vw, 90vw"
+          sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 90vw"
           loading="lazy"
           decoding="async"
           class="h-auto w-full max-w-md object-contain lg:max-w-lg"
         />
       </div>
     </div>
-  </Container>
+  </div>
 </section>
 
 <script>
