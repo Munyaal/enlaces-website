@@ -1,0 +1,48 @@
+---
+/**
+ * `/lead`: landing de registro para la dinámica.
+ *
+ * Orquestador puro, igual que `contacto.astro`: el SEO vive en consts
+ * locales y la página solo compone `LeadHero` + `LeadSection`. Sin
+ * JSON-LD (decisión explícita): esta ruta es un destino de campañas,
+ * no un documento indexable que necesite datos estructurados.
+ *
+ * El formulario registra la participación en la dinámica y no cotiza
+ * planes; el checkbox de promociones decide si se ofrece contacto
+ * posterior.
+ *
+ * La salvaguarda de build de abajo es la red de seguridad contra un
+ * deploy con el secret olvidado: la key del formulario viaja como
+ * build-arg del pipeline (secret `LEAD_API_KEY` de GitHub →
+ * `dockerfile.prod` → `ENV` → Vite la inlinea en el bundle). Si llega
+ * vacía, el HTML publicado mostrará el error de configuración en
+ * producción, así que dejamos un aviso visible en el log de CI. No se
+ * lanza error a propósito: la página debe poder construirse y
+ * desplegarse de todos modos (la CI además falla antes, en el step de
+ * guardia del workflow).
+ */
+import Layout from "../layouts/Layout.astro";
+import LeadHero from "../components/lead/LeadHero.astro";
+import LeadSection from "../components/lead/LeadSection.astro";
+import { LEAD_API_KEY } from "../data/lead";
+
+const title = "Regístrate en la dinámica | Enlaces Playa";
+const description =
+  "Completa tu registro para participar en la dinámica de Enlaces Playa en la Riviera Maya. Solo necesitamos unos datos para identificarte.";
+const keywords =
+  "registro dinámica enlaces playa, participar dinámica riviera maya, registro enlaces playa, dinámica playa del carmen";
+
+if (!LEAD_API_KEY) {
+  console.warn(
+    "[lead] Falta PUBLIC_LEAD_API_KEY: el formulario de /lead se construirá, " +
+      "pero mostrará el error de configuración hasta que la variable exista " +
+      "en el entorno de build (local: archivo .env; CI: secret LEAD_API_KEY " +
+      "inyectado como build-arg en dockerfile.prod).",
+  );
+}
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <!-- <LeadHero /> -->
+  <LeadSection />
+</Layout>

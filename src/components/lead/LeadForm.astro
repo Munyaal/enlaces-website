@@ -1,0 +1,289 @@
+---
+
+import { Icon } from "astro-icon/components";
+import Button from "../ui/Button.astro";
+import { LEAD_FIELDS, LEAD_FORM } from "../../data/lead";
+
+/**
+ * Clases base de los controles de texto. La misma constante que
+ * `ContactForm` salvo el fondo: aquí `bg-surface-1` (crema) para que
+ * los campos se lean como tales dentro del card blanco de
+ * `LeadSection` (blanco sobre blanco no marcaría el campo); el borde
+ * `line` sigue haciendo el trabajo pesado.
+ */
+const controlBase =
+  "w-full rounded-xl border border-line bg-surface-1 px-4 py-3 paragraph-md text-secondary placeholder-gray-400 transition-[border-color,box-shadow] duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40";
+---
+
+
+<form id="lead-form" class="relative w-full space-y-5 text-left">
+  {
+    LEAD_FIELDS.map((field) => (
+      <div>
+        <label
+          for={field.name}
+          class="paragraph-sm mb-1.5 block font-medium text-secondary"
+        >
+          {field.label}{" "}
+          <span class="text-primary-on-light" aria-hidden="true">*</span>
+        </label>
+        <input
+          id={field.name}
+          name={field.name}
+          type={field.type}
+          placeholder={field.placeholder}
+          autocomplete={field.autocomplete}
+          required
+          aria-required="true"
+          class={controlBase}
+        />
+      </div>
+    ))
+  }
+
+  <!-- Checkbox opcional de promociones, marcado por defecto. No lleva
+       `name` a propósito: no forma parte del payload que se envía a
+       api-utils y solo controla cuál cuerpo de éxito se muestra. Sin
+       `required`, para que desmarcarlo no bloquee el registro. -->
+  <div class="flex items-start gap-3">
+    <input
+      id="lead-promotions"
+      type="checkbox"
+      checked
+      class="mt-1 h-5 w-5 shrink-0 accent-primary-on-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+    />
+    <label
+      for="lead-promotions"
+      class="paragraph-sm cursor-pointer text-secondary"
+    >
+      {LEAD_FORM.promotionsLabel}
+    </label>
+  </div>
+
+  <div class="space-y-3">
+    <Button
+      as="button"
+      type="submit"
+      id="lead-submit"
+      class="w-full sm:w-auto"
+    >
+      {LEAD_FORM.submitLabel}
+    </Button>
+
+    <!-- Live region de errores (única): siempre presente, vacía por
+         defecto, rol estático y sin `hidden` (ver comentario de
+         bloque). El `min-h-6` reserva el alto de un mensaje para que
+         su aparición no provoque un salto de layout. -->
+    <p
+      id="lead-form-error"
+      role="alert"
+      aria-live="assertive"
+      class="paragraph-sm min-h-6 text-red-600"
+    >
+    </p>
+  </div>
+
+  <!-- Honeypot anti-bot: fuera de flujo y fuera del orden de tabulación.
+       Nunca `sr-only`: un usuario de lector de pantalla lo llenaría y su
+       envío legítimo se descartaría como si fuera un bot. El label no
+       invita a completarlo y el campo no es `required`. El wrapper se
+       posiciona contra el `<form>` (`relative`): no quites esa clase
+       del form, es la que mantiene este offset local y predecible. -->
+  <div
+    class="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <label for="website">{LEAD_FORM.honeypotLabel}</label>
+    <input
+      type="text"
+      id="website"
+      name="website"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+</form>
+
+<div id="lead-success" hidden class="py-8 text-center" tabindex="-1">
+  <Icon
+    name="circle-check-filled"
+    class="mx-auto h-16 w-16 text-green-600"
+    aria-hidden="true"
+  />
+  <h3 class="heading-4 mt-4 text-secondary">{LEAD_FORM.successTitle}</h3>
+  <p
+    id="lead-success-body"
+    class="paragraph-md mx-auto mt-3 max-w-md text-pretty text-secondary"
+  >
+    {LEAD_FORM.successBodyContact}
+  </p>
+</div>
+
+<script>
+  import {
+    LEAD_API_KEY,
+    LEAD_ENDPOINT,
+    LEAD_FORM,
+    LEAD_LANG,
+    LEAD_SUBJECT_OPT_IN,
+    LEAD_SUBJECT_OPT_OUT,
+    LEAD_TEMPLATE,
+    LEAD_TO,
+    type LeadPayload,
+  } from "../../data/lead";
+
+  const form = document.getElementById("lead-form");
+  const errorRegion = document.getElementById("lead-form-error");
+  const submit = document.getElementById("lead-submit");
+  const success = document.getElementById("lead-success");
+  const successBody = document.getElementById("lead-success-body");
+  const promotions = document.getElementById("lead-promotions");
+
+  /**
+   * La API solo encola (responde 202 rápido), pero un cuelgue de red o
+   * un problema de CORS no resuelve nunca: sin este límite el botón se
+   * quedaría en "Enviando…" de por vida. 15 s da margen a redes lentas
+   * móviles sin castigar al usuario con una espera eterna.
+   */
+  const REQUEST_TIMEOUT_MS = 15_000;
+
+  if (
+    form instanceof HTMLFormElement &&
+    errorRegion instanceof HTMLElement &&
+    submit instanceof HTMLButtonElement &&
+    success instanceof HTMLElement &&
+    successBody instanceof HTMLParagraphElement &&
+    promotions instanceof HTMLInputElement
+  ) {
+    /** Escribe un mensaje en la live region de error (rol ya estático). */
+    const showError = (message: string): void => {
+      errorRegion.textContent = message;
+    };
+
+    /** Limpia la live region de error antes de un nuevo intento. */
+    const clearError = (): void => {
+      errorRegion.textContent = "";
+    };
+
+    /** Alterna el botón entre su etiqueta normal y el estado ocupado. */
+    const setBusy = (busy: boolean): void => {
+      submit.disabled = busy;
+      submit.setAttribute("aria-busy", String(busy));
+      submit.textContent = busy
+        ? LEAD_FORM.loadingLabel
+        : LEAD_FORM.submitLabel;
+    };
+
+    /**
+     * Oculta el formulario y anuncia el bloque de éxito con el foco.
+     * El cuerpo cambia según el checkbox de promociones: solo se
+     * promete contacto cuando el usuario lo dejó marcado.
+     */
+    const showSuccess = (): void => {
+      successBody.textContent = promotions.checked
+        ? LEAD_FORM.successBodyContact
+        : LEAD_FORM.successBodyNeutral;
+      form.hidden = true;
+      success.hidden = false;
+      success.focus();
+    };
+
+    /**
+     * Guard de doble envío. El `disabled` del botón ya bloquea la
+     * implicit submission en navegadores conformes, pero es protección
+     * implícita: en una página de registro un envío duplicado le cuesta
+     * tiempo al equipo comercial y este guard es casi gratis.
+     */
+    let submitting = false;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (submitting) return;
+      submitting = true;
+
+      // El `finally` es exterior a propósito: los guards tempranos
+      // (honeypot, key) también hacen `return` y deben liberar el
+      // lock; con un solo `finally` junto al fetch, un missingKeyError
+      // dejaría el formulario bloqueado para siempre.
+      try {
+        clearError();
+
+        // Se extrae con FormData (y no con `form.fullName`) para no
+        // depender del acceso por nombre del HTMLFormElement, que no
+        // tipa bien. Mismo patrón que ContactForm.
+        const data = new FormData(form);
+
+        // Honeypot primero: si trae valor es un bot. Se le muestra el
+        // bloque de éxito y se sale sin disparar ninguna request, para
+        // no darle pistas del anti-spam ni gastar cuota de la API.
+        if (String(data.get("website") ?? "").trim() !== "") {
+          showSuccess();
+          return;
+        }
+
+        // Guard de key: sin ella la API respondería 401 en cada
+        // intento. Mejor explicar la configuración pendiente que
+        // ensayar requests condenadas.
+        if (!LEAD_API_KEY) {
+          showError(LEAD_FORM.missingKeyError);
+          return;
+        }
+
+        // El asunto codifica el consentimiento porque el template no
+        // contempla ese dato: `[DINAMICA]` agrupa el total y
+        // `[INFO SI]` / `[INFO NO]` permiten segmentar los correos.
+        const payload: LeadPayload = {
+          to: LEAD_TO,
+          subject: promotions.checked
+            ? LEAD_SUBJECT_OPT_IN
+            : LEAD_SUBJECT_OPT_OUT,
+          template: LEAD_TEMPLATE,
+          lang: LEAD_LANG,
+          context: {
+            fullName: String(data.get("fullName") ?? "").trim(),
+            email: String(data.get("email") ?? "").trim(),
+            phone: String(data.get("phone") ?? "").trim(),
+            colonia: String(data.get("colonia") ?? "").trim(),
+          },
+        };
+
+        setBusy(true);
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(
+          () => controller.abort(),
+          REQUEST_TIMEOUT_MS,
+        );
+
+        try {
+          const response = await fetch(LEAD_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-API-Key": LEAD_API_KEY,
+            },
+            body: JSON.stringify(payload),
+            signal: controller.signal,
+          });
+
+          // 202 = encolado. Cualquier otro status (400/401/404/429/500)
+          // cae al mismo error accionable: al usuario no le sirve
+          // distinguir entre fallos del servidor.
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          showSuccess();
+        } finally {
+          window.clearTimeout(timeoutId);
+          setBusy(false);
+        }
+      } catch {
+        // Timeout (AbortError), error de red o CORS: mismo mensaje.
+        showError(LEAD_FORM.error);
+      } finally {
+        submitting = false;
+      }
+    });
+  }
+</script>
