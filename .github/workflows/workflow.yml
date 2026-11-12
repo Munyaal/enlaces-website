@@ -21,9 +21,20 @@ jobs:
       # Declara la variable TAG
       - name: "Set TAG variable"
         run: echo "TAG=$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV
+      # Verifica que exista el secret del formulario de /lead antes de construir
+      - name: "Verify LEAD_API_KEY secret"
+        env:
+          LEAD_API_KEY: ${{ secrets.LEAD_API_KEY }}
+        run: |
+          if [ -z "$LEAD_API_KEY" ]; then
+            echo "::error::Falta el secret LEAD_API_KEY del repositorio; el formulario de /lead quedaría inoperativo."
+            exit 1
+          fi
       # Construir la imagen
       - name: "Build container image"
-        run: docker build -f dockerfile.prod -t registry.digitalocean.com/munyaal-docr/enlaces/website:${{ env.TAG }} .
+        env:
+          PUBLIC_LEAD_API_KEY: ${{ secrets.LEAD_API_KEY }}
+        run: docker build -f dockerfile.prod --build-arg PUBLIC_LEAD_API_KEY="$PUBLIC_LEAD_API_KEY" -t registry.digitalocean.com/munyaal-docr/enlaces/website:${{ env.TAG }} .
       # Log In to Registry
       - name: "Log in to DigitalOcean Container Registry with short-lived credentials"
         run: doctl registry login --expiry-seconds 1200

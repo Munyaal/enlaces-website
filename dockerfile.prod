@@ -19,11 +19,14 @@ WORKDIR /usr/app
 COPY --from=deps /usr/app/node_modules ./node_modules
 # 4. Copy the rest of the application to the working directory
 COPY . .
-# 5. Build the application
+# 5. Expose the public lead-form API key as a build-time variable.
+ARG PUBLIC_LEAD_API_KEY=""
+ENV PUBLIC_LEAD_API_KEY=$PUBLIC_LEAD_API_KEY
+# 6. Build the application
 RUN npm run build
-# 6. Remove the development dependencies
+# 7. Remove the development dependencies
 RUN npm ci -f --only=production
-# 7. Remove the cache
+# 8. Remove the cache
 RUN npm cache clean --force
 
 # Production image
