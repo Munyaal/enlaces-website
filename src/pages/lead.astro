@@ -22,7 +22,6 @@
  * guardia del workflow).
  */
 import Layout from "../layouts/Layout.astro";
-import LeadHero from "../components/lead/LeadHero.astro";
 import LeadSection from "../components/lead/LeadSection.astro";
 import { LEAD_API_KEY } from "../data/lead";
 
@@ -43,6 +42,5 @@ if (!LEAD_API_KEY) {
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <!-- <LeadHero /> -->
   <LeadSection />
 </Layout>

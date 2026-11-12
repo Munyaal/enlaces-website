@@ -52,9 +52,9 @@ export const LEAD_TO = CANAL_CORREO.value;
  * filtros y búsquedas del correo sean predecibles.
  */
 export const LEAD_SUBJECT_OPT_IN =
-  "Aluxe fest Registro desde Enlaces Playa";
-export const LEAD_SUBJECT_OPT_OUT =
   "Aluxe fest Registro y Solicitud desde Enlaces Playa";
+export const LEAD_SUBJECT_OPT_OUT =
+  "Aluxe fest Registro desde Enlaces Playa";
 
 /**
  * API key de api-utils que autoriza el envío del formulario.
@@ -151,11 +151,7 @@ export const LEAD_FORM = {
   submitLabel: "Enviar registro",
   loadingLabel: "Enviando…",
   successTitle: "¡Gracias! Recibimos tu registro",
-  /** Cuerpo de éxito cuando el usuario aceptó promociones/contacto. */
-  successBodyContact:
-    "Un asesor de Enlaces Playa se pondrá en contacto contigo muy pronto para compartirte más información de la dinámica.",
-  /** Cuerpo de éxito cuando el usuario rechazó promociones/contacto. */
-  successBodyNeutral:
+  successBody:
     "Tu registro quedó confirmado. Gracias por participar en la dinámica de Enlaces Playa.",
   /** Checkbox opcional, marcado por defecto; no se envía al backend. */
   promotionsLabel:

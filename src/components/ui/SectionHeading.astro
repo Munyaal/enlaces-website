@@ -31,7 +31,9 @@
  *                       `secondary` para fondos claros, `light` para
  *                       fondos oscuros, `accent` para el cian de marca.
  *   - size:             `section` = escala `heading-2`; `compact` =
- *                       `text-2xl md:text-3xl` para documentos legales.
+ *                       `text-2xl md:text-3xl` para documentos legales;
+ *                       `subsection` = escala `heading-4` para bloques
+ *                       secundarios que deben pesar menos.
  *   - descriptionWidth: ancho máximo del párrafo descriptivo.
  *
  * Slots:
@@ -42,7 +44,7 @@ import SectionDivider from "./SectionDivider.astro";
 
 type Align = "left" | "center" | "right";
 type Tone = "secondary" | "light" | "accent";
-type Size = "section" | "compact";
+type Size = "section" | "compact" | "subsection";
 type DescriptionWidth = "2xl" | "3xl" | "4xl" | "5xl";
 
 interface Props {
@@ -83,6 +85,7 @@ const ALIGN: Record<Align, { text: string; block: string }> = {
 const SIZE: Record<Size, string> = {
   section: "heading-2",
   compact: "text-2xl font-bold md:text-3xl",
+  subsection: "heading-4",
 };
 
 /** Color del título y de la descripción según la superficie de fondo. */

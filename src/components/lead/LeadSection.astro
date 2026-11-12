@@ -9,23 +9,27 @@ import LeadForm from "./LeadForm.astro";
   id="lead"
   aria-labelledby="lead-form-title"
   data-reveal-scope="lead-form"
-  class="relative bg-surface-1 mt-5"
+  class="relative bg-surface-1 mt-10"
 >
   <Container>
-    <SectionHeading
-      id="lead-form-title"
-      align="center"
-      descriptionWidth="3xl"
-    >
-      Regístrate en nuestra <span class="text-primary-on-light">dinámica</span>
-      <Fragment slot="description">
-        Completa el formulario con tus datos para registrar tu participación
-        en la dinámica de Enlaces Playa. Es rápido y solo necesitamos unos
-        datos para identificarte.
-      </Fragment>
-    </SectionHeading>
+    <div id="lead-heading">
+      <SectionHeading
+        id="lead-form-title"
+        align="center"
+        size="subsection"
+        divider={false}
+        descriptionWidth="3xl"
+      >
+        Regístrate en nuestra <span class="text-primary-on-light">dinámica</span>
+        <Fragment slot="description">
+          Completa el formulario con tus datos para registrar tu participación
+          en la dinámica de Enlaces Playa. Es rápido y solo necesitamos unos
+          datos para identificarte.
+        </Fragment>
+      </SectionHeading>
+    </div>
 
-    <div class="mx-auto mt-16 w-full max-w-2xl">
+    <div id="lead-form-wrapper" class="mx-auto mt-10 w-full max-w-2xl">
       <div class="rounded-4xl border border-line bg-light p-6 shadow-md sm:p-8">
         <LeadForm />
       </div>
@@ -37,4 +41,13 @@ import LeadForm from "./LeadForm.astro";
   import { revealSection } from "../../utils/reveal";
 
   revealSection("lead-form");
+
+  const section = document.getElementById("lead");
+  const heading = document.getElementById("lead-heading");
+  const formWrapper = document.getElementById("lead-form-wrapper");
+
+  section?.addEventListener("lead:success", () => {
+    if (heading) heading.hidden = true;
+    formWrapper?.classList.remove("mt-10");
+  });
 </script>

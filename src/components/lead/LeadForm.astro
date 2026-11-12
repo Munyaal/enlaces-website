@@ -115,7 +115,6 @@ const controlBase =
     id="lead-success-body"
     class="paragraph-md mx-auto mt-3 max-w-md text-pretty text-secondary"
   >
-    {LEAD_FORM.successBodyContact}
   </p>
 </div>
 
@@ -178,14 +177,17 @@ const controlBase =
      * Oculta el formulario y anuncia el bloque de éxito con el foco.
      * El cuerpo cambia según el checkbox de promociones: solo se
      * promete contacto cuando el usuario lo dejó marcado.
+     *
+     * El evento `lead:success` es el contrato con `LeadSection` (dueño
+     * del encabezado y del wrapper): el formulario solo anuncia que
+     * terminó, sin buscar ni mutar nodos fuera de su propio árbol.
      */
     const showSuccess = (): void => {
-      successBody.textContent = promotions.checked
-        ? LEAD_FORM.successBodyContact
-        : LEAD_FORM.successBodyNeutral;
+      successBody.textContent = LEAD_FORM.successBody;
       form.hidden = true;
       success.hidden = false;
       success.focus();
+      form.dispatchEvent(new CustomEvent("lead:success", { bubbles: true }));
     };
 
     /**
